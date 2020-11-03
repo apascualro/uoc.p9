@@ -116,10 +116,10 @@ class Usuario{
                 ":nombre" => $this->getNombre(),
                 ":apellidos" => $this->getApellidos(),
                 ":nombreUsuario" => $this->getNombreUsuario(),
-                ":esAdmin"->setEsAdmin($esAdmin);
-                ":fecha"->setFecha($fecha);
-                ":nivel"->setNivel($nivel);
-                ":activo"->setActivo($activo);
+                ":esAdmin"=> $this->getEsAdmin(),
+                ":fecha"=> $this->getFecha(),
+                ":nivel"=> $this->getNivel(),
+                ":activo"=> $this->getActivo()
             ));
             $conecta->getConexionBD()->commit();
             return true;

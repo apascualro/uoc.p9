@@ -6,7 +6,7 @@
         public function __construct() {
 
             try{
-                $this->conexionBD = new PDO('mysql:host=db5001121598.hosting-data.io; dbname=dbs968610', 'dbu707552', 'BoardGames*2020');
+                $this->conexionBD = new PDO('mysql:host=db5001130812.hosting-data.io; dbname=dbs968610', 'dbu707552', 'BoardGames*2020');
                 // $this->conexionBD = new PDO('mysql:host=localhost; dbname=dbs968610', 'root', '');
                 $this->conexionBD->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->conexionBD->exec("SET CHARACTER SET utf8");
