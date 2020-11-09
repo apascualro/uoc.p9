@@ -1,17 +1,17 @@
 <?php
-//GP
+
 if (file_exists("../modelos/usuario-modelo.php")){
     require_once "../modelos/usuario-modelo.php";
 }
-// if (file_exists("../../modelos/usuario-modelo.php")){
-//     require_once "../../modelos/usuario-modelo.php";
-// }
-// if (file_exists("../../../modelos/usuario-modelo.php")){
-//     require_once "../../../modelos/usuario-modelo.php";
-// }
-// if (file_exists("../../../../modelos/usuario-modelo.php")){
-//     require_once "../../../../modelos/usuario-modelo.php";
-// }
+if (file_exists("../../modelos/usuario-modelo.php")){
+    require_once "../../modelos/usuario-modelo.php";
+}
+if (file_exists("../../../modelos/usuario-modelo.php")){
+    require_once "../../../modelos/usuario-modelo.php";
+}
+if (file_exists("../../../../modelos/usuario-modelo.php")){
+    require_once "../../../../modelos/usuario-modelo.php";
+}
 //require "../Modelos/Administrador.php"; --NO
 
 // require_once "SesionesController.php";
@@ -36,6 +36,61 @@ class UsuariosController extends Usuario{
         }else{
             require "../vistas/usuario/usuario-Noinsertado.php";
         } 
+    }
+
+    // /*********EDITAR USUARIO*******/
+    // public function muestraModificarUsuari($id){
+    //     $Llistat = $this->retornaUsuario($id);
+    //     require "../vistas/usuario/usuario-editar.php"; 
+    // }
+
+    // public function leeInfoUsuarioModificar($id, $email, $pass, $nombre, $apellidos, $nombreUsuario, $esAdmin, $fecha, $nivel, $activo){
+    //     $this->resultadoModificaUsuario($this->modificaUsuari($id, $email, $pass, $nombre, $apellidos, $nombreUsuario, $esAdmin, $fecha, $nivel, $activo), $id);
+    // }
+
+    // public function resultadoModificaUsuario($resultat, $id){
+    //     if ($resultat){
+    //         $_SESSION["mensajeResultado"]="Tus datos se han actualizado correctamente";
+    //     }else{
+    //         $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
+    //     } 
+    //     $Llistat = $this->retornaUsuario($id);
+    //     require "../vistas/usuario/usuario-editar.php";  
+    // }
+
+
+    /*********MOSTRAR PERFIL - ADMIN ********/
+    public function PerfilAdmin(){
+        $Llistat = $this->retornaUsuario('1');
+        require "../../vistas/admin/admin-perfil.php";
+    }
+
+    /*********MODIFICAR- ADMIN ********/
+    /*muestra los datos a modificar*/
+    public function mostrarModificarAdmin(){
+
+        $Llistat = $this->retornaUsuario('1');
+        // $Llistat = $this->retornaAdmin($_SESSION["id_usuario"]);
+        if (file_exists("../vistas/admin/admin-perfilmodificar.php")){
+            require_once "../vistas/admin/admin-perfilmodificar.php";
+        }
+        if (file_exists("../../vistas/admin/admin-perfilmodificar.php")){
+            require_once "../../vistas/admin/admin-perfilmodificar.php";
+        }
+
+    }
+    /*envia la peticion*/
+    public function modificarAdmin($id, $email, $nombre, $apellidos){
+        $this->resultadoModificarAdministrador($this->modificarAdministrador($id, $email, $nombre, $apellidos));
+    }
+    /*muestra el resultado*/
+    public function resultadoModificarAdministrador($resultat){
+        if ($resultat){
+            $_SESSION["mensajeResultado"]="Tus datos se han actualizado correctamente";
+        }else{
+            $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
+        } 
+        header("location: ../vistas/admin/admin-panel.php");
     }
 
 
@@ -99,13 +154,7 @@ class UsuariosController extends Usuario{
     //     }
     // }
 
-    // public function MuestraModificarUsuari($id){
-    //     header("location: ../Vistas/Usuario/modificarUsuario.php?id=$id"); 
-    // }
-
-    // public function ModificarUsuari($id, $email, $pass, $nombre, $apellidos, $nombreUsuario, $esAdmin, $fecha, $nivel, $activo){
-    //     $this->resultadoModificaUsuario($this->modificaUsuari($id, $email, $pass, $nombre, $apellidos, $nombreUsuario, $esAdmin, $fecha, $nivel, $activo));
-    // }
+    
 
     // public function resultadoModificaUsuario($resultat){
     //     if ($resultat){
@@ -162,13 +211,18 @@ class UsuariosController extends Usuario{
 
 }
 
-/*OPERACIONES */
 
+/********************************************************************************************
+*********************************************************************************************/
+/********************************************* OPERACIONES **********************************/
+
+/*********VER USUARIO*******/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="ver"){
     $objecte = new UsuariosController();
     $objecte->LlistaUsuarios();
 }
 
+/*********REGISTRAR USUARIO*******/
 if(isset($_POST["operacio"]) && $_POST["operacio"]=="inserta"){
     if (isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombreUsuario"])){
         if (!empty($_POST["email"]) && !empty($_POST["pass"])){
@@ -184,6 +238,57 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="inserta"){
     }
 }
 
+/*********VER USUARIO - perfil admin *******/
+if(isset($_GET["operacio"]) && $_GET["operacio"]=="verAdmin"){
+    header('Location: ../vistas/admin/admin-panel.php');
+    // $Administrador = new UsuariosController();
+    // $Administrador->PerfilAdmin();
+}
+
+/*********MODIFICAR USUARIO - perfil admin *******/
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="modificarAdmin"){
+    if (isset($_POST["id"]) && isset($_POST["email"]) && isset($_POST["nombre"]) && isset($_POST["apellidos"])){
+        if (!empty($_POST["id"]) && !empty($_POST["email"])){
+            $usuari = new UsuariosController();
+            $usuari->modificarAdmin($_POST["id"],$_POST["email"],$_POST["nombre"],$_POST["apellidos"]);
+        }else{
+            echo "Faltan datos";
+        }
+    }else{
+        echo "Operacion No permitida";
+    }
+}
+
+// /*********EDITAR USUARIO*******/
+// if(isset($_GET["operacio"]) && $_GET["operacio"]=="modificar"){
+//     if (isset($_GET["usuario"]) && !empty($_GET["usuario"])){
+//         $usuari = new UsuariosController();
+//         $usuari->muestraModificarUsuari($_GET["usuario"]);
+//     }else{
+//         echo "Operación No disponible";
+//     }
+// }
+
+// if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
+//     if (isset($_POST["id"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["nombreUsuario"]) && isset($_POST["esAdmin"]) && isset($_POST["creado"]) && isset($_POST["nivel"])&& isset($_POST["activo"])){
+
+//         if (!empty($_POST["id"]) && !empty($_POST["email"]) && !empty($_POST["pass"]) && !empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["esAdmin"]) && !empty($_POST["creado"]) && !empty($_POST["nivel"])&& !empty($_POST["activo"])){
+
+//             $usuari = new UsuariosController();
+//             $usuari->leeInfoUsuarioModificar($_POST["id"],$_POST["email"],$_POST["pass"],$_POST["nombre"],$_POST["apellidos"],$_POST["nombreUsuario"],$_POST["esAdmin"],$_POST["creado"],$_POST["nivel"],$_POST["activo"]);
+//         }else{
+//             echo "Faltan datos";
+//             echo "<br>";
+//             echo $_POST["id"]." - ". $_POST["email"]." - ".$_POST["pass"]." - ".$_POST["nombre"]." - ".$_POST["apellidos"]." - ".$_POST["nombreUsuario"]." - ".$_POST["esAdmin"]." - ".$_POST["creado"]." - ".$_POST["nivel"]." - ".$_POST["activo"];
+// //header ("location: ../../index.php");
+//         }
+//     }else{
+//         echo "Operacion No permitida";
+//         echo $_POST["id"]." - ". $_POST["email"]." - ".$_POST["pass"]." - ".$_POST["nombre"]." - ".$_POST["apellidos"]." - ".$_POST["nombreUsuario"]." - ".$_POST["esAdmin"]." - ".$_POST["creado"]." - ".$_POST["nivel"]." - ".$_POST["activo"];
+//     }
+// }
+
+
 
 // if(isset($_POST["operacio"]) && $_POST["operacio"]=="login"){
 //     if (isset($_POST["email"]) && isset($_POST["pass"]) && !empty($_POST["email"]) && !empty($_POST["pass"])){
@@ -198,28 +303,9 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="inserta"){
 //     }
 // }
 
-// if(isset($_GET["operacio"]) && $_GET["operacio"]=="modificar"){
-//     if (isset($_GET["usuario"]) && !empty($_GET["usuario"])){
-//         $usuari = new UsuariosController();
-//         $usuari->MuestraModificarUsuari($_GET["usuario"]);
-//     }else{
-//         echo "Operación No disponible";
-//     }
-// }
 
-// if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
-//     if (isset($_POST["id"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["telefono"]) && isset($_POST["rol"])){
-//         if (!empty($_POST["id"]) && !empty($_POST["email"]) && !empty($_POST["pass"])){
-//             $usuari = new UsuariosController();
-//             $usuari->ModificarUsuari($_POST["id"],$_POST["email"],$_POST["pass"],$_POST["nombre"],$_POST["apellidos"],$_POST["telefono"],$_POST["rol"]);
-//         }else{
-//             echo "Faltan datos";
-// //header ("location: ../../index.php");
-//         }
-//     }else{
-//         echo "Operacion No permitida";
-//     }
-// }
+
+
 
 // //AZ
 // if(isset($_POST["operacio"]) && $_POST["operacio"]=="modificarPasswd"){

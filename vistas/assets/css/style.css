@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,700;1,400&display=swap');
+body {
+    font-family: 'Montserrat', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+
+    margin: 0;
+    width: 100%;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    font-family: sans-serif;
+    --color-pred: rgba(187,203,216,1); /*azul claro*/
+    --color-pred2: rgb(48,51,60); /*gris oscuro*/
+    --color-pred3: rgba(48,51,60,0.5); /*gris oscuro opacidad*/
+    --color-pred4: rgb(233,53,88); /*magenta*/
+    --color-pred5: rgb(244,228,204); /*marillo claro*/
+
+}
+section{
+  min-height: 700px;
+}
+
+/*******************************************
+*******************************************/
+/************** textos *******************/
+
+h1{
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+h2{
+    /*text-transform: uppercase;*/
+    font-weight: 700;
+}
+
+a{
+    color: inherit;
+    font-weight: 300;
+}
+
+hr {
+   margin: 0 auto;
+}
+
+
+/*******************************************
+*******************************************/
+/************** navbar *******************/
+
+.navadmin{
+    color: var(--color-pred3);
+}
+
+.active{
+    font-weight: 700;
+    color: var(--color-pred2);
+}
+
+/*******************************************
+*******************************************/
+/************** inputs *******************/
+
+.input-container {
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+.input-container.disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+}
+.input-container .label {
+  position: absolute;
+  pointer-events: none;
+  left: 10px;
+  top: 5px;
+  line-height: 50px;
+  transition: 0.2s ease all;
+  padding: 0;
+  font-size: 14px;
+  color: #333333;
+}
+.input-container input,
+.input-container .input,
+.input-container textarea,
+.input-container select {
+    padding: 25px 10px 5px 10px;
+    line-height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 0;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    min-height: 60px;
+}
+.input-container textarea {
+  line-height: 18px;
+  padding-top: 30px;
+  margin: 0;
+  float: left;
+}
+.input-container input:focus ~ .label,
+.input-container textarea:focus ~ .label,
+.input-container input:not(:focus):valid ~ .label,
+.input-container textarea:not(:focus):valid ~ .label,
+.input-container .label.sm {
+  font-size: 11px!important;
+  opacity: 1;
+  line-height: 30px;
+  font-weight: normal!important;
+  top: 0;
+}
+.input-container.slct .label,
+.input-container.file .label  {
+font-size: 11px!important;
+  opacity: 1;
+  line-height: 30px;
+  font-weight: normal!important;
+  top: 0;
+}
+.input-container.s2 .label {
+  transition: 0.2s ease opacity;
+  line-height: 30px;
+}
+.input-container.s2 input {
+  padding: 5px 10px 5px 10px;
+}
+.input-container.s2 input:focus ~ .label,
+.input-container.s2 input:not(:focus):valid ~ .label {
+  opacity: 0;
+  font-size: 14px!important;
+  top: 5px;
+}
+

@@ -1,0 +1,52 @@
+
+  <ul class="nav mr-5 col-10 navadmin">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">DATOS PERSONALES</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="admin-panelJuego.php">JUEGOS</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">USUARIOS</a>
+    </li>
+  </ul>
+
+<?php foreach($Llistat as $objecte){ ?>
+  
+  <div class="col-md-6 mb-3 mt-3">
+    <div class="input-container disabled">
+      <span class="label sm">Nombre</span>
+      <div class="input">
+        <?php echo $objecte->nombre ?>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="w-100 d-none d-md-block"></div>
+
+  <div class="col-md-6 mb-3">
+    <div class="input-container disabled">
+      <span class="label sm">Apellidos</span>
+      <div class="input">
+        <?php echo $objecte->apellidos ?>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="w-100 d-none d-md-block"></div>
+
+  <div class="col-md-6 mb-3">
+    <div class="input-container disabled">
+      <span class="label sm">E-mail</span>
+      <div class="input">
+        <?php echo $objecte->email ?>
+      </div>
+
+    </div>
+  </div>
+
+
+  <?php
+}?>

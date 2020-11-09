@@ -1,5 +1,5 @@
 <?php    
-    /***  ENCABEZADO */
+/***  ENCABEZADO */
 
     //require '';
 
@@ -22,14 +22,14 @@
             <th>Nivel</th>
             <th>Es Activo</th>
         </tr>
-    <?php
+        <?php
         
         foreach($Llistat as $usuario){ 
             ?>
             <tr>
                 <td style="border:1px solid black;"><?php echo $usuario->idUsuario ?></td>
                 <td style="border:1px solid black;"><?php echo $usuario->email ?></td>
-                <td style="border:1px solid black;"><?php echo $usuario->password ?></td>
+                <td style="border:1px solid black;"><?php echo $usuario->password ?></td>   
                 <td style="border:1px solid black;"><?php echo $usuario->nombre ?></td>
                 <td style="border:1px solid black;"><?php echo $usuario->apellidos ?></td>
                 <td style="border:1px solid black;"><?php echo $usuario->nombreUsuario ?></td>                
@@ -37,14 +37,18 @@
                 <td style="border:1px solid black;"><?php echo $usuario->creado ?></td>                
                 <td style="border:1px solid black;"><?php echo $usuario->nivel ?></td>
                 <td style="border:1px solid black;"><?php echo $usuario->es_activo ?></td> 
-    <?php
-        }?>
-    </table>
-</div>
-<br>
-<a href="../index.php">Inicio</a>
 
-<?php    
+                <td style="border:1px solid black;"><a href="usuariosController.php?operacio=modificar&usuario=<?php echo $usuario->idUsuario ?>">MODIFICAR</a></td>
+                <?php                
+            }
+            ?>
+
+        </table>
+    </div>
+    <br>
+    <a href="../index.php">Inicio</a>
+
+    <?php    
     /***  PIE */
 
-?>
+    ?>
