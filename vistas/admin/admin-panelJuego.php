@@ -29,6 +29,8 @@
 						</div>
 						
 						<?php
+						$_SESSION["navActivo"] = "juegos";
+						include '../header/navbar-admin.php';
 						include '../../controladores/juegosController.php'; 
 						$objecte = new JuegosController();
 						$objecte->LlistaJuegosPerfil();

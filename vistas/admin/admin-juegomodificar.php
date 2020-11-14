@@ -1,23 +1,6 @@
 
-<ul class="nav mr-5 col-10 navadmin" >
-  <li class="nav-item">
-    <a class="nav-link" href="#">DATOS PERSONALES</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="admin-panelJuego.php">JUEGOS</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">USUARIOS</a>
-  </li>
-</ul>
-
-<div class="col-10 mt-3">
-  <p>Modificar juego</p>
-</div>
-
-
 <!-- formulario -->
-
+  <h4 class="col-12 mb-2">Modificar juego</h4>
   <?php foreach($Llistat as $objecte){ ?>
 
     <!-- nombre -->
@@ -146,4 +129,3 @@
 <?php
 }?>
 
-<?php

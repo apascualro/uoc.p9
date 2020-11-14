@@ -1,26 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,700;1,400&display=swap');
 body {
-    font-family: 'Montserrat', sans-serif;
-    /*font-family: 'Open Sans', sans-serif;*/
+  font-family: 'Montserrat', sans-serif;
+  /*font-family: 'Open Sans', sans-serif;*/
 
-    margin: 0;
-    width: 100%;
+  margin: 0;
+  width: 100%;
 }
+@media (min-width:768px) {
+  body{
+    min-height:900px; 
+  }
+
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 *{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    list-style: none;
-    font-family: sans-serif;
-    --color-pred: rgba(187,203,216,1); /*azul claro*/
-    --color-pred2: rgb(48,51,60); /*gris oscuro*/
-    --color-pred3: rgba(48,51,60,0.5); /*gris oscuro opacidad*/
-    --color-pred4: rgb(233,53,88); /*magenta*/
-    --color-pred5: rgb(244,228,204); /*marillo claro*/
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+  font-family: sans-serif;
+  --color-pred: rgba(187,203,216,1); /*azul claro*/
+  --color-pred2: rgb(48,51,60); /*gris oscuro*/
+  --color-pred3: rgba(48,51,60,0.5); /*gris oscuro opacidad*/
+  --color-pred4: rgb(233,53,88); /*magenta*/
+  --color-pred5: rgb(244,228,204); /*marillo claro*/
 
 }
 section{
@@ -32,22 +39,22 @@ section{
 /************** textos *******************/
 
 h1{
-    text-transform: uppercase;
-    font-weight: 700;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 h2{
-    /*text-transform: uppercase;*/
-    font-weight: 700;
+  /*text-transform: uppercase;*/
+  font-weight: 700;
 }
 
 a{
-    color: inherit;
-    font-weight: 300;
+  color: inherit;
+  font-weight: 300;
 }
 
 hr {
-   margin: 0 auto;
+ margin: 0 auto;
 }
 
 
@@ -56,12 +63,12 @@ hr {
 /************** navbar *******************/
 
 .navadmin{
-    color: var(--color-pred3);
+  color: var(--color-pred3);
 }
 
 .active{
-    font-weight: 700;
-    color: var(--color-pred2);
+  font-weight: 700;
+  color: var(--color-pred2);
 }
 
 /*******************************************
@@ -95,16 +102,16 @@ hr {
 .input-container .input,
 .input-container textarea,
 .input-container select {
-    padding: 25px 10px 5px 10px;
-    line-height: 30px;
-    font-size: 15px;
-    font-weight: bold;
-    border: 0;
-    width: 100%;
-    background-color: transparent;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    min-height: 60px;
+  padding: 25px 10px 5px 10px;
+  line-height: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  border: 0;
+  width: 100%;
+  background-color: transparent;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  min-height: 60px;
 }
 .input-container textarea {
   line-height: 18px;
@@ -125,7 +132,7 @@ hr {
 }
 .input-container.slct .label,
 .input-container.file .label  {
-font-size: 11px!important;
+  font-size: 11px!important;
   opacity: 1;
   line-height: 30px;
   font-weight: normal!important;

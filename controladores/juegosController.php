@@ -1,4 +1,5 @@
 <?php
+ob_start();
 if (file_exists("../modelos/juego-modelo.php")){
 	require_once "../modelos/juego-modelo.php";
 }
@@ -29,6 +30,12 @@ class JuegosController extends Juego{
 	public function LlistaJuegos(){
 		$Llistat = $this->retornaJuegosTodos();
 		require "../vistas/juego/juego-ver.php";
+	}
+
+	/*********MOSTRAR DETALLE JUEGOS********/
+	public function DetalleJuego($id){
+		$juego = $this->retornaJuego($id);
+		require "../vistas/juego/juego-detalles.php";
 	}
 
 
@@ -70,9 +77,45 @@ class JuegosController extends Juego{
 			<div>";
 		}
 		header("location: ../../vistas/admin/admin-panelModificarJuego.php");
+		exit;
+
+	}
+
+	/*********AÑADIR JUEGOS - ADMIN ********/
+	/*muestra el panel de añadir*/
+	public function mostrarAddJuego(){
+		if (file_exists("../vistas/admin/admin-juegoadd.php")){
+			require_once "../vistas/admin/admin-juegoadd.php";
+		}
+		if (file_exists("../../vistas/admin/admin-juegoadd.php")){
+			require_once "../../vistas/admin/admin-juegoadd.php";
+		}
+
+	}
+	/*envia la peticion*/
+	public function AddJuegoDB($nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
+		$this->resultadoAñadirJuego($this->añadirJuego( $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo));
+	}
+	/*muestra el resultado*/
+	public function resultadoAñadirJuego($resultat){
+		if ($resultat){
+			$_SESSION["mensajeResultado"]="
+			<div style='background-color: green; height: 80px; text-align: center; padding-top: 5px;'>
+			<h1>Juego Añadido</h1>
+			<div>";
+		}else{
+			$_SESSION["mensajeResultado"]="
+			<div style='background-color: red; height: 80px; text-align: center; padding-top: 5px;'>
+			<h1>El Juego NO se ha podido Modificar</h1>
+			<div>";
+		}
+		header("location: ../../vistas/admin/admin-panelModificarJuego.php");
+		exit;
 
 	}
 }
+
+
 
 
 
@@ -81,6 +124,17 @@ class JuegosController extends Juego{
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="ver"){
 	$objecte = new JuegosController();
 	$objecte->LlistaJuegos();
+}
+
+/*********DETALLES JUEGO*******/
+if(isset($_GET["operacio"]) && $_GET["operacio"]=="detalles"){
+	if (isset($_GET["juego"]) && !empty(($_GET["juego"]))){
+		$_SESSION["idJuego"]= $_GET["juego"];
+		$objecte = new JuegosController();
+		$objecte->DetalleJuego($_GET["juego"]);
+	}else{
+		echo "Operación No permitida";
+	}
 }
 
 /*********MODIFICAR JUEGO*******/
@@ -106,6 +160,36 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
 			}
 			$nuevoObjeto = new JuegosController();
 			$nuevoObjeto->ModificarJuego($_POST["id"], $_POST["nombre"], $_POST["subtitulo"], $_POST["descripcion"], $_POST["autor"], $_POST["year"], $_POST["distribuidora"], $_POST["edad"], $_POST["tiempo"], $_POST["medidas"], $_POST["complejidad"], $_POST["tipo"], $_POST["categoria"], $_POST["tematica"], $es_activo);
+
+		}
+		else{
+			echo "Faltan Los datos!<br>";
+		}
+	}else{
+		echo "Operacion No permitida";
+        //header("location: index.php");
+	}
+
+}
+
+/*********AÑADIR JUEGO*******/
+/**muestra la pagina de añadir**/
+if(isset($_GET["operacio"]) && $_GET["operacio"]=="add"){
+	header("location: ../vistas/admin/admin-panelAddJuego.php");
+}
+/**cambia los datos en la BD*/
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="addJuego"){
+
+	if (isset($_POST["nombre"]) && isset($_POST["subtitulo"]) && isset($_POST["autor"]) && isset($_POST["descripcion"]) && isset($_POST["year"]) && isset($_POST["distribuidora"]) && isset($_POST["edad"]) && isset($_POST["tiempo"]) && isset($_POST["medidas"]) && isset($_POST["complejidad"]) && isset($_POST["tipo"]) && isset($_POST["categoria"]) && isset($_POST["tematica"])){
+
+		if (!empty($_POST["nombre"]) && !empty($_POST["subtitulo"]) && !empty($_POST["autor"]) && !empty($_POST["descripcion"]) && !empty($_POST["year"]) && !empty($_POST["distribuidora"]) && !empty($_POST["edad"]) && !empty($_POST["tiempo"]) && !empty($_POST["medidas"]) && !empty($_POST["complejidad"]) && !empty($_POST["tipo"]) && !empty($_POST["categoria"]) && !empty($_POST["tematica"])){
+			if(!empty($_POST["es_activo"])){
+				$es_activo= "1";
+			}else{
+				$es_activo="0";
+			}
+			$nuevoObjeto = new JuegosController();
+			$nuevoObjeto->AddJuegoDB($_POST["nombre"], $_POST["subtitulo"], $_POST["descripcion"], $_POST["autor"], $_POST["year"], $_POST["distribuidora"], $_POST["edad"], $_POST["tiempo"], $_POST["medidas"], $_POST["complejidad"], $_POST["tipo"], $_POST["categoria"], $_POST["tematica"], $es_activo);
 
 		}
 		else{

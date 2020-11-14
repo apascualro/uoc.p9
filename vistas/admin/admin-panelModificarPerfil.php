@@ -41,7 +41,8 @@ $objecteSessio = new SesionesController();
 								<hr class="border" />	
 							</div>
 							<?php
-						// include '../../vistas/header/navbar-admin.php';
+							$_SESSION["navActivo"] = "datos";
+							include '../header/navbar-admin.php';
 							include '../../controladores/usuariosController.php'; 
 							$objecte = new UsuariosController();
 							$objecte->mostrarModificarAdmin();

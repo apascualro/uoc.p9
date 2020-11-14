@@ -2,7 +2,13 @@
 if (file_exists('index.php')){$inicio = 'index.php';}
 if (file_exists('../index.php')){$inicio = '../index.php';}
 if (file_exists('../../index.php')){$inicio = '../../index.php';}
+
+if (file_exists('../controladores/usuariosController.php')){$login = '../controladores/usuariosController.php?operacio=verAdmin';}
+if (file_exists('../../controladores/usuariosController.php')){$login = '../../controladores/usuariosController.php?operacio=verAdmin';}
+
 ?>
+
+
 
 <nav class="navbar navbar-light bg-dark">
   <a href="<?php echo $inicio; ?>" class="navbar-brand text-white">Crazy for board games</a>
@@ -10,7 +16,7 @@ if (file_exists('../../index.php')){$inicio = '../../index.php';}
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    <a href="../controladores/usuariosController.php?operacio=verAdmin"><svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-fill ml-3" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <a href="<?php echo $login; ?>"><svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-fill ml-3" fill="white" xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
     </svg></a>
   </form>

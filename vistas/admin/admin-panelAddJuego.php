@@ -43,7 +43,7 @@ $objecteSessio = new SesionesController();
 							include '../header/navbar-admin.php';
 							include '../../controladores/juegosController.php'; 
 							$objecte = new JuegosController();
-							$objecte->mostrarModificarJuego();
+							$objecte->mostrarAddJuego();
 							?>					
 
 						</div>
@@ -51,8 +51,8 @@ $objecteSessio = new SesionesController();
 						<div class="col-12 mt-3 mb-5 text-right">
 							<a href="javascript:history.go(-1)" class="btn btn-outline-danger">Cancelar</a>
 							<input type="hidden" name="id" value="<?php echo $_SESSION["idJuego"]?>">
-							<input type="hidden" name="operacio" value="modifica">
-							<input type="submit" value="Modifica el juego" class="btn btn-success ml-1">
+							<input type="hidden" name="operacio" value="addJuego">
+							<input type="submit" value="Añadir juego" class="btn btn-success ml-1">
 						</div>
 						
 

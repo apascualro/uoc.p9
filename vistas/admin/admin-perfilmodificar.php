@@ -1,16 +1,4 @@
 
-  <ul class="nav mr-5 col-10 navadmin" >
-    <li class="nav-item">
-      <a class="nav-link active" href="#">DATOS PERSONALES</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="admin-panelJuego.php">JUEGOS</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">USUARIOS</a>
-    </li>
-  </ul>
-
   <div class="col-10 mt-3">
     <p>Modificar datos personales</p>
   </div>

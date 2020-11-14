@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 if (file_exists("../modelos/usuario-modelo.php")){
     require_once "../modelos/usuario-modelo.php";
 }
@@ -91,6 +91,7 @@ class UsuariosController extends Usuario{
             $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
         } 
         header("location: ../vistas/admin/admin-panel.php");
+        exit;
     }
 
 
@@ -240,7 +241,11 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="inserta"){
 
 /*********VER USUARIO - perfil admin *******/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="verAdmin"){
-    header('Location: ../vistas/admin/admin-panel.php');
+        
+        header('Location: ../vistas/admin/admin-panel.php   ');
+        exit;
+    
+    // header('Location: ../vistas/admin/admin-panel.php');
     // $Administrador = new UsuariosController();
     // $Administrador->PerfilAdmin();
 }

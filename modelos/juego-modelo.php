@@ -54,8 +54,7 @@ class Juego{
 
 
 	/*** AÑADIR JUEGO ***/
-	protected function añadirJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $valoracion, $op_originalidad, $op_tematica, $op_edicion, $op_reincidencia, $op_azar, $tipo, $categoria, $tematica, $es_activo){
-		$this->setIdJuego($idJuego);
+	protected function añadirJuego($nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
 		$this->setNombre($nombre);
 		$this->setSubtitulo($subtitulo);
 		$this->setDescripcion($descripcion);
@@ -66,20 +65,15 @@ class Juego{
 		$this->setTiempo($tiempo);
 		$this->setMedidas($medidas);
 		$this->setComplejidad($complejidad);
-		$this->setValoracion($valoracion);
-		$this->setOpOriginalidad($op_originalidad);
-		$this->setOpTematica($op_tematica);
-		$this->setOpEdicion($op_edicion);
-		$this->setOpReincidencia($op_reincidencia);
-		$this->setOpAzar($op_azar);
 		$this->setTipo($tipo);		
 		$this->setCategoria($categoria);
 		$this->setTematica($tematica);
+		$this->setEsActivo($es_activo);
 		try{    
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
-			$SQL = "INSERT INTO juegos (idJuego, nombre, subtitulo, descripcion, autor, year, distribuidora, edad, tiempo, medidas, complejidad, valoracion, op_originalidad, op_tematica, op_edicion, op_reincidencia, op_azar, tipo, categoria, tematica)
-			VALUES (null, :nombre, :subtitulo, :descripcion, :autor, :year, :distribuidora, :edad, :tiempo, :medidas, :complejidad, 0, 0, 0, 0, 0, 0, :tipo, :categoria, :tematica)";
+			$SQL = "INSERT INTO juegos (idJuego, nombre, subtitulo, descripcion, autor, year, distribuidora, edad, tiempo, medidas, complejidad, valoracion, op_originalidad, op_tematica, op_edicion, op_reincidencia, op_azar, tipo, categoria, tematica, es_activo)
+			VALUES (null, :nombre, :subtitulo, :descripcion, :autor, :year, :distribuidora, :edad, :tiempo, :medidas, :complejidad, 0, 0, 0, 0, 0, 0, :tipo, :categoria, :tematica, :es_activo)";
 			$resultado = $conecta->getConexionBD()->prepare($SQL);
 			$resultado->execute(array(
 				":nombre" => $this->getNombre(),
@@ -95,6 +89,7 @@ class Juego{
 				":tipo" => $this->getTipo(),
 				":categoria" => $this->getCategoria(),
 				":tematica" => $this->getTematica(),
+				":es_activo" => $this->getEsActivo(),
 			));
 			$conecta->getConexionBD()->commit();  
 			return true;
