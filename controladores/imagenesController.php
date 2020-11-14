@@ -26,9 +26,18 @@ $objecteSessio = new SesionesController();
 
 class ImagenesController extends Imagen{
 
-	/*********MOSTRAR JUEGOS********/
+	/*********MOSTRAR IMAGENES********/
 	public function LlistaImagenes($id){
 		$Llistat = $this->retornaImagenes($id);
 		require "../vistas/imagenes/imagen-ver.php";
 	}
+
+		/*********MOSTRAR IMAGEN PORTADA********/
+	public function ImagenPortada($id){
+		return $this->retornaImagenPortada($id);
+	}
+
+
+
+
 }

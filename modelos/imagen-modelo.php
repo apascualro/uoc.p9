@@ -61,6 +61,24 @@ class Imagen {
 		}
 	}
 
+	/*** RETORNAR IMAGEN - portada***/
+	protected function retornaImagenPortada($id){
+		$estado = "1";
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT nombre FROM imagenes 
+                                            WHERE juego = $id
+                                            AND es_portada = '1'";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchColumn();
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();   
+            return null;  
+        }
+    }
+
 
 
 	/***getters and setters***/
