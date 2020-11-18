@@ -118,8 +118,11 @@ class JuegosController extends Juego{
 
 
 
+/*=============================================
+OPERACIONES
+=============================================*/
 
-/*OPERACIONES */
+
 /*********VER JUEGO*******/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="ver"){
 	$objecte = new JuegosController();

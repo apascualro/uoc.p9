@@ -26,10 +26,12 @@ class UsuariosController extends Usuario{
     }
 
     /*********REGISTRAR USUARIO*******/
+    /*envia la peticion*/
     public function leeInfoUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario){
         $this->resultadoRegistraUsuario($this->registraUsuario($email, $pass, $nombre, $apellidos, $nombreUsuario));
     }
 
+    /*muestra el resultado*/
     public function resultadoRegistraUsuario($resultat){
         if ($resultat){
             require "../vistas/usuario/usuario-insertado.php";
@@ -68,7 +70,6 @@ class UsuariosController extends Usuario{
     /*********MODIFICAR- ADMIN ********/
     /*muestra los datos a modificar*/
     public function mostrarModificarAdmin(){
-
         $Llistat = $this->retornaUsuario('1');
         // $Llistat = $this->retornaAdmin($_SESSION["id_usuario"]);
         if (file_exists("../vistas/admin/admin-perfilmodificar.php")){
@@ -77,12 +78,13 @@ class UsuariosController extends Usuario{
         if (file_exists("../../vistas/admin/admin-perfilmodificar.php")){
             require_once "../../vistas/admin/admin-perfilmodificar.php";
         }
-
     }
+
     /*envia la peticion*/
     public function modificarAdmin($id, $email, $nombre, $apellidos){
         $this->resultadoModificarAdministrador($this->modificarAdministrador($id, $email, $nombre, $apellidos));
     }
+
     /*muestra el resultado*/
     public function resultadoModificarAdministrador($resultat){
         if ($resultat){

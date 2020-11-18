@@ -4,7 +4,7 @@ require_once "conexionBD.php";
 
 class Imagen {
 
-	/***ATRIBUTOS***/
+	/*** ATRIBUTOS ***/
 	protected $idImagen;
 	protected $juego;
 	protected $nombre;

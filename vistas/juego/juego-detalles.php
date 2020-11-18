@@ -8,6 +8,25 @@ if (file_exists("../controladores/imagenesController.php")){
 if (file_exists("../../controladores/imagenesController.php")){
 	require_once "../../controladores/imagenesController.php";
 }
+
+if (file_exists("controladores/valoracionesController.php")){
+	require_once "controladores/valoracionesController.php";
+}
+if (file_exists("../controladores/valoracionesController.php")){
+	require_once "../controladores/valoracionesController.php";
+}
+if (file_exists("../../controladores/valoracionesController.php")){
+	require_once "../../controladores/valoracionesController.php";
+}
+if (file_exists("controladores/comentariosController.php")){
+	require_once "controladores/comentariosController.php";
+}
+if (file_exists("../controladores/comentariosController.php")){
+	require_once "../controladores/comentariosController.php";
+}
+if (file_exists("../../controladores/comentariosController.php")){
+	require_once "../../controladores/comentariosController.php";
+}
 $objecteSessio = new SesionesController(); 
 ?>
 
@@ -32,7 +51,7 @@ $objecteSessio = new SesionesController();
 					<div class="col-8">
 						<span>
 							<h3>Juego</h3>
-							<h4><?php echo $propiedad->nombre; ?></h4>
+							<h5><?php echo $propiedad->nombre; ?></h5>
 						</span>
 						<span>
 							<p><?php echo $propiedad->subtitulo; ?></p>
@@ -66,10 +85,22 @@ $objecteSessio = new SesionesController();
 						<?php   
 						$objecte = new ImagenesController();
 						$objecte->LlistaImagenes($propiedad->idJuego); 
+
+						$objecte2 = new ValoracionesController();
+						$objecte2->LlistaValoraciones($propiedad->idJuego);
+
+						$objecte3 = new ComentariosController();
+						$objecte3->LlistaComentariosJuego($propiedad->idJuego);
 						?>
 
-
+						<?php if (file_exists("../vistas/valoracion/valoracion-add.php")){
+							include "../vistas/valoracion/valoracion-add.php";
+						} ?>
+						<div class="col-12 mg-0 auto mb-3">
+							<a href="../../controladores/juegosController.php?operacio=add" class="btn btn-info">Añadir comentario</a>
+						</div>
 					</div>
+
 					<div class="col-2"></div>
 				</div>
 			</div>
