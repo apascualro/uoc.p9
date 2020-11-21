@@ -30,7 +30,7 @@ class ImagenesController extends Imagen{
 	/*********MOSTRAR IMAGENES********/
 	public function LlistaImagenes($id){
 		$Llistat = $this->retornaImagenes($id);
-		require "../vistas/imagenes/imagen-ver.php";
+		require "../vistas/juego/imagenes/imagen-ver.php";
 	}
 
 		/*********MOSTRAR IMAGEN PORTADA********/

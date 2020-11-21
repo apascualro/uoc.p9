@@ -9,11 +9,12 @@ if (file_exists("../../controladores/sesionesController.php")){
   require_once "../../controladores/sesionesController.php";
 }
 $objecteSessio = new SesionesController(); 
+unset($_SESSION['propiedadesJuego']);
 ?>
 
 <html>
 <body>
-  <?php include 'header/header.php';
+  <?php include 'home/header/header.php';
 
   /**MOSTRAR LOS JUEGOS**/
   if (file_exists('../../controladores/juegosController.php')){ require_once '../../controladores/juegosController.php';}
@@ -29,6 +30,6 @@ $objecteSessio = new SesionesController();
 
 
 
-  <?php include 'footer/footer.php'; ?>
+  <?php include 'home/footer/footer.php'; ?>
 </body>
 </html>

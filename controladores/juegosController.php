@@ -28,13 +28,14 @@ class JuegosController extends Juego{
 
 	/*********MOSTRAR JUEGOS********/
 	public function LlistaJuegos(){
-		$Llistat = $this->retornaJuegosTodos();
+		$LlistatJue = $this->retornaJuegosTodos();
 		require "../vistas/juego/juego-ver.php";
 	}
 
 	/*********MOSTRAR DETALLE JUEGOS********/
 	public function DetalleJuego($id){
-		$juego = $this->retornaJuego($id);
+		$propiedadesJuego = $this->retornaJuego($id);
+		$_SESSION["propiedadesJuego"]= $propiedadesJuego;
 		require "../vistas/juego/juego-detalles.php";
 	}
 
@@ -119,17 +120,19 @@ class JuegosController extends Juego{
 
 
 /*=============================================
-OPERACIONES
+=                  Operaciones 		          =
 =============================================*/
 
 
-/*********VER JUEGO*******/
+/*=====  	ver juego 	 ======*/
+
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="ver"){
 	$objecte = new JuegosController();
 	$objecte->LlistaJuegos();
 }
 
-/*********DETALLES JUEGO*******/
+/*=====  	detalles juego 	 ======*/
+
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="detalles"){
 	if (isset($_GET["juego"]) && !empty(($_GET["juego"]))){
 		$_SESSION["idJuego"]= $_GET["juego"];
@@ -140,8 +143,9 @@ if(isset($_GET["operacio"]) && $_GET["operacio"]=="detalles"){
 	}
 }
 
-/*********MODIFICAR JUEGO*******/
-/**muestra la pagina de modificar**/
+/*=====  	modificar  juego 	 ======*/
+
+/*muestra la pagina de modificar*/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="modificar"){
 	if (isset($_GET["juego"]) && !empty(($_GET["juego"]))){
 		$_SESSION["idJuego"]= $_GET["juego"];
@@ -150,6 +154,7 @@ if(isset($_GET["operacio"]) && $_GET["operacio"]=="modificar"){
 		echo "Operación No permitida";
 	}
 }
+
 /**cambia los datos en la BD*/
 if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
 
@@ -175,7 +180,8 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
 
 }
 
-/*********AÑADIR JUEGO*******/
+/*=====  	añadir juego 	 ======*/
+
 /**muestra la pagina de añadir**/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="add"){
 	header("location: ../vistas/admin/admin-panelAddJuego.php");

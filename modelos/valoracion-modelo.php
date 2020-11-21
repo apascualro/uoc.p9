@@ -42,6 +42,31 @@ class Valoracion
 		}
 	}
 
+    
+    /*** AÑADE VALORACION ***/
+    protected function addValoracion($puntuacion, $juego, $usuario){
+        $this->setPuntuacion($puntuacion);
+        $this->setJuego($juego);
+        $this->setUsuario($usuario);
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "INSERT INTO valoraciones (idValoracion, juego, usuario, puntuacion, fecha)
+            VALUES (null, :juego, :usuario, :puntuacion, NOW())";
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute(array(
+                ":juego" => $this->getJuego(),
+                ":usuario" => $this->getUsuario(),
+                ":puntuacion" => $this->getPuntuacion(),
+            ));
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            return false; 
+        }
+    }
+
 
 
     /**
@@ -146,4 +171,4 @@ class Valoracion
 }
 
 
- ?>
+?>

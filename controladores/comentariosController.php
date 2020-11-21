@@ -37,7 +37,7 @@ class ComentariosController extends Comentario
      */
 	public function LlistaComentariosJuego($id){
 		$Llistat = $this->retornaComentariosJuego($id);
-		require "../vistas/comentario/comentario-ver.php";
+		require "../vistas/juego/comentario/comentario-ver.php";
 	}
 
 }

@@ -33,16 +33,17 @@ $objecteSessio = new SesionesController();
 <html>
 <body>
 	<?php 	
-	if (file_exists("../vistas/header/header.php")){
-		include "../vistas/header/header.php";
+	if (file_exists("../vistas/home/header/header.php")){
+		include "../vistas/home/header/header.php";
 	}
-	if (file_exists("../header/header.php")){
-		include "../header/header.php";
+	if (file_exists("../home/header/header.php")){
+		include "../home/header/header.php";
 	}
 	?>
 	<section>	
+		<h1>a</h1>
 
-		<?php foreach($juego as $propiedad){ 
+		<?php foreach($propiedadesJuego as $propiedad){ 
 			?>
 			<div class="container-fluid">
 				<div class="row mt-5">
@@ -93,9 +94,10 @@ $objecteSessio = new SesionesController();
 						$objecte3->LlistaComentariosJuego($propiedad->idJuego);
 						?>
 
-						<?php if (file_exists("../vistas/valoracion/valoracion-add.php")){
-							include "../vistas/valoracion/valoracion-add.php";
+						<?php if (file_exists("../vistas/juego/valoracion/valoracion-add.php")){
+							include "../vistas/juego/valoracion/valoracion-add.php";
 						} ?>
+						
 						<div class="col-12 mg-0 auto mb-3">
 							<a href="../../controladores/juegosController.php?operacio=add" class="btn btn-info">Añadir comentario</a>
 						</div>
@@ -108,12 +110,13 @@ $objecteSessio = new SesionesController();
 	</section>
 
 	<?php 
-	if (file_exists("../vistas/footer/footer.php")){
-		include "../vistas/footer/footer.php"; 
+	if (file_exists("../vistas/home/footer/footer.php")){
+		include "../vistas/home/footer/footer.php"; 
 	}
-	if (file_exists("../../vistas/footer/footer.php")){
-		include "../../vistas/footer/footer.php"; 
+	if (file_exists("../../vistas/home/footer/footer.php")){
+		include "../../vistas/home/footer/footer.php"; 
 	}
 	?>
+
 </body>
 </html>

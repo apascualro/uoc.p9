@@ -14,11 +14,11 @@ $objecteSessio = new SesionesController();
 <html>
 <body>
 	<?php 	
-	if (file_exists("../vistas/header/header.php")){
-		include "../vistas/header/header.php";
+	if (file_exists("../vistas/home/header/header.php")){
+		include "../vistas/home/header/header.php";
 	}
-	if (file_exists("../header/header.php")){
-		include "../header/header.php";
+	if (file_exists("../home/header/header.php")){
+		include "../home/header/header.php";
 	}
 	?>
 
@@ -42,7 +42,7 @@ $objecteSessio = new SesionesController();
 							</div>
 							<?php
 							$_SESSION["navActivo"] = "datos";
-							include '../header/navbar-admin.php';
+							include '../home/header/navbar-admin.php';
 							include '../../controladores/usuariosController.php'; 
 							$objecte = new UsuariosController();
 							$objecte->mostrarModificarAdmin();
@@ -69,8 +69,8 @@ $objecteSessio = new SesionesController();
 
 
 	<?php 
-	if (file_exists("../vistas/footer/footer.php")){
-		include "../vistas/footer/footer.php"; 
+	if (file_exists("../vistas/home/footer/footer.php")){
+		include "../vistas/home/footer/footer.php"; 
 	}
 	?>
 </body>

@@ -15,7 +15,7 @@ if (file_exists("../../controladores/valoracionesController.php")){
 
 <div class="container-fluid">
 	<div class="">
-		<?php foreach($Llistat as $valoracion){ ?>
+		<?php foreach($LlistatVal as $valoracion){ ?>
 
 			<div class="">
 			<p><?php echo $valoracion->puntuacion; ?></p>				

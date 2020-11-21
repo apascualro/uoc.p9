@@ -152,3 +152,20 @@ hr {
   top: 5px;
 }
 
+/*******************************************
+*******************************************/
+/************ valoraciones *****************/
+
+.radioval input:after{
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+#mensajeVal{
+  display: block;
+  height: 30px;
+}
