@@ -10,6 +10,7 @@ if (file_exists("../../controladores/sesionesController.php")){
 }
 $objecteSessio = new SesionesController(); 
 unset($_SESSION['propiedadesJuego']);
+$_SESSION["idUsuario"] = 3;
 ?>
 
 <html>

@@ -41,8 +41,6 @@ $objecteSessio = new SesionesController();
 	}
 	?>
 	<section>	
-		<h1>a</h1>
-
 		<?php foreach($propiedadesJuego as $propiedad){ 
 			?>
 			<div class="container-fluid">
@@ -88,7 +86,7 @@ $objecteSessio = new SesionesController();
 						$objecte->LlistaImagenes($propiedad->idJuego); 
 
 						$objecte2 = new ValoracionesController();
-						$objecte2->LlistaValoraciones($propiedad->idJuego);
+						$objecte2->LlistaValoraciones($propiedad->idJuego, $_SESSION["idUsuario"]);
 
 						$objecte3 = new ComentariosController();
 						$objecte3->LlistaComentariosJuego($propiedad->idJuego);

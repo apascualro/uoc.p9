@@ -27,12 +27,12 @@ class Valoracion
 	}
 
 
-	/*** RETORNAR VALORACION - TODO***/
-	protected function retornaValoracion($id){
+	/*** RETORNAR VALORACION - juego***/
+	protected function retornaValoracion($juego){
 		try{
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
-			$sentenciaSQL = "SELECT * FROM valoraciones WHERE juego = $id";
+			$sentenciaSQL = "SELECT * FROM valoraciones WHERE juego = $juego";
 			$intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
 			$intencio->execute();
 			return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
@@ -41,6 +41,21 @@ class Valoracion
 			return null;  
 		}
 	}
+
+        /*** RETORNAR VALORACION - juego + usuario ***/
+    protected function retornaValoracionUsuario($juego, $usuario){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT * FROM valoraciones WHERE juego = $juego AND usuario = $usuario";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
+        }
+    }
 
     
     /*** AÑADE VALORACION ***/
@@ -66,6 +81,33 @@ class Valoracion
             return false; 
         }
     }
+
+
+    /*** EDITA VALORACION ***/
+    protected function changeValoracion($puntuacion, $juego, $usuario){
+        $this->setPuntuacion($puntuacion);
+        $this->setJuego($juego);
+        $this->setUsuario($usuario);
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "UPDATE valoraciones 
+                            SET puntuacion = :puntuacion 
+                            WHERE juego = :juego AND usuario = :usuario";
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute(array(
+                ":juego" => $this->getJuego(),
+                ":usuario" => $this->getUsuario(),
+                ":puntuacion" => $this->getPuntuacion(),
+            ));
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            return false; 
+        }
+    }
+
 
 
 
