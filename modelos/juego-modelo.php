@@ -4,7 +4,7 @@ require_once "conexionBD.php";
 
 class Juego{
 
-	/***ATRIBUTOS***/
+	/***ATRIBUTOS======*/
 	protected $idJuego;
 	protected $nombre;
 	protected $subtitulo;
@@ -28,7 +28,7 @@ class Juego{
 	protected $tematica;
 	protected $es_activo;
 
-	/*** CONSTRUCTOR ***/
+	/*===== CONSTRUCTOR ======*/
 	public function __construct(){
 		$this->setIdJuego(null);
 		$this->setNombre(null);
@@ -53,7 +53,7 @@ class Juego{
 	}
 
 
-	/*** AÑADIR JUEGO ***/
+	/*===== AÑADIR JUEGO ======*/
 	protected function añadirJuego($nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
 		$this->setNombre($nombre);
 		$this->setSubtitulo($subtitulo);
@@ -99,7 +99,7 @@ class Juego{
 		}
 	}
 
-	/*** RETORNAR JUEGO - TODO***/
+	/*===== RETORNAR JUEGO - TODO======*/
 	protected function retornaJuegosTodos(){
 		try{
 			$conecta = new ConexionBD();
@@ -114,7 +114,7 @@ class Juego{
 		}
 	}
 
-	/*** RETORNAR JUEGO - ID***/
+	/*===== RETORNAR JUEGO - ID======*/
 	protected function retornaJuego($id){
 		try{
 			$conecta = new ConexionBD();
@@ -130,7 +130,7 @@ class Juego{
 		}
 	}
 
-	/*** EDITAR JUEGO ***/
+	/*===== EDITAR JUEGO ======*/
 	protected function editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
 		$this->setIdJuego($idJuego);
 		$this->setNombre($nombre);
@@ -191,10 +191,34 @@ class Juego{
 			return false; 
 		}
 	}
+
+
+	/*===== CAMBIAR NIVEL JUEGO ======*/
+	protected function updateValoracionJuego($valoracion, $idJuego){
+		$this->setValoracion($valoracion);
+		$this->setIdJuego($idJuego);
+		try{    
+			$conecta = new ConexionBD();
+			$conecta->getConexionBD()->beginTransaction();
+			$SQL = "UPDATE juegos 
+					SET valoracion = :valoracion
+					WHERE idJuego = :idJuego";
+			$resultado = $conecta->getConexionBD()->prepare($SQL);
+			$resultado->execute(array(
+				":valoracion" => $this->getValoracion(),
+				":idJuego" => $this->getIdJuego()
+			));
+			$conecta->getConexionBD()->commit();  
+			return true;
+		}catch(Exception $excepcio){
+			$conecta->getConexionBD()->rollback(); 
+			return false; 
+		}
+	}
 	
 
 
-	/***getters and setters***/
+	/*===== getters and setters======*/
 	public function getIdJuego()
 	{
 		return $this->idJuego;

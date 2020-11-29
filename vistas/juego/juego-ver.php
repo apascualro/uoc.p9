@@ -1,26 +1,19 @@
-<?php    
-/***  ENCABEZADO */
+<?php 
+/*controladores*/
+$controladores  = array('imagenes', 'juegos');
 
-if (file_exists("controladores/juegosController.php")){
-	require_once "controladores/juegosController.php";
-}
-if (file_exists("../controladores/juegosController.php")){
-	require_once "../controladores/juegosController.php";
-}
-if (file_exists("../../controladores/juegosController.php")){
-	require_once "../../controladores/juegosController.php";
-}
-if (file_exists("controladores/imagenesController.php")){
-	require_once "controladores/imagenesController.php";
-}
-if (file_exists("../controladores/imagenesController.php")){
-	require_once "../controladores/imagenesController.php";
-}
-if (file_exists("../../controladores/imagenesController.php")){
-	require_once "../../controladores/imagenesController.php";
-}
+foreach ($controladores as $key) {
 
+    $ruta = "controladores/".$key."Controller.php"; $nivel = "../";
+
+    for ($i=0; $i < 3; $i++) { 
+        file_exists($ruta) ? require_once $ruta : false;
+        $ruta = $nivel.$ruta; 
+    }
+}
 ?>
+
+
 <h1>TODOS los Juegos</h1>
 
 <div class="container-fluid">

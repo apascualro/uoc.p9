@@ -1,27 +1,37 @@
 <?php    
 
-if (file_exists("controladores/valoracionesController.php")){
-	require_once "controladores/valoracionesController.php";
+/*controladores*/
+$controladores  = array('valoraciones', 'juegos');
+foreach ($controladores as $key) {
+	$ruta = "controladores/".$key."Controller.php"; $nivel = "../";
+	for ($i=0; $i < 3; $i++) { 
+		file_exists($ruta) ? require_once $ruta : false;
+		$ruta = $nivel.$ruta; 
+	}
 }
-if (file_exists("../controladores/valoracionesController.php")){
-	require_once "../controladores/valoracionesController.php";
-}
-if (file_exists("../../controladores/valoracionesController.php")){
-	require_once "../../controladores/valoracionesController.php";
-}
+/**/
 
 $objecte = new ValoracionesController();
 $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"]);
-echo $p;
-$a="";
 ?>
 
 <?php 
-if(!$p){
-	$a="1";
-} ?>
+// $nuevoObjeto = new ValoracionesController();
+// 		/*calcular nueva puntuacion juego*/
+// 		$cantidad = count($nuevoObjeto->CantidadValoraciones($_SESSION["idJuego"]))+1;
+// 		$values = $nuevoObjeto->CantidadValoraciones($_SESSION["idJuego"]);
+// 		$arraypuntos = array();
+// 		foreach ($values as $key) {
+// 			$arraypuntos [] = $key->puntuacion; 
+// 		};
+// 		$arraypuntos [] = 3;//numero a añadir
+// 		$resultado = array_sum($arraypuntos) / $cantidad;
+
+// 		$nuevapuntuacion = new JuegosController();
+// 		$a = $this->UpdateValoracion($resultado, $_SESSION["idJuego"]);
 
 
+?>
 
 <div id="mensajeVal">
 	<p id="valSaved" style="display: none;">Tu valoracion se ha guardado </p>

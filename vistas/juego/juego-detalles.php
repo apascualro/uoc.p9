@@ -1,33 +1,20 @@
 <?php 
-if (file_exists("controladores/imagenesController.php")){
-	require_once "controladores/imagenesController.php";
-}
-if (file_exists("../controladores/imagenesController.php")){
-	require_once "../controladores/imagenesController.php";
-}
-if (file_exists("../../controladores/imagenesController.php")){
-	require_once "../../controladores/imagenesController.php";
+/*controladores*/
+$controladores  = array('imagenes', 'valoraciones', 'comentarios');
+
+foreach ($controladores as $key) {
+
+    $ruta = "controladores/".$key."Controller.php"; $nivel = "../";
+
+    for ($i=0; $i < 3; $i++) { 
+        file_exists($ruta) ? require_once $ruta : false;
+        $ruta = $nivel.$ruta; 
+    }
 }
 
-if (file_exists("controladores/valoracionesController.php")){
-	require_once "controladores/valoracionesController.php";
-}
-if (file_exists("../controladores/valoracionesController.php")){
-	require_once "../controladores/valoracionesController.php";
-}
-if (file_exists("../../controladores/valoracionesController.php")){
-	require_once "../../controladores/valoracionesController.php";
-}
-if (file_exists("controladores/comentariosController.php")){
-	require_once "controladores/comentariosController.php";
-}
-if (file_exists("../controladores/comentariosController.php")){
-	require_once "../controladores/comentariosController.php";
-}
-if (file_exists("../../controladores/comentariosController.php")){
-	require_once "../../controladores/comentariosController.php";
-}
+/*sesion*/
 $objecteSessio = new SesionesController(); 
+
 ?>
 
 <html>
@@ -86,7 +73,7 @@ $objecteSessio = new SesionesController();
 						$objecte->LlistaImagenes($propiedad->idJuego); 
 
 						$objecte2 = new ValoracionesController();
-						$objecte2->LlistaValoraciones($propiedad->idJuego, $_SESSION["idUsuario"]);
+						$objecte2->LlistaValoraciones($propiedad->idJuego);
 
 						$objecte3 = new ComentariosController();
 						$objecte3->LlistaComentariosJuego($propiedad->idJuego);

@@ -1,16 +1,21 @@
 <?php 
-if (file_exists("controladores/sesionesController.php")){
-  require_once "controladores/sesionesController.php";
+/*controladores*/
+$controladores  = array('sesiones');
+foreach ($controladores as $key) {
+
+    $ruta = "controladores/".$key."Controller.php"; $nivel = "../";
+
+    for ($i=0; $i < 3; $i++) { 
+        file_exists($ruta) ? require_once $ruta : false;
+        $ruta = $nivel.$ruta; 
+    }
 }
-if (file_exists("../controladores/sesionesController.php")){
-  require_once "../controladores/sesionesController.php";
-}
-if (file_exists("../../controladores/sesionesController.php")){
-  require_once "../../controladores/sesionesController.php";
-}
+
+/*sesion*/
 $objecteSessio = new SesionesController(); 
+
 unset($_SESSION['propiedadesJuego']);
-$_SESSION["idUsuario"] = 3;
+$_SESSION["idUsuario"] = 1;
 ?>
 
 <html>

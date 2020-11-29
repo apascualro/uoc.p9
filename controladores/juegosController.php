@@ -1,38 +1,34 @@
 <?php
 ob_start();
-if (file_exists("../modelos/juego-modelo.php")){
-	require_once "../modelos/juego-modelo.php";
+
+/*modelos y controladores*/
+$modelos  = array( array('tipo'=>"modelos",'nombre'=>"juego"), array('tipo'=>"controladores",'nombre'=>"sesiones"));
+
+foreach ($modelos as $i => $key) {
+	$key['tipo']== "modelos" ? $ruta = $key['nombre']."-modelo.php" : $ruta = $key['nombre']."Controller.php";
+	$nivel = "../"; $path = $key['tipo']."/". $ruta;
+
+	for ($i=0; $i < 3; $i++) { 
+		file_exists($path) ? require_once $path : false;
+		$path = $nivel.$path;
+	}
 }
-if (file_exists("../../modelos/juego-modelo.php")){
-	require_once "../../modelos/juego-modelo.php";
-}
-if (file_exists("../../../modelos/juego-modelo.php")){
-	require_once "../../../modelos/juego-modelo.php";
-}
-if (file_exists("../../../../modelos/juego-modelo.php")){
-	require_once "../../../../modelos/juego-modelo.php";
-}
-/*sesiones*/
-if (file_exists("controladores/sesionesController.php")){
-	require_once "controladores/sesionesController.php";
-}
-if (file_exists("../controladores/sesionesController.php")){
-	require_once "../controladores/sesionesController.php";
-}
-if (file_exists("../../controladores/sesionesController.php")){
-	require_once "../../controladores/sesionesController.php";
-}
+
+/*sesion*/
 $objecteSessio = new SesionesController(); 
+
 
 class JuegosController extends Juego{
 
-	/*********MOSTRAR JUEGOS********/
+	/*=====  MOSTRAR JUEGOS  ======*/
+
 	public function LlistaJuegos(){
 		$LlistatJue = $this->retornaJuegosTodos();
 		require "../vistas/juego/juego-ver.php";
 	}
 
-	/*********MOSTRAR DETALLE JUEGOS********/
+	/*=====  MOSTRAR DETALLE JUEGOS  ======*/
+
 	public function DetalleJuego($id){
 		$propiedadesJuego = $this->retornaJuego($id);
 		$_SESSION["propiedadesJuego"]= $propiedadesJuego;
@@ -40,16 +36,17 @@ class JuegosController extends Juego{
 	}
 
 
-	/*********MOSTRAR JUEGOS - ADMIN ********/
+	/*=====  MOSTRAR DETALLE JUEGOS - ADMIN  ======*/
 	public function LlistaJuegosPerfil(){
 		$Llistat = $this->retornaJuegosTodos();
 		require "../../vistas/admin/admin-juegos.php";
 	}
 
 
-	/*********MODFICAR JUEGOS - ADMIN ********/
+	//*=====  MODIFICAR JUEGO - ADMIN  ======*/
+
 	/*muestra los datos a modificar*/
-	public function mostrarModificarJuego(){
+	public function MostrarModificarJuego(){
 		$Llistat = $this->retornaJuego($_SESSION["idJuego"]);
 
 		if (file_exists("../vistas/admin/admin-juegomodificar.php")){
@@ -60,12 +57,15 @@ class JuegosController extends Juego{
 		}
 
 	}
+
 	/*envia la peticion*/
 	public function ModificarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
-		$this->resultadoModificarJuego($this->editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo));
+
+		$this->ResultadoModificarJuego($this->editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo));
 	}
+
 	/*muestra el resultado*/
-	public function resultadoModificarJuego($resultat){
+	public function ResultadoModificarJuego($resultat){
 		if ($resultat){
 			$_SESSION["mensajeResultado"]="
 			<div style='background-color: green; height: 80px; text-align: center; padding-top: 5px;'>
@@ -82,9 +82,10 @@ class JuegosController extends Juego{
 
 	}
 
-	/*********AÑADIR JUEGOS - ADMIN ********/
+	/*=====  AÑADIR JUEGOS - ADMIN  ======*/
+
 	/*muestra el panel de añadir*/
-	public function mostrarAddJuego(){
+	public function MostrarAddJuego(){
 		if (file_exists("../vistas/admin/admin-juegoadd.php")){
 			require_once "../vistas/admin/admin-juegoadd.php";
 		}
@@ -93,12 +94,15 @@ class JuegosController extends Juego{
 		}
 
 	}
+
 	/*envia la peticion*/
 	public function AddJuegoDB($nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
-		$this->resultadoAñadirJuego($this->añadirJuego( $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo));
+
+		$this->ResultadoAñadirJuego($this->añadirJuego( $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo));
 	}
+
 	/*muestra el resultado*/
-	public function resultadoAñadirJuego($resultat){
+	public function ResultadoAñadirJuego($resultat){
 		if ($resultat){
 			$_SESSION["mensajeResultado"]="
 			<div style='background-color: green; height: 80px; text-align: center; padding-top: 5px;'>
@@ -112,8 +116,17 @@ class JuegosController extends Juego{
 		}
 		header("location: ../../vistas/admin/admin-panelModificarJuego.php");
 		exit;
-
 	}
+
+	/*actualiza puntuacion*/
+	public function UpdateValoracion($valoracion, $juego){
+		$this->updateValoracionJuego($valoracion, $juego);
+		
+	}
+
+	
+
+
 }
 
 
@@ -184,7 +197,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
 
 /**muestra la pagina de añadir**/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="add"){
-	header("location: ../vistas/admin/admin-panelAddJuego.php");
+	header("location: ../vistas/admin/admin-panelJuegoAdd.php");
 }
 /**cambia los datos en la BD*/
 if(isset($_POST["operacio"]) && $_POST["operacio"]=="addJuego"){

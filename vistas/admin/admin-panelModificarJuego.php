@@ -43,7 +43,7 @@ $objecteSessio = new SesionesController();
 							include '../home/header/navbar-admin.php';
 							include '../../controladores/juegosController.php'; 
 							$objecte = new JuegosController();
-							$objecte->mostrarModificarJuego();
+							$objecte->MostrarModificarJuego();
 							?>					
 
 						</div>

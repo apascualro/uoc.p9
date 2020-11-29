@@ -8,7 +8,7 @@ require_once "conexionBD.php";
 class Valoracion
 {
 
-	/*** ATRIBUTOS ***/
+	/*=====  ATRIBUTOS ======*/
 	protected $idValoracion;
 	protected $juego;
 	protected $usuario;
@@ -16,7 +16,7 @@ class Valoracion
 	protected $fecha;
 
 
-	/*** CONSTRUCTOR ***/
+	/*=====  CONSTRUCTOR ======*/
 	function __construct()
 	{
 		$this->setIdValoracion(null);
@@ -27,7 +27,7 @@ class Valoracion
 	}
 
 
-	/*** RETORNAR VALORACION - juego***/
+	/*=====  RETORNAR VALORACION - juego======*/
 	protected function retornaValoracion($juego){
 		try{
 			$conecta = new ConexionBD();
@@ -42,7 +42,7 @@ class Valoracion
 		}
 	}
 
-        /*** RETORNAR VALORACION - juego + usuario ***/
+    /*=====  RETORNAR VALORACION - juego + usuario ======*/
     protected function retornaValoracionUsuario($juego, $usuario){
         try{
             $conecta = new ConexionBD();
@@ -58,7 +58,7 @@ class Valoracion
     }
 
     
-    /*** AÑADE VALORACION ***/
+    /*=====  AÑADE VALORACION ======*/
     protected function addValoracion($puntuacion, $juego, $usuario){
         $this->setPuntuacion($puntuacion);
         $this->setJuego($juego);
@@ -83,7 +83,7 @@ class Valoracion
     }
 
 
-    /*** EDITA VALORACION ***/
+    /*=====  EDITA VALORACION ======*/
     protected function changeValoracion($puntuacion, $juego, $usuario){
         $this->setPuntuacion($puntuacion);
         $this->setJuego($juego);
