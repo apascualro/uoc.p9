@@ -1,5 +1,5 @@
 <?php 
-
+require_once "usuario-modelo.php";
 require_once "conexionBD.php";
 
 /**
@@ -105,6 +105,27 @@ class Valoracion
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback(); 
             return false; 
+        }
+    }
+
+
+    /*=====  RETORNAR VALORACION y NIVEL // INNER JOIN ======*/
+    protected function retornaValoracionNivel($juego){
+        $this->setJuego($juego);
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT a.puntuacion, b.nivel 
+                            FROM valoraciones a
+                            INNER JOIN usuarios b ON a.usuario = b.idUsuario
+                            WHERE juego = :juego";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute(array(
+                ":juego" => $this->getJuego()));
+            return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
         }
     }
 

@@ -90,6 +90,22 @@ class Usuario{
         }
     }
 
+    /*** RETORNAR USUARIO - nivel-> id ***/
+    protected function retornaNivelUsuario($id){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT nivel FROM usuarios
+            WHERE idUsuario = '$id'";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchColumn();
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
+        }
+    }
+
     /*** MODIFICAR USUARIOS ***/
     protected function modificaUsuari($id, $email, $pass, $nombre, $apellidos, $nombreUsuario, $esAdmin, $fecha, $nivel, $activo){
         $this->setEmail($email);

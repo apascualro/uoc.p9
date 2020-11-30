@@ -66,7 +66,7 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 				<input type="radio" name="options" id="option7" autocomplete="off" <?php echo $p == "7" ?  "checked" : ""   ?> value="7"> 7
 			</label>
 			<label class="btn btn-info mr-2">
-				<input type="radio" name="options" id="option8" autocomplete="off" value="8"> 8
+				<input type="radio" name="options" id="option8" autocomplete="off" <?php echo $p == "8" ?  "checked" : ""   ?> value="8"> 8
 			</label>
 			<label class="btn btn-info mr-2">
 				<input type="radio" name="options" id="option9" autocomplete="off" <?php echo $p == "9" ?  "checked" : ""   ?> value="9"> 9
@@ -93,7 +93,8 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 		console.log("despues" + op);
 		
 		var options = $("input[type=radio]:checked").val();
-
+		console.log("value" + options);
+		
 		$.post("valoracionesController.php", 
 			{ operacio: op, options: options },
 			);

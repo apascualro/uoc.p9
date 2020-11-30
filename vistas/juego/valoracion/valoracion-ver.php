@@ -21,7 +21,7 @@ foreach ($controladores as $key) {
 		<?php foreach($LlistatVal as $valoracion){ ?>
 
 			<div class="">
-				<p><?php echo $valoracion->puntuacion; ?></p>				
+				<p><?php echo "puntuacion: ".$valoracion->puntuacion." , usuario: ".$valoracion->usuario; ?></p>
 			</div>
 			
 		<?php } ?>

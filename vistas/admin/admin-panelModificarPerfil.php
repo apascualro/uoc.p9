@@ -45,14 +45,14 @@ $objecteSessio = new SesionesController();
 							include '../home/header/navbar-admin.php';
 							include '../../controladores/usuariosController.php'; 
 							$objecte = new UsuariosController();
-							$objecte->mostrarModificarAdmin();
+							$objecte->MostrarModificarAdmin();
 							?>
 
 							<input type="hidden" name="id" value="1"> <!-- session id_usuario -->
-							<input type="hidden" name="operacio" value="modificarAdmin">
+							<input type="hidden" name="operacio" value="ModificarAdmin">
 
 							<div class="col-md-12 mb-3">
-								<input type="submit" class="btn btn-success" value="modificarAdmin">
+								<input type="submit" class="btn btn-success" value="ModificarAdmin">
 								<a href="admin-panel.php" class="btn btn-light">Cancelar</a>
 							</div>
 
