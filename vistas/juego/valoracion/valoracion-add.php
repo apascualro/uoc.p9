@@ -15,24 +15,6 @@ $objecte = new ValoracionesController();
 $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"]);
 ?>
 
-<?php 
-// $nuevoObjeto = new ValoracionesController();
-// 		/*calcular nueva puntuacion juego*/
-// 		$cantidad = count($nuevoObjeto->CantidadValoraciones($_SESSION["idJuego"]))+1;
-// 		$values = $nuevoObjeto->CantidadValoraciones($_SESSION["idJuego"]);
-// 		$arraypuntos = array();
-// 		foreach ($values as $key) {
-// 			$arraypuntos [] = $key->puntuacion; 
-// 		};
-// 		$arraypuntos [] = 3;//numero a añadir
-// 		$resultado = array_sum($arraypuntos) / $cantidad;
-
-// 		$nuevapuntuacion = new JuegosController();
-// 		$a = $this->UpdateValoracion($resultado, $_SESSION["idJuego"]);
-
-
-?>
-
 <div id="mensajeVal">
 	<p id="valSaved" style="display: none;">Tu valoracion se ha guardado </p>
 	<p id="valUpdated" style="display: none;">Tus cambios se han guardado </p>
@@ -84,7 +66,10 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 
 <script>
 	$('input[name=options]').change(function(){	
+
 		var op = $("#operacio").val();
+		console.log(op + "op");
+
 		if(op == "addValoracion"){			
 			console.log("antes " + op);
 		}else{
@@ -93,8 +78,7 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 		console.log("despues" + op);
 		
 		var options = $("input[type=radio]:checked").val();
-		console.log("value" + options);
-		
+
 		$.post("valoracionesController.php", 
 			{ operacio: op, options: options },
 			);
@@ -106,7 +90,10 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 			$(valSaved).show(700);
 			$(valSaved).delay(3000).hide(700);
 			document.getElementById("operacio").value = "updateValoracion";
+			console.log("ultim" + op);
 		}
+		var op = "";
+
 	});
 
 
