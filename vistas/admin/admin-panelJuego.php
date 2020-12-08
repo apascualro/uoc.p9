@@ -1,4 +1,15 @@
-
+<?php 
+if (file_exists("controladores/sesionesController.php")){
+	require_once "controladores/sesionesController.php";
+}
+if (file_exists("../controladores/sesionesController.php")){
+	require_once "../controladores/sesionesController.php";
+}
+if (file_exists("../../controladores/sesionesController.php")){
+	require_once "../../controladores/sesionesController.php";
+}
+$objecteSessio = new SesionesController(); 
+?>
 <html>
 <body>
 	<?php 	

@@ -4,12 +4,12 @@ $controladores  = array('imagenes', 'juegos');
 
 foreach ($controladores as $key) {
 
-    $ruta = "controladores/".$key."Controller.php"; $nivel = "../";
+	$ruta = "controladores/".$key."Controller.php"; $nivel = "../";
 
-    for ($i=0; $i < 3; $i++) { 
-        file_exists($ruta) ? require_once $ruta : false;
-        $ruta = $nivel.$ruta; 
-    }
+	for ($i=0; $i < 3; $i++) { 
+		file_exists($ruta) ? require_once $ruta : false;
+		$ruta = $nivel.$ruta; 
+	}
 }
 ?>
 
@@ -20,15 +20,24 @@ foreach ($controladores as $key) {
 	<div class="d-flex">
 		<?php foreach($LlistatJue as $juego){ ?>
 
-			<div class=" h-100 w-100 bg-light m-4">
+			<div class=" h-200 border border-lighten-4 rounded  m-4">
 				<a href="../../controladores/juegosController.php?operacio=detalles&juego=<?php echo $juego->idJuego; ?>">
 					<?php   
 					$objecte = new ImagenesController();
 					$img = $objecte->ImagenPortada($juego->idJuego);
 					?>
-					<img style="width: 150px;" src="assets/img/<?php echo $img;?>">
-					<h4><?php echo $juego->nombre; ?></h4>
-					<p ><?php echo $juego->subtitulo; ?></p>	
+					
+					<div class="col-md-6 m-auto">
+						<img style="width: 150px;" src="assets/img/<?php echo $img;?>">
+
+						<h4><?php echo $juego->nombre; ?></h4>
+
+						<div class="text-center">
+							<p ><?php echo $juego->subtitulo; ?></p>
+						</div>
+					</div>
+					
+
 					
 				</a>
 			</div>

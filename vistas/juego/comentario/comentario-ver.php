@@ -13,6 +13,8 @@ if (file_exists("../../controladores/comentariosController.php")){
 ?>
 <h4>Comentarios</h4>
 
+
+
 <div class="container-fluid">
 	<div class="">
 		<?php foreach($Llistat as $comentario){ ?>

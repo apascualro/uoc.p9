@@ -68,9 +68,7 @@ class JuegosController extends Juego{
 	public function ResultadoModificarJuego($resultat){
 		if ($resultat){
 			$_SESSION["mensajeResultado"]="
-			<div style='background-color: green; height: 80px; text-align: center; padding-top: 5px;'>
-			<h1>Juego Modificado</h1>
-			<div>";
+			<div class='row'><div class='col-12'><span class='msg'>Juego modificado</span></div></div>";
 		}else{
 			$_SESSION["mensajeResultado"]="
 			<div style='background-color: red; height: 80px; text-align: center; padding-top: 5px;'>

@@ -15,6 +15,7 @@ $objecte = new ValoracionesController();
 $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"]);
 ?>
 
+
 <div id="mensajeVal">
 	<p id="valSaved" style="display: none;">Tu valoracion se ha guardado </p>
 	<p id="valUpdated" style="display: none;">Tus cambios se han guardado </p>
@@ -65,36 +66,7 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 
 
 <script>
-	$('input[name=options]').change(function(){	
 
-		var op = $("#operacio").val();
-		console.log(op + "op");
-
-		if(op == "addValoracion"){			
-			console.log("antes " + op);
-		}else{
-			var op = "updateValoracion";
-		}
-		console.log("despues" + op);
-		
-		var options = $("input[type=radio]:checked").val();
-
-		$.post("valoracionesController.php", 
-			{ operacio: op, options: options },
-			);
-		if(op != "addValoracion"){
-			$(valUpdated).show(700);
-			$(valUpdated).delay(3000).hide(700);
-			
-		}else {
-			$(valSaved).show(700);
-			$(valSaved).delay(3000).hide(700);
-			document.getElementById("operacio").value = "updateValoracion";
-			console.log("ultim" + op);
-		}
-		var op = "";
-
-	});
 
 
 </script>

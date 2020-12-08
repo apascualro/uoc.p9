@@ -14,7 +14,7 @@ foreach ($controladores as $key) {
 /*sesion*/
 $objecteSessio = new SesionesController(); 
 
-unset($_SESSION['propiedadesJuego']);
+unset($_SESSION['propiedadesJuego'], $_SESSION['idJuego']);
 $_SESSION["idUsuario"] = 3;
 ?>
 
@@ -34,10 +34,13 @@ $_SESSION["idUsuario"] = 3;
     ?> 
   </section>  
 
-
-  <form method="post">
-      <input type="hidden" name="options" value="4">
-  </form>
-  <a href="../controladores/valoracionesController.php?operacio=updateValoracion&options=3">a</a>
+  <?php 
+  if (file_exists("../vistas/home/footer/footer.php")){
+    include "../vistas/home/footer/footer.php"; 
+  }
+  if (file_exists("../../vistas/home/footer/footer.php")){
+    include "../../vistas/home/footer/footer.php"; 
+  }
+  ?>
 </body>
 </html>

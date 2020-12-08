@@ -44,7 +44,7 @@ $objecteSessio = new SesionesController();
 						$objecte->PerfilAdmin();
 						?>
 						<div class="col-12 mg-0 auto">
-							<a href="admin-panelModificarPerfil.php" class="btn btn-secondary">Modificar mis datos</a>
+							<a href="admin-panelModificarPerfil.php" class="btn btn-success">Modificar mis datos</a>
 						</div>
 
 

@@ -31,7 +31,7 @@ html {
 
 }
 section{
-  min-height: 700px;
+  min-height: 750px;
 }
 
 /*******************************************
@@ -169,3 +169,6 @@ hr {
   display: block;
   height: 30px;
 }
+
+
+
