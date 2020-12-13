@@ -1,6 +1,6 @@
 
 <!-- formulario -->
-<h4 class="col-12 mb-2">Modificar juego</h4>
+<h3 class="col-12 mb-2">Modificar juego</h3>
 <?php foreach($Llistat as $objecte){ ?>
 
   <!-- nombre -->

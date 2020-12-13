@@ -30,7 +30,7 @@ foreach ($controladores as $key) {
 					<div class="col-md-6 m-auto">
 						<img style="width: 150px;" src="assets/img/<?php echo $img;?>">
 
-						<h4><?php echo $juego->nombre; ?></h4>
+						<h3><?php echo $juego->nombre; ?></h3>
 
 						<div class="text-center">
 							<p ><?php echo $juego->subtitulo; ?></p>

@@ -72,7 +72,7 @@ if(isset($_SESSION['idJuego']) && isset($_SESSION['idUsuario'])){
 						if(isset($com) && !empty($com)){
 							echo'
 							<div class="">
-							<h4>Tu comentario</h4>
+							<h3>Tu comentario</h3>
 							<p class="text-primary">'. $com->titulo .'</p>				
 							<p>'. $com->descripcion. '</p>
 							</div>

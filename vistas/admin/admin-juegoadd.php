@@ -1,6 +1,6 @@
 <?php  ?>
 <!-- formulario -->
-  <h4 class="col-12 mb-2">Añadir juego</h4>
+  <h3 class="col-12 mb-2">Añadir juego</h3>
 
     <!-- nombre -->
     <div class="col-md-6 mb-3">

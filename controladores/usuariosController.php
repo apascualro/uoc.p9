@@ -22,12 +22,27 @@ class UsuariosController extends Usuario{
     /*===== MOSTRAR USUARIOS ======*/
 
     public function LlistaUsuarios(){
-        $Llistat = $this->retornaUsuariosTodos();
-        require "../vistas/usuario/usuario-ver.php";
+        $LlistatUser = $this->retornaUsuariosTodos();
+        require "admin-usuarios.php";
     }
 
     /*===== REGISTRAR USUARIO ======*/
-    
+
+    /*mostrar el formulario*/
+    public function MostrarAddUser(){
+        require "admin-usuariosadd.php";
+    }
+
+    // comprueba email
+    public function compruebaEmail($email){
+        return $this->retornaEmail($email);
+    }
+
+    // comprueba nombre usuario
+    public function compruebaUserName($nombreUsuario){
+        return $this->retornaUserName($nombreUsuario);
+    }
+
     /*envia la peticion*/
     public function LeeInfoUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario){
         $this->ResultadoRegistraUsuario($this->registraUsuario($email, $pass, $nombre, $apellidos, $nombreUsuario));
@@ -36,57 +51,59 @@ class UsuariosController extends Usuario{
     /*muestra el resultado*/
     public function ResultadoRegistraUsuario($resultat){
         if ($resultat){
-            require "../vistas/usuario/usuario-insertado.php";
+            $_SESSION["msgAddUser"]= "El usuario se ha añadido correctamente";
         }else{
-            require "../vistas/usuario/usuario-Noinsertado.php";
-        } 
-    }
+           $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";          
+       } 
+       header("location:../vistas/admin/admin-panelUsuario.php");
+       // $_SESSION["msgErrAddUser"]="";
+   }
 
-    /*===== MOSTRAR PERFIL - ADMIN   ======*/
-    
-    public function PerfilAdmin(){
-        $Llistat = $this->retornaUsuario('1');
-        require "../../vistas/admin/admin-perfil.php";
-    }
+   /*===== MOSTRAR PERFIL - ADMIN   ======*/
 
-    /*===== MODIFICAR- ADMIN   ======*/
-    
-    /*muestra los datos a modificar*/
-    public function MostrarModificarAdmin(){
-        $Llistat = $this->retornaUsuario('1');
+   public function PerfilAdmin(){
+    $Llistat = $this->retornaUsuario('1');
+    require "../../vistas/admin/admin-perfil.php";
+}
+
+/*===== MODIFICAR- ADMIN   ======*/
+
+/*muestra los datos a modificar*/
+public function MostrarModificarAdmin(){
+    $Llistat = $this->retornaUsuario('1');
         // $Llistat = $this->retornaAdmin($_SESSION["id_usuario"]);
-        if (file_exists("../vistas/admin/admin-perfilmodificar.php")){
-            require_once "../vistas/admin/admin-perfilmodificar.php";
-        }
-        if (file_exists("../../vistas/admin/admin-perfilmodificar.php")){
-            require_once "../../vistas/admin/admin-perfilmodificar.php";
-        }
+    if (file_exists("../vistas/admin/admin-perfilmodificar.php")){
+        require_once "../vistas/admin/admin-perfilmodificar.php";
     }
-
-    /*envia la peticion*/
-    public function ModificarAdmin($id, $email, $nombre, $apellidos){
-        $this->ResultadomodificarAdministrador($this->modificarAdministrador($id, $email, $nombre, $apellidos));
+    if (file_exists("../../vistas/admin/admin-perfilmodificar.php")){
+        require_once "../../vistas/admin/admin-perfilmodificar.php";
     }
+}
 
-    /*muestra el resultado*/
-    public function ResultadomodificarAdministrador($resultat){
-        if ($resultat){
-            $_SESSION["mensajeResultado"]="Tus datos se han actualizado correctamente";
-        }else{
-            $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
-        } 
-        header("location: ../vistas/admin/admin-panel.php");
-        exit;
-    }
+/*envia la peticion*/
+public function ModificarAdmin($id, $email, $nombre, $apellidos){
+    $this->ResultadomodificarAdministrador($this->modificarAdministrador($id, $email, $nombre, $apellidos));
+}
+
+/*muestra el resultado*/
+public function ResultadomodificarAdministrador($resultat){
+    if ($resultat){
+        $_SESSION["mensajeResultado"]="Tus datos se han actualizado correctamente";
+    }else{
+        $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
+    } 
+    header("location: ../vistas/admin/admin-panel.php");
+    exit;
+}
 
 
-    /*===== OBTENER NIVEL ======*/
-    
-    public function NivelUsuario($id){
-        return $this->retornaNivelUsuario($id);
-    }
+/*===== OBTENER NIVEL ======*/
 
-    
+public function NivelUsuario($id){
+    return $this->retornaNivelUsuario($id);
+}
+
+
 
 
 }
@@ -102,27 +119,90 @@ if(isset($_GET["operacio"]) && $_GET["operacio"]=="ver"){
 }
 
 /*===== REGISTRAR USUARIO ======*/
-if(isset($_POST["operacio"]) && $_POST["operacio"]=="inserta"){
-    if (isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombreUsuario"])){
-        if (!empty($_POST["email"]) && !empty($_POST["pass"])){
-            $usuari = new UsuariosController();
-            $usuari->LeeInfoUsuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"],$_POST["nombreUsuario"] );
-        }else{
-            echo "Faltan datos";
-        //header ("location: ../../index.php");
+
+/*muestra la pagina de añadir*/
+if(isset($_GET["operacio"]) && $_GET["operacio"]=="add"){
+    header("location: ../vistas/admin/admin-panelUsuarioAdd.php");
+}
+
+/*  COMPROBAR EMAIL  */
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserEmail"){
+    if(isset($_POST["email"])){
+        $usuari = new UsuariosController();
+        $row = $usuari->compruebaEmail($_POST["email"]);
+        if($row){
+            echo'{"exists":true}';
         }
+        else{
+            //email libre
+            echo'{"exists":false}';
+        }
+
     }else{
-        echo "Operacion No permitida";
-        echo $_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"],$_POST["nombreUsuario"], $_POST["creado"];
+        echo "Operacion no permitida";
+    }
+}
+
+/* COMPROBAR USERNAME  */
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserName"){
+    if(isset($_POST["nombreUsuario"])){
+        $usuari = new UsuariosController();
+        $row = $usuari->compruebaUserName($_POST["nombreUsuario"]);
+
+        if($row){
+            echo'{"existss":true}';
+        }
+        else{
+            //telf libre
+            echo'{"existss":false}';
+        }
+
+    }else{
+        echo "Operacion no permitida";
+    }
+}
+
+/*añade los datos*/
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="AddUser"){
+    if (isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombreUsuario"]) && isset($_POST["rol"])){
+
+        if (!empty($_POST["nombreUsuario"]) && !empty($_POST["email"])){
+
+            $usuari = new UsuariosController();
+            $row = $usuari->compruebaUserName($_POST["nombreUsuario"]);
+
+            $email = new UsuariosController();
+            $row2 = $email->compruebaEmail($_POST["email"]);
+
+            /*comprobar que no esten repetidos sin JS*/
+            if(!$row && !$row2){
+
+                if (!empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["email"]) && !empty($_POST["pass"]) && !empty($_POST["nombreUsuario"]) && !empty($_POST["rol"])){
+
+                    $usuari = new UsuariosController();
+                    $usuari->LeeInfoUsuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"],$_POST["nombreUsuario"] );
+
+                }else{
+                    echo "Faltan datos";
+                //header ("location: ../../index.php");
+                }
+            }else{
+                $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";
+                header ("location: ../../vistas/admin/admin-panelUsuarioAdd.php");
+            }
+
+        }else{
+            echo "Operacion No permitida";
+        }
     }
 }
 
 /*===== VER USUARIO - perfil admin  ======*/
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="verAdmin"){
-        
-        header('Location: ../vistas/admin/admin-panel.php');
-        exit;
-    
+
+    header('Location: ../vistas/admin/admin-panel.php');
+    exit;
+
     // header('Location: ../vistas/admin/admin-panel.php');
     // $Administrador = new UsuariosController();
     // $Administrador->PerfilAdmin();

@@ -4,8 +4,22 @@
   <div class="row">
 
     <h3 class="col-12">Lista de juegos</h3>
-    <div class="col-12 mg-0 auto text-right mb-3">
-      <a href="../../controladores/juegosController.php?operacio=add" class="btn btn-info">Añadir juego</a>
+
+    <div class="col-6 mg-0 auto mb-3">
+      <?php 
+      if (isset($_SESSION["msgAddUser"])){
+        echo "<div class='row'><div class='col-12 alert alert-success'><span class='msg'>".$_SESSION["msgAddUser"]."</span></div></div>";
+        unset($_SESSION["msgAddUser"]);
+      };
+      if (isset($_SESSION["msgErrAddUser"])){
+        echo "<div class='row'><div class='col-12 alert alert-danger'><span class='msg'>".$_SESSION["msgErrAddUser"]."</span></div></div>";
+        unset($_SESSION["msgErrAddUser"]);
+      };
+      ?>
+    </div>
+
+    <div class="col-6 mg-0 auto text-right mb-3">
+      <a href="../../controladores/usuariosController.php?operacio=add" class="btn btn-info">Añadir usuario</a>
     </div>
 
     <div class="col-12">
@@ -13,27 +27,31 @@
 
         <tr class="titulostabla">
           <th>Id</th>
-          <th>Nombre</th>
-          <th>Subtitulo</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Nivel</th>
           <th>Estado</th>
-          <th class="text-right">Opciones</th>
         </tr>
 
-        <?php foreach($Llistat as $objecte){ ?>
+        <?php foreach($LlistatUser as $objecte){ ?>
 
-          <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapse<?php echo $objecte->idJuego; ?>">
-            <td><?php echo $objecte->idJuego ?></td>
-            <td><?php echo $objecte->nombre ?></td>
-            <td><?php echo $objecte->subtitulo ?></td>
-            <td><?php if($objecte->es_activo == 1){echo "visible";}else{echo "deshabilitado";} ?></td>
-            <td class="text-right">
-              <a class="btn btn-sm btn-dark mb-2" href="../../controladores/juegosController.php?operacio=modificar&juego=<?php echo $objecte->idJuego; ?>">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18px" height="18px">
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                  <path d="M0 0h24v24H0z" fill="none"/>
-                </svg>
-              </a>
-
+          <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapse<?php echo $objecte->idUsuario; ?>">
+            <td><?php echo $objecte->idUsuario ?></td>
+            <td><?php echo $objecte->nombreUsuario ?></td>
+            <td><?php echo $objecte->email ?></td>            
+            <td><?php echo $objecte->nivel ?></td>
+            <td>
+              <!-- Material checked -->
+              <div class="switch">
+                <label>
+                  Desactivado
+                  <input type="checkbox" <?php if($objecte->es_activo == 1){echo "checked";}?>>
+                  <span class="lever"></span> Activado
+                </label>
+              </div>
+            </td>
+            
+            <td class="text-right">              
               <td>
                 <a class="btn btn-sm btn-dark expand-button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="18px" height="18px">

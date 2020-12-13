@@ -11,7 +11,7 @@ if (file_exists("../../controladores/comentariosController.php")){
 	require_once "../../controladores/comentariosController.php";
 }
 ?>
-<h4>Comentarios</h4>
+<h3>Comentarios</h3>
 
 
 

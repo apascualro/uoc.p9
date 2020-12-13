@@ -11,7 +11,7 @@ if (file_exists("../../controladores/imagenesController.php")){
 	require_once "../../controladores/imagenesController.php";
 }
 ?>
-<h4>Imagenes</h4>
+<h3>Imagenes</h3>
 
 <div class="container-fluid">
 	<div class="d-flex">

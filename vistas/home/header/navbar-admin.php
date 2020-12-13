@@ -6,6 +6,6 @@
       <a class="nav-link <?php if ($_SESSION["navActivo"] == "juegos"){ echo "active";} ?>" href="admin-panelJuego.php">JUEGOS</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link <?php if ($_SESSION["navActivo"] == "usuarios"){ echo "active";} ?>" href="#">USUARIOS</a>
+      <a class="nav-link <?php if ($_SESSION["navActivo"] == "usuarios"){ echo "active";} ?>" href="admin-panelUsuario.php">USUARIOS</a>
     </li>
   </ul>

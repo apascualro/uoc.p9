@@ -29,7 +29,7 @@ if (file_exists('../../controladores/usuariosController.php')){$login = '../../c
     <div class="modal-content p-4 text-center">
       <form action="../../Controladores/UsuariosController.php?operacio=login" method="POST">
         <div class="row">
-          <h4 class="col-12 mb-3">Acceso de usuarios</h4>
+          <h3 class="col-12 mb-3">Acceso de usuarios</h3>
           <div class="col-12 mb-3">
             <div class="input-container">
               <input type="text" id="email" name="email" required="required">

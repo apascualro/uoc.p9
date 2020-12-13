@@ -28,23 +28,20 @@ $objecteSessio = new SesionesController();
 				<div class="col-1"></div>				
 
 				<div class="col-10">
-					<?php if (isset($_SESSION["mensajeResultado"])){
-						echo "<div class='row'><div class='col-12'><span class='msg'>".$_SESSION["mensajeResultado"]."</span></div></div>";
-						unset($_SESSION["mensajeResultado"]);
-					};
-					?>
+
 					<div class="row">
 						<div class="col-12">
 							<h2 >CONFIGURACION PERSONAL - administrador</h2>
 							<hr class="border" />	
 						</div>
-						
+
 						<?php
-						$_SESSION["navActivo"] = "juegos";
+						$_SESSION["navActivo"] = "usuarios";
 						include '../home/header/navbar-admin.php';
-						include '../../controladores/juegosController.php'; 
-						$objecte = new JuegosController();
-						$objecte->LlistaJuegosPerfil();
+
+						include '../../controladores/usuariosController.php'; 
+						$objecte = new UsuariosController();
+						$objecte->LlistaUsuarios();
 						?>
 
 

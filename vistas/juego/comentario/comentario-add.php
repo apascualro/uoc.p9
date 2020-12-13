@@ -11,7 +11,7 @@
       <form id="formComentario" action="../../controladores/comentariosController.php" method="POST">
 
         <div class="modal-header">          
-          <h4 class="modal-title text-left">Añadir comentario</h4>
+          <h3 class="modal-title text-left">Añadir comentario</h3>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 

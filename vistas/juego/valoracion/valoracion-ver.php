@@ -14,7 +14,7 @@ foreach ($controladores as $key) {
 }
 ?>
 
-<h4>Valoraciones</h4>
+<h3>Valoraciones</h3>
 
 <div class="container-fluid">
 	<div class="">

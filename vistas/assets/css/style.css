@@ -48,6 +48,15 @@ h2{
   font-weight: 700;
 }
 
+h3{
+  font-size: 22px;
+}
+
+h4{
+  font-weight: 700;
+  font-size: 14px;
+}
+
 a{
   color: inherit;
   font-weight: 300;
@@ -57,6 +66,14 @@ hr {
  margin: 0 auto;
 }
 
+.titulostabla th{
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+}
+
+
+
 
 /*******************************************
 *******************************************/
@@ -64,6 +81,7 @@ hr {
 
 .navadmin{
   color: var(--color-pred3);
+  font-size: 22px;
 }
 
 .active{
@@ -169,6 +187,4 @@ hr {
   display: block;
   height: 30px;
 }
-
-
 

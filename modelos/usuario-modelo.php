@@ -16,7 +16,7 @@ class Usuario{
     protected $nivel;
     protected $activo;
 
-    /*** CONSTRUCTOR ***/
+    /*===== CONSTRUCTOR ======*/
     public function __construct(){
         $this->setidUsuario(null);
         $this->setNombre(null);
@@ -30,7 +30,7 @@ class Usuario{
         $this->setActivo(null);       
     }
 
-    /*** REGISTRAR USUARIO ***/
+    /*===== REGISTRAR USUARIO ======*/
     protected function registraUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario){
         $this->setNombre($nombre);
         $this->setApellidos($apellidos);
@@ -58,8 +58,7 @@ class Usuario{
         }
     }
 
-
-    /*** RETORNAR USUARIOS - TODO***/
+    /*===== RETORNAR USUARIOS - TODO======*/
     protected function retornaUsuariosTodos(){
         try{
             $conecta = new ConexionBD();
@@ -74,7 +73,7 @@ class Usuario{
         }
     }
 
-    /*** RETORNAR USUARIOS - TODO-> id ***/
+    /*===== RETORNAR USUARIOS TODO-> id ======*/
     protected function retornaUsuario($id){
         try{
             $conecta = new ConexionBD();
@@ -90,7 +89,7 @@ class Usuario{
         }
     }
 
-    /*** RETORNAR USUARIO - nivel-> id ***/
+    /*===== RETORNAR nivel USUARIO ->id ======*/
     protected function retornaNivelUsuario($id){
         try{
             $conecta = new ConexionBD();
@@ -106,7 +105,7 @@ class Usuario{
         }
     }
 
-    /*** MODIFICAR USUARIOS ***/
+    /*===== MODIFICAR USUARIOS ======*/
     protected function modificaUsuari($id, $email, $pass, $nombre, $apellidos, $nombreUsuario, $esAdmin, $fecha, $nivel, $activo){
         $this->setEmail($email);
         $this->setPass($pass);
@@ -149,11 +148,10 @@ class Usuario{
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
             return  $excepcio->getMessage();  
-        }
-        
+        }   
     }
 
-    /*** MODIFICAR ADMIN ***/
+    /*===== MODIFICAR ADMIN ======*/
     protected function modificarAdministrador($id, $email, $nombre, $apellidos){
         $this->setEmail($email);
         $this->setNombre($nombre);
@@ -178,7 +176,38 @@ class Usuario{
             $conecta->getConexionBD()->rollback();  
             return  $excepcio->getMessage();  
         }
-        
+    }
+
+    /*=====  COMPROBAR EXISTE EMAIL -> email ======*/
+    protected function retornaEmail($email){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT * FROM usuarios
+            WHERE email = '$email'";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
+        }
+    }
+
+    /*=====  COMPROBAR EXISTE NOMBREUSUARIO -> nombreUsuario ======*/
+    protected function retornaUserName($nombreUsuario){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT * FROM usuarios
+            WHERE nombreUsuario = '$nombreUsuario'";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
+        }
     }
 
     
