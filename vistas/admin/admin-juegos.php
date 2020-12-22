@@ -16,7 +16,7 @@
           <th>Nombre</th>
           <th>Subtitulo</th>
           <th>Estado</th>
-          <th class="text-right">Opciones</th>
+          <!-- <th class="text-right">Opciones</th> -->
         </tr>
 
         <?php foreach($Llistat as $objecte){ ?>

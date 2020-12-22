@@ -1,4 +1,64 @@
 /*=============================================
+=            Validar Login       =
+=============================================*/
+
+function validateLogin() {
+
+
+    var email = document.forms["form-login"]["email"].value;
+    var pass = document.forms["form-login"]["password"].value;
+
+    
+    
+    var devolver = false;
+    console.log(email);
+    console.log(pass);
+
+    var a = checkUser(email, pass);
+    console.log(a);
+    if(a){
+        return true;
+    }else{
+        $(loginErr).show(700);
+        $(loginErr).delay(1500).hide(700);
+        return false;
+    }
+    a = undefined;
+}
+
+function checkUser(email, pass){
+
+    // var email = email;
+    // var pass = pass;
+    var devolver = false;
+    var op = "checkLogin";
+
+    $.ajaxSetup({async:false});
+
+    $.ajax({
+
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '../controladores/usuariosController.php', // the url where we want to POST
+            data        : { operacio: op, email: email, pass: pass }, // our data object
+            cache: false,
+            // timeout: 30000, 
+            dataType: "json",
+        })
+    // using the done promise callback
+    .done( function(data) {
+        console.log(data);
+        if (data.exists == true){
+            devolver = true;
+        }else if (data.exists == false){
+            devolver = false;
+        }
+    });
+
+    $.ajaxSetup({async:true});
+    return devolver;
+    op = undefined; email = undefined; pass = undefined;
+}
+/*=============================================
 	=            Añadir usuariosController       =
 	=============================================*/
 

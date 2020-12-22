@@ -1,6 +1,6 @@
 <?php 
 /*controladores*/
-$controladores  = array('sesiones', 'usuarios', 'valoraciones');
+$controladores  = array('sesiones', 'usuarios', 'valoraciones', 'juegos');
 foreach ($controladores as $key) {
 
   $ruta = "controladores/".$key."Controller.php"; $nivel = "../";
@@ -15,7 +15,7 @@ foreach ($controladores as $key) {
 $objecteSessio = new SesionesController(); 
 
 unset($_SESSION['propiedadesJuego'], $_SESSION['idJuego']);
-$_SESSION["idUsuario"] = 3;
+
 ?>
 
 <html>
@@ -23,12 +23,15 @@ $_SESSION["idUsuario"] = 3;
   <?php include 'home/header/header.php';
 
   /**MOSTRAR LOS JUEGOS**/
-  if (file_exists('../../controladores/juegosController.php')){ require_once '../../controladores/juegosController.php';}
-  if (file_exists('../controladores/juegosController.php')){ require_once '../controladores/juegosController.php';}
-  if (file_exists('/controladores/juegosController.php')){ require_once '/controladores/juegosController.php';}
+  // if (file_exists('../../controladores/juegosController.php')){ require_once '../../controladores/juegosController.php';}
+  // if (file_exists('../controladores/juegosController.php')){ require_once '../controladores/juegosController.php';}
+  // if (file_exists('/controladores/juegosController.php')){ require_once '/controladores/juegosController.php';}
   ?>
   <section>
     <?php   
+    if(isset($_SESSION["idUsuario"])){
+      echo $_SESSION["idUsuario"];
+    }
     $objecte = new JuegosController();
     $objecte->LlistaJuegos(); 
     ?> 

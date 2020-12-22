@@ -37,17 +37,17 @@ $objecteSessio = new SesionesController();
 						</div>
 						
 						<?php
-						$_SESSION["navActivo"] = "datos";
-
+						$_SESSION["navActivo"] = "favoritos";
 						include '../home/header/navbar-admin.php';
 						include '../../controladores/usuariosController.php'; 
 
 						$objecte = new UsuariosController();
-						$objecte->PerfilAdmin();
+						$objecte->PerfilFavoritos();
 						?>
 						<div class="col-12 mg-0 auto">
 							<a href="admin-panelModificarPerfil.php" class="btn btn-success">Modificar mis datos</a>
 						</div>
+
 
 					</div>
 

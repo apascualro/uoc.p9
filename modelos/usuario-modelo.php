@@ -89,6 +89,22 @@ class Usuario{
         }
     }
 
+    /*=====  COMPROBAR LOGIN  ======*/
+        protected function retornaLogin($email, $pass){
+            try{
+                $conecta = new ConexionBD();
+                $conecta->getConexionBD()->beginTransaction();
+                $sentenciaSQL = "SELECT * FROM usuarios
+                WHERE email = '$email' AND password = $pass";
+                $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+                $intencio->execute();
+                return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+            }catch(Exception $excepcio){
+                $conecta->getConexionBD()->rollback();  
+                return null;  
+            }
+        }
+
     /*===== RETORNAR nivel USUARIO ->id ======*/
     protected function retornaNivelUsuario($id){
         try{

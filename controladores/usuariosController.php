@@ -26,6 +26,25 @@ class UsuariosController extends Usuario{
         require "admin-usuarios.php";
     }
 
+    /*=====  LOGIN - COMPROBAR USUARIO-PASS  ======*/
+
+    /*ajax*/
+    public function compruebaLogin($email,$pass){
+        return $this->ResultadoLogin($this->retornaLogin($email, $pass));        
+    }
+    /*return idusuario*/
+    public function ResultadoLogin($resultat){
+
+        if($resultat){
+            foreach ($resultat as $key => $x) {
+                $_SESSION["esAdmin"] = $x->es_admin;
+                $_SESSION["idUsuario"] = $x->idUsuario;
+            }
+        }
+        return $resultat;    
+    }
+
+
     /*===== REGISTRAR USUARIO ======*/
 
     /*mostrar el formulario*/
@@ -33,12 +52,12 @@ class UsuariosController extends Usuario{
         require "admin-usuariosadd.php";
     }
 
-    // comprueba email
+    //ajax comprueba email
     public function compruebaEmail($email){
         return $this->retornaEmail($email);
     }
 
-    // comprueba nombre usuario
+    //ajax comprueba nombre usuario
     public function compruebaUserName($nombreUsuario){
         return $this->retornaUserName($nombreUsuario);
     }
@@ -53,55 +72,61 @@ class UsuariosController extends Usuario{
         if ($resultat){
             $_SESSION["msgAddUser"]= "El usuario se ha añadido correctamente";
         }else{
-           $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";          
-       } 
-       header("location:../vistas/admin/admin-panelUsuario.php");
-       // $_SESSION["msgErrAddUser"]="";
-   }
+            $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";          
+        } 
+        header("location:../vistas/admin/admin-panelUsuario.php");
+        // $_SESSION["msgErrAddUser"]="";
+    }
 
-   /*===== MOSTRAR PERFIL - ADMIN   ======*/
+    /*===== MOSTRAR PERFIL - ADMIN   ======*/
 
-   public function PerfilAdmin(){
-    $Llistat = $this->retornaUsuario('1');
-    require "../../vistas/admin/admin-perfil.php";
-}
+    public function PerfilAdmin(){
+        $Llistat = $this->retornaUsuario($_SESSION['idUsuario']);
+        require "../../vistas/admin/admin-perfil.php";
+    }
 
-/*===== MODIFICAR- ADMIN   ======*/
+    /*===== MODIFICAR- ADMIN   ======*/
 
-/*muestra los datos a modificar*/
-public function MostrarModificarAdmin(){
-    $Llistat = $this->retornaUsuario('1');
+    /*muestra los datos a modificar*/
+    public function MostrarModificarAdmin(){
+        $Llistat = $this->retornaUsuario($_SESSION['idUsuario']);
         // $Llistat = $this->retornaAdmin($_SESSION["id_usuario"]);
-    if (file_exists("../vistas/admin/admin-perfilmodificar.php")){
-        require_once "../vistas/admin/admin-perfilmodificar.php";
+        if (file_exists("../vistas/admin/admin-perfilmodificar.php")){
+            require_once "../vistas/admin/admin-perfilmodificar.php";
+        }
+        if (file_exists("../../vistas/admin/admin-perfilmodificar.php")){
+            require_once "../../vistas/admin/admin-perfilmodificar.php";
+        }
     }
-    if (file_exists("../../vistas/admin/admin-perfilmodificar.php")){
-        require_once "../../vistas/admin/admin-perfilmodificar.php";
+
+    /*envia la peticion*/
+    public function ModificarAdmin($id, $email, $nombre, $apellidos){
+        $this->ResultadomodificarAdministrador($this->modificarAdministrador($id, $email, $nombre, $apellidos));
     }
-}
 
-/*envia la peticion*/
-public function ModificarAdmin($id, $email, $nombre, $apellidos){
-    $this->ResultadomodificarAdministrador($this->modificarAdministrador($id, $email, $nombre, $apellidos));
-}
+    /*muestra el resultado*/
+    public function ResultadomodificarAdministrador($resultat){
+        if ($resultat){
+            $_SESSION["mensajeResultado"]="Tus datos se han actualizado correctamente";
+        }else{
+            $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
+        } 
+        header("location: ../vistas/admin/admin-panel.php");
+        exit;
+    }
 
-/*muestra el resultado*/
-public function ResultadomodificarAdministrador($resultat){
-    if ($resultat){
-        $_SESSION["mensajeResultado"]="Tus datos se han actualizado correctamente";
-    }else{
-        $_SESSION["mensajeResultado"]="Tus datos no se han podido actualizar";
-    } 
-    header("location: ../vistas/admin/admin-panel.php");
-    exit;
-}
+    /*===== MOSTRAR PANEL FAVORITOS  ======*/
 
+    public function PerfilFavoritos(){
+        // $Llistat = $this->retornaUsuario($_SESSION['idUsuario']);
+        require "../../vistas/usuario/usuario-favoritos.php";
+    }
 
-/*===== OBTENER NIVEL ======*/
+    /*===== OBTENER NIVEL ======*/
 
-public function NivelUsuario($id){
-    return $this->retornaNivelUsuario($id);
-}
+    public function NivelUsuario($id){
+        return $this->retornaNivelUsuario($id);
+    }
 
 
 
@@ -116,6 +141,35 @@ public function NivelUsuario($id){
 if(isset($_GET["operacio"]) && $_GET["operacio"]=="ver"){
     $objecte = new UsuariosController();
     $objecte->LlistaUsuarios();
+}
+
+/*=====  COMPROBAR LOGIN  ======*/
+
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkLogin"){
+    if(isset($_POST["email"]) && isset($_POST["pass"]) ){
+
+        $usuari = new UsuariosController();
+        $row = $usuari->compruebaLogin($_POST["email"], $_POST["pass"]);
+
+        if($row){
+            echo'{"exists":true}';
+        }
+        else{
+            //email libre
+            echo'{"exists":false}';
+        }
+
+    }else{
+        echo "Operacion no permitida";
+    }
+}
+
+/*=====  LOGIN OK - entrar ======*/
+
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="LoginOk"){
+
+    header('Location: ../vistas/index.php   ');
+    exit;
 }
 
 /*===== REGISTRAR USUARIO ======*/
@@ -134,7 +188,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserEmail"){
             echo'{"exists":true}';
         }
         else{
-            //email libre
+//email libre
             echo'{"exists":false}';
         }
 
@@ -153,7 +207,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserName"){
             echo'{"existss":true}';
         }
         else{
-            //telf libre
+//telf libre
             echo'{"existss":false}';
         }
 
@@ -184,7 +238,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="AddUser"){
 
                 }else{
                     echo "Faltan datos";
-                //header ("location: ../../index.php");
+//header ("location: ../../index.php");
                 }
             }else{
                 $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";
@@ -203,9 +257,9 @@ if(isset($_GET["operacio"]) && $_GET["operacio"]=="verAdmin"){
     header('Location: ../vistas/admin/admin-panel.php');
     exit;
 
-    // header('Location: ../vistas/admin/admin-panel.php');
-    // $Administrador = new UsuariosController();
-    // $Administrador->PerfilAdmin();
+// header('Location: ../vistas/admin/admin-panel.php');
+// $Administrador = new UsuariosController();
+// $Administrador->PerfilAdmin();
 }
 
 /*===== MODIFICAR USUARIO - perfil admin  ======*/
