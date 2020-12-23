@@ -11,45 +11,67 @@ foreach ($controladores as $key) {
 		$ruta = $nivel.$ruta; 
 	}
 }
+
 ?>
 
+<div class="container">
+	<div class="d-flex  p-2 flex-sm-row flex-column text-white cont-gallery" >
+		
 
-<h1>TODOS los Juegos</h1>
+		<?php foreach ($LlistatJue as $juego) {?>
 
-<div class="container-fluid">
-	<div class="d-flex">
-		<?php foreach($LlistatJue as $juego){ ?>
-
-			<div class=" h-200 border border-lighten-4 rounded  m-4">
+			<div class="card m-3 ">
 				<a href="../../controladores/juegosController.php?operacio=detalles&juego=<?php echo $juego->idJuego; ?>">
-					<?php   
-					$objecte = new ImagenesController();
-					$img = $objecte->ImagenPortada($juego->idJuego);
-					?>
-					
-					<div class="col-md-6 m-auto">
-						<img style="width: 150px;" src="assets/img/<?php echo $img;?>">
 
-						<h3><?php echo $juego->nombre; ?></h3>
+					<!-- Card image -->
+					<?php $objecte = new ImagenesController();
+					$img = $objecte->ImagenPortada($juego->idJuego); ?>
 
-						<div class="text-center">
-							<p ><?php echo $juego->subtitulo; ?></p>
-						</div>
+					<div class="view overlay m-0 img-gallery ">
+						<img class="card-img-top m-auto" src="assets/img/<?php echo $img;?>" alt="Card image cap">
+						<?php   
+
+						?>
 					</div>
-					
 
-					
+					<!-- Card content -->
+					<div class="card-body overflow-hidden">
+
+						<!-- Category & Title -->
+						<h5 class="card-title mb-1"><strong><a href="" class="dark-grey-text"><?php echo $juego->nombre ?></a></strong></h5>
+
+						<p class="text-muted mt-3"><?php echo $juego->subtitulo; ?></p>
+
+						<!-- Card footer -->
+						<div class="card-footer pb-0">	
+							<div class="row mb-0 text-dark float-left">
+								<span>
+									<strong><?php echo round($juego->valoracion, 1) ?></strong>
+								</span>
+							</div>
+
+							<div class="row mb-0 text-dark float-right">
+								<span class="">
+									<ul class="rating text">
+										<li><i class="fas fa-star blue-text"></i></li>
+										<li><i class="fas fa-star blue-text"></i></li>
+										<li><i class="fas fa-star blue-text"></i></li>
+										<li><i class="fas fa-star blue-text"></i></li>
+										<li><i class="fas fa-star blue-text"></i></li>
+
+									</ul>
+								</span>
+							</div>						
+
+						</div>
+
+					</div>
+					<!-- Card content -->			
 				</a>
-			</div>
-			
-
-
+			</div>	
 		<?php } ?>
+
 	</div>
+	<!-- Card -->
 </div>
 
-
-<?php    
-/***  PIE */
-
-?>

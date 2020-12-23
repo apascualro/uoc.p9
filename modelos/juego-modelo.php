@@ -130,6 +130,24 @@ class Juego{
 		}
 	}
 
+	/*===== RETORNAR JUEGO - ID======*/
+	protected function retornaJuegoFiltro($filtro, $palabra){
+		try{
+			$conecta = new ConexionBD();
+			$conecta->getConexionBD()->beginTransaction();
+			$sentenciaSQL = "SELECT * FROM juegos WHERE $filtro = '$palabra'";
+			$intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+			$intencio->execute();
+			$conecta->getConexionBD()->commit();
+			return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+			echo $sentenciaSQL;
+		}catch(Exception $excepcio){
+			$conecta->getConexionBD()->rollback(); 
+			return  $excepcio->getMessage(); 
+			// return null;  
+		}
+	}
+
 	/*===== EDITAR JUEGO ======*/
 	protected function editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
 		$this->setIdJuego($idJuego);
@@ -201,8 +219,8 @@ class Juego{
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
 			$SQL = "UPDATE juegos 
-					SET valoracion = :valoracion
-					WHERE idJuego = :idJuego";
+			SET valoracion = :valoracion
+			WHERE idJuego = :idJuego";
 			$resultado = $conecta->getConexionBD()->prepare($SQL);
 			$resultado->execute(array(
 				":valoracion" => $this->getValoracion(),

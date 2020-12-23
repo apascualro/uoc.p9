@@ -42,6 +42,11 @@ class JuegosController extends Juego{
 		require "../../vistas/admin/admin-juegos.php";
 	}
 
+	/*=====  MOSTRAR JUEGOS FILTRO  ======*/
+
+	public function LlistaJuegosFiltro($filtro, $palabra){
+		return $this->retornaJuegoFiltro($filtro, $palabra);
+	}
 
 	//*=====  MODIFICAR JUEGO - ADMIN  ======*/
 

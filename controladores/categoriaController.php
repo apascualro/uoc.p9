@@ -2,7 +2,7 @@
 ob_start();
 
 /*modelos y controladores*/
-$modelos  = array( array('tipo'=>"modelos",'nombre'=>"imagen"), array('tipo'=>"controladores",'nombre'=>"sesiones"));
+$modelos  = array( array('tipo'=>"modelos",'nombre'=>"categoria"), array('tipo'=>"controladores",'nombre'=>"sesiones"));
 
 foreach ($modelos as $i => $key) {
 	$key['tipo']== "modelos" ? $ruta = $key['nombre']."-modelo.php" : $ruta = $key['nombre']."Controller.php";
@@ -17,21 +17,14 @@ foreach ($modelos as $i => $key) {
 /*sesion*/
 $objecteSessio = new SesionesController(); 
 
-
-class ImagenesController extends Imagen{
+class CategoriaController extends Categoria{
 
 	/*=====  MOSTRAR IMAGENES  ======*/
-
-	public function LlistaImagenes($id){
-		$Llistat = $this->retornaImagenes($id);
-		require "../vistas/juego/imagenes/imagen-ver.php";
+	public function LlistaCategorias(){
+		return $this->retornaCategoriasTodas();
+			
 	}
 
-	/*=====  MOSTRAR IMAGEN PORTADA  ======*/
-
-	public function ImagenPortada($id){
-		return $this->retornaImagenPortada($id);
-	}
 
 
 

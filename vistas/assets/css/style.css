@@ -89,6 +89,10 @@ hr {
   color: var(--color-pred2);
 }
 
+.navbar-expand-lg {
+  box-shadow: none;
+}
+
 /*******************************************
 *******************************************/
 /************** inputs *******************/
@@ -188,3 +192,37 @@ hr {
   height: 30px;
 }
 
+
+/*******************************************
+*******************************************/
+/************ cards *****************/
+
+.card{  
+  max-width: 300px;
+  min-width: 250px;
+  align-self: center;
+
+  /*    background-color: #f2f2f2;*/
+}
+
+.card-footer{
+  background-color: transparent !important;
+}
+
+
+
+.img-gallery img{
+  height: 200px;
+  width: auto;
+  background-color: red;
+
+}
+
+
+.card-body p{
+  min-height: 70px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
