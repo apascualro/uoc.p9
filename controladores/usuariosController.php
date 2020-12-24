@@ -128,6 +128,11 @@ class UsuariosController extends Usuario{
         return $this->retornaNivelUsuario($id);
     }
 
+    /*===== OBTENER NOMBRE USUARIO ======*/
+
+    public function NombreUsuarioId($id){
+        return $this->retornaUserNameId($id);
+    }
 
 
 

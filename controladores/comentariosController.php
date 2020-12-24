@@ -61,6 +61,11 @@ class ComentariosController extends Comentario{
 		return $this->retornaComentarioUsuario($usuario, $juego);
 	}
 
+	/*===== CONTAR COMENTARIO - usuario ======*/
+	public function RetornarComentariosUsuario($usuario){
+		return $this->retornaComentarioUsuarioTodos($usuario);
+	}
+
 
 }
 

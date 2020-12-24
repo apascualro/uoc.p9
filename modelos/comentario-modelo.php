@@ -39,7 +39,7 @@ class Comentario{
     }
 
 
-	/*===== RETORNAR TODOS COMENTARIOS ======*/
+    /*===== RETORNAR TODOS COMENTARIOS ======*/
     protected function retornaComentariosTodos(){
         try{
             $conecta = new ConexionBD();
@@ -70,14 +70,29 @@ class Comentario{
         }
     }
 
+    /*===== RETORNAR COMENTARIO - usuario ======*/
+    protected function retornaComentariosUsuarioTodos($idUsuario){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT * FROM comentarios WHERE usuario = $idUsuario";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
+        }
+    }
+
     /*===== VER COMENTARIOS - usuaro y juego ======*/
     protected function retornaComentarioUsuario($idUsuario, $idJuego){
         try{
             $conecta = new ConexionBD();
             $conecta->getConexionBD()->beginTransaction();
             $sentenciaSQL = "SELECT * FROM comentarios
-                                WHERE juego = $idJuego
-                                AND usuario = $idUsuario";
+            WHERE juego = $idJuego
+            AND usuario = $idUsuario";
             $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
             $intencio->execute();
             return $resultat = $intencio->fetch(PDO::FETCH_OBJ);

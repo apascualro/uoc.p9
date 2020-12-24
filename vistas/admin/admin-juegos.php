@@ -21,12 +21,12 @@
 
         <?php foreach($Llistat as $objecte){ ?>
 
-          <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapse<?php echo $objecte->idJuego; ?>">
+          <tr >
             <td><?php echo $objecte->idJuego ?></td>
             <td><?php echo $objecte->nombre ?></td>
             <td><?php echo $objecte->subtitulo ?></td>
             <td><?php if($objecte->es_activo == 1){echo "visible";}else{echo "deshabilitado";} ?></td>
-            <td class="text-right">
+            <td class="text-right" >
               <a class="btn btn-sm btn-dark mb-2" href="../../controladores/juegosController.php?operacio=modificar&juego=<?php echo $objecte->idJuego; ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18px" height="18px">
                   <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
@@ -34,7 +34,7 @@
                 </svg>
               </a>
 
-              <td>
+              <td class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapse<?php echo $objecte->idJuego; ?>">
                 <a class="btn btn-sm btn-dark expand-button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="18px" height="18px">
                     <path d="M4 0h5.5v1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h1V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>

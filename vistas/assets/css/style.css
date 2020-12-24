@@ -41,11 +41,14 @@ section{
 h1{
   text-transform: uppercase;
   font-weight: 700;
+  font-size: 24px;
 }
 
 h2{
   /*text-transform: uppercase;*/
   font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -2px;
 }
 
 h3{
@@ -89,8 +92,40 @@ hr {
   color: var(--color-pred2);
 }
 
-.navbar-expand-lg {
+.navbar {
   box-shadow: none;
+}
+
+.bg-terciary{
+  background-color: black;
+}
+
+#navbarTogglerDemo{
+  border-bottom: 1px solid  var(--color-pred3);
+  height: 20px;
+}
+
+#navbarTogglerDemo a{
+
+  font-weight: 700;
+  font-size: 15px;
+  color:  var(--color-pred3);
+}
+
+.an-color-text{
+  color:  var(--color-pred2)!important;
+}
+
+/*.collapsing {
+    -webkit-transition-delay: 2s;
+    transition-delay: 2s;
+    visibility: hidden;
+}*/
+
+.collapse.show {
+    -webkit-transition-delay: 0.9s;
+    transition-delay: 0.1s;
+    visibility: visible;
 }
 
 /*******************************************

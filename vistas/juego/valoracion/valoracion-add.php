@@ -10,9 +10,10 @@ foreach ($controladores as $key) {
 	}
 }
 /**/
+if(isset($_SESSION["idUsuario"])){
+	$objecte = new ValoracionesController();
+	$p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"]);
 
-$objecte = new ValoracionesController();
-$p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"]);
 ?>
 
 
@@ -62,11 +63,5 @@ $p = $objecte->comprobarValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"])
 	</div>
 
 </form>
+<?php } ?>
 
-
-
-<script>
-
-
-
-</script>

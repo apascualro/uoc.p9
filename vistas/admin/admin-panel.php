@@ -1,13 +1,17 @@
 <?php 
-if (file_exists("controladores/sesionesController.php")){
-	require_once "controladores/sesionesController.php";
+/*controladores*/
+$controladores  = array('sesiones', 'usuarios', 'comentarios');
+foreach ($controladores as $key) {
+
+  $ruta = "controladores/".$key."Controller.php"; $nivel = "../";
+
+  for ($i=0; $i < 3; $i++) { 
+    file_exists($ruta) ? require_once $ruta : false;
+    $ruta = $nivel.$ruta; 
+  }
 }
-if (file_exists("../controladores/sesionesController.php")){
-	require_once "../controladores/sesionesController.php";
-}
-if (file_exists("../../controladores/sesionesController.php")){
-	require_once "../../controladores/sesionesController.php";
-}
+
+/*sesion*/
 $objecteSessio = new SesionesController(); 
 ?>
 
@@ -40,15 +44,18 @@ $objecteSessio = new SesionesController();
 						$_SESSION["navActivo"] = "datos";
 
 						include '../home/header/navbar-admin.php';
-						include '../../controladores/usuariosController.php'; 
+						?>
+					</div>
 
+					<div class="row mt-5">
+						<?php
 						$objecte = new UsuariosController();
 						$objecte->PerfilAdmin();
 						?>
-						<div class="col-12 mg-0 auto">
-							<a href="admin-panelModificarPerfil.php" class="btn btn-success">Modificar mis datos</a>
+						<div class="col-12 text-center mt-3">
+							<a href="admin-panelModificarPerfil.php" class="btn btn-success m-auto">Modificar mis datos</a>
 						</div>
-
+						
 					</div>
 
 				</div>

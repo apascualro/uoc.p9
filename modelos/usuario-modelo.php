@@ -226,6 +226,22 @@ class Usuario{
         }
     }
 
+    /*=====  COMPROBAR EXISTE NOMBREUSUARIO -> nombreUsuario ======*/
+    protected function retornaUserNameId($id){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT nombreUsuario FROM usuarios
+            WHERE idUsuario = '$id'";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $resultat = $intencio->fetchColumn();
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return null;  
+        }
+    }
+
     
 
     // protected function BuscaUsuariPerEmail($email, $paraula){

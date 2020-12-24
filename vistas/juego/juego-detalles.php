@@ -57,8 +57,10 @@ if (file_exists("../home/header/header.php")){
 						// $objecte2 = new ValoracionesController();
 						// $objecte2->LlistaValoraciones($propiedad->idJuego);
 
+					if(isset($u, $j)){
 					$objecte4 = new ComentariosController();
 					$com = $objecte4->ComprobarComentario($u, $j);
+					}
 
 					$objecte3 = new ComentariosController();
 

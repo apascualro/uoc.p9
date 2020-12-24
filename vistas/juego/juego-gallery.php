@@ -12,8 +12,6 @@ foreach ($controladores as $key) {
 	}
 }
 
-// /*sesion*/
-$objecteSessio = new SesionesController(); 
 
 if (file_exists("../vistas/home/header/header.php")){
 	include "../vistas/home/header/header.php";

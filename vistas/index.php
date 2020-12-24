@@ -23,9 +23,7 @@ $pageName = "galeria";
 
 <section>
   <?php   
-  if(isset($_SESSION["idUsuario"])){
-    echo $_SESSION["idUsuario"];
-  }
+
   $objecte = new JuegosController();
   $objecte->LlistaJuegos(); 
   ?> 
