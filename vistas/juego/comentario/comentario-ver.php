@@ -12,12 +12,12 @@ foreach ($controladores as $key) {
 	}
 }
 
-if(isset($_SESSION['idJuego']) && isset($_SESSION['idUsuario'])){
-	$u = $_SESSION['idUsuario'];
-	$j = $_SESSION['idJuego']; 
-}
+isset($_SESSION['idJuego']) ? $j = $_SESSION['idJuego']: false; 
 
-$qtt = count($Llistat);
+isset($_SESSION['idUsuario']) ? $u = $_SESSION['idUsuario'] : false;
+
+$coments = new ComentariosController();
+$qtt = $coments->RetornarCantidadComentarios($_SESSION['idJuego']);
 ?>
 
 

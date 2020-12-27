@@ -3,6 +3,25 @@
 $objCom = new ComentariosController();
 $qttCom = count($objCom->RetornarComentariosUsuario($_SESSION['idUsuario']));
 
+
+
+if($qttCom < 20){
+
+  $msg = 20 - $qttCom;
+  $text = "Valoraciones restantes para subir de nivel:";  
+
+}elseif($qttCom < 40){
+
+  $msg = 40 - $qttCom;
+  $text = "Valoraciones restantes para subir de nivel:";
+
+}else{
+
+  $msg = 200 -$qttCom; 
+  $text = "Ya eres todo un experto! Valoraciones restantes para ser moderador:";
+
+}
+
 ?>
 
 <div class="col-md-5">
@@ -50,7 +69,7 @@ $qttCom = count($objCom->RetornarComentariosUsuario($_SESSION['idUsuario']));
   </div>
 
 
-<div class="col-md-1"></div>
+  <div class="col-md-1"></div>
 
   <div class="col-md-6">
 
@@ -59,9 +78,19 @@ $qttCom = count($objCom->RetornarComentariosUsuario($_SESSION['idUsuario']));
       <p><?php echo $objecte->creado ?></p>
     </div>
 
-        <div class="container mb-3">
+    <div class="container mb-3">
       <strong class="font-weight-bold ">Total comentarios</strong>
-      <p><?php echo $qttCom ?></p>
+      <p><?php echo $qttCom." mensajes"?></p>
+    </div>
+
+    <div class="container mb-3">
+      <strong class="font-weight-bold ">Nivel</strong>
+      <p><?php echo $objecte->nivel ?></p>
+    </div>
+
+    <div class="container mb-3 info-nivel">
+      <strong class="font-weight-bold "><?php echo $text; ?></strong>
+      <p><?php echo $msg ?></p>
     </div>
 
   </div>

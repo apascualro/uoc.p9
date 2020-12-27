@@ -31,24 +31,26 @@ class Usuario{
     }
 
     /*===== REGISTRAR USUARIO ======*/
-    protected function registraUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario){
+    protected function registraUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario, $rol){
         $this->setNombre($nombre);
         $this->setApellidos($apellidos);
         $this->setEmail($email);
         $this->setPass($pass);
         $this->setNombreUsuario($nombreUsuario);
+        $this->setEsAdmin($rol);
         try{    
             $conecta = new ConexionBD();
             $conecta->getConexionBD()->beginTransaction();
             $SQL = "INSERT INTO usuarios (idUsuario, nombre, apellidos, email, password, nombreUsuario, es_admin, creado, nivel, es_activo) 
-            VALUES (null, :email, :pass, :nombre, :apellidos, :nombreUsuario, FALSE, NOW(), 'Principiante', TRUE )";
+            VALUES (null, :email, :pass, :nombre, :apellidos, :nombreUsuario, :es_admin, NOW(), 'Principiante', TRUE )";
             $resultado = $conecta->getConexionBD()->prepare($SQL);
             $resultado->execute(array(
                 ":email" => $this->getEmail(),
                 ":pass" => $this->getPass(),
                 ":nombre" => $this->getNombre(),
                 ":apellidos" => $this->getApellidos(),
-                ":nombreUsuario" => $this->getNombreUsuario()
+                ":nombreUsuario" => $this->getNombreUsuario(),
+                ":es_admin" => $this->getEsAdmin(),
             ));
             $conecta->getConexionBD()->commit();  
             return true;
@@ -106,12 +108,12 @@ class Usuario{
         }
 
     /*===== RETORNAR nivel USUARIO ->id ======*/
-    protected function retornaNivelUsuario($id){
+    protected function retornaNivelUsuario($usuario){
         try{
             $conecta = new ConexionBD();
             $conecta->getConexionBD()->beginTransaction();
             $sentenciaSQL = "SELECT nivel FROM usuarios
-            WHERE idUsuario = '$id'";
+            WHERE idUsuario = '$usuario'";
             $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
             $intencio->execute();
             return $resultat = $intencio->fetchColumn();
@@ -119,6 +121,29 @@ class Usuario{
             $conecta->getConexionBD()->rollback();  
             return null;  
         }
+    }
+
+    /*===== MODIFICAR NIVEL ======*/
+    protected function CambiarNivel($id, $nivel){
+       
+        $this->setNivel($nivel);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "UPDATE usuarios 
+            SET          
+            nivel = :nivel
+            WHERE idUsuario = $id";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute(array(
+                ":nivel" => $this->getNivel()));
+            $conecta->getConexionBD()->commit();
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return  $excepcio->getMessage();  
+        }   
     }
 
     /*===== MODIFICAR USUARIOS ======*/
@@ -226,7 +251,7 @@ class Usuario{
         }
     }
 
-    /*=====  COMPROBAR EXISTE NOMBREUSUARIO -> nombreUsuario ======*/
+    /*=====  RETORNAR NOMBREUSUARIO -> id ======*/
     protected function retornaUserNameId($id){
         try{
             $conecta = new ConexionBD();

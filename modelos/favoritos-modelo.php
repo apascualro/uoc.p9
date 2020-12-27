@@ -60,31 +60,6 @@ class Valoracion
         }
     }
 
-
-    /*=====  EDITA VALORACION ======*/
-    protected function changeValoracion($puntuacion, $juego, $usuario){
-        $this->setPuntuacion($puntuacion);
-        $this->setJuego($juego);
-        $this->setUsuario($usuario);
-        try{
-            $conecta = new ConexionBD();
-            $conecta->getConexionBD()->beginTransaction();
-            $SQL = "UPDATE valoraciones 
-            SET puntuacion = :puntuacion 
-            WHERE juego = :juego AND usuario = :usuario";
-            $resultado = $conecta->getConexionBD()->prepare($SQL);
-            $resultado->execute(array(
-                ":juego" => $this->getJuego(),
-                ":usuario" => $this->getUsuario(),
-                ":puntuacion" => $this->getPuntuacion(),
-            ));
-            $conecta->getConexionBD()->commit();  
-            return true;
-        }catch(Exception $excepcio){
-            $conecta->getConexionBD()->rollback(); 
-            return false; 
-        }
-    }
 }
 
 

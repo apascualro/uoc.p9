@@ -5,25 +5,25 @@
 function validateLogin() {
 
 
-    var email = document.forms["form-login"]["email"].value;
-    var pass = document.forms["form-login"]["password"].value;
+	var email = document.forms["form-login"]["email"].value;
+	var pass = document.forms["form-login"]["password"].value;
 
-    
-    
-    var devolver = false;
-    console.log(email);
-    console.log(pass);
+	
+	
+	var devolver = false;
+	console.log(email);
+	console.log(pass);
 
-    var a = checkUser(email, pass);
-    console.log(a);
-    if(a){
-        return true;
-    }else{
-        $(loginErr).show(700);
-        $(loginErr).delay(1500).hide(700);
-        return false;
-    }
-    a = undefined;
+	var a = checkUser(email, pass);
+	console.log(a);
+	if(a){
+		return true;
+	}else{
+		$(loginErr).show(700);
+		$(loginErr).delay(1500).hide(700);
+		return false;
+	}
+	a = undefined;
 }
 
 function checkUser(email, pass){
@@ -46,12 +46,12 @@ function checkUser(email, pass){
         })
     // using the done promise callback
     .done( function(data) {
-        console.log(data);
-        if (data.exists == true){
-            devolver = true;
-        }else if (data.exists == false){
-            devolver = false;
-        }
+    	console.log(data);
+    	if (data.exists == true){
+    		devolver = true;
+    	}else if (data.exists == false){
+    		devolver = false;
+    	}
     });
 
     $.ajaxSetup({async:true});
@@ -166,6 +166,12 @@ function checkUser(email, pass){
 
 	window.onload = function (){
 
+		function goBack() {
+			window.history.back();
+		}
+
+
+
 	/*=============================================
 	=            Valoraciones numeros       =
 	=============================================*/
@@ -239,5 +245,102 @@ function checkUser(email, pass){
 
 	// });
 
+	/*=============================================
+	=            subir imagenes       =
+	=============================================*/
+
+
+
+
+	$(document).ready(function(){
+    // Submit form data via Ajax
+    $("#fupForm").on('submit', function(e){
+    	// e.preventDefault();
+    	// $.ajaxSetup({async:false});
+
+    	$.ajax({
+    		type: 'POST',
+    		url: '../../controladores/juegosController.php',
+    		beforeSend: function(){
+    			// $('.submitBtn').attr("disabled","disabled");
+    			$('#fupForm').css("opacity",".5");
+    		},
+    		data: new FormData(this),
+    		// dataType: 'json',
+    		contentType: false,
+    		cache: false,
+    		processData:false,
+    	})
+    	.done(function(response){
+    		// alert(response);
+    		$('.statusMsg').html('');
+    		if(response.status == 1){
+    			$('#fupForm')[0].reset();
+    			$('.statusMsg').html('<p class="alert alert-success">'+response.message+'</p>');
+    		}else{
+    			$('.statusMsg').html('<p class="alert alert-danger">'+response.message+'</p>');
+    		}
+    		$('#fupForm').css("opacity","");
+    			// $(".submitBtn").removeAttr("disabled");
+    		});
+    		// $.ajaxSetup({async:true});
+    	});
+
+    // File type validation
+    var match = ['image/jpeg', 'image/png', 'image/jpg'];
+    $("#file").change(function() {
+    	for(i=0;i<this.files.length;i++){
+    		var file = this.files[i];
+    		var fileType = file.type;
+
+    		if(!( (fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]) )){
+    			alert('Sorry, JPG, JPEG, & PNG files are allowed to upload.');
+    			$("#file").val('');
+    			return false;
+    		}
+    	}
+    });
+    $("#file2").change(function() {
+    	for(i=0;i<this.files.length;i++){
+    		var file = this.files[i];
+    		var fileType = file.type;
+
+    		if(!( (fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]) )){
+    			alert('Sorry, JPG, JPEG, & PNG files are allowed to upload.');
+    			$("#file2").val('');
+    			return false;
+    		}
+    	}
+    });
+});
+
+	$(function() {
+    // Multiple images preview in browser
+    var imagesPreview = function(input, placeToInsertImagePreview) {
+
+    	if (input.files) {
+    		var filesAmount = input.files.length;
+
+    		for (i = 0; i < filesAmount; i++) {
+    			var reader = new FileReader();
+
+    			reader.onload = function(event) {
+    				
+    				$($.parseHTML('<img>')).attr('src', event.target.result).attr('class', 'm-3').attr('style', 'width:100px').appendTo(placeToInsertImagePreview);
+    			}
+
+    			reader.readAsDataURL(input.files[i]);
+    		}
+    	}
+
+    };
+
+    $('#file').on('change', function() {
+    	imagesPreview(this, 'div.gallery');
+    });
+    $('.prv1').on('change', function() {
+    	imagesPreview(this, 'div.gallery1');
+    });
+});
 
 }

@@ -1,6 +1,6 @@
 <?php 
 /*controladores*/
-$controladores  = array('imagenes', 'valoraciones', 'comentarios');
+$controladores  = array('imagenes', 'valoraciones', 'comentarios', 'usuarios');
 
 foreach ($controladores as $key) {
 
@@ -14,19 +14,21 @@ foreach ($controladores as $key) {
 
 // /*sesion*/
 $objecteSessio = new SesionesController(); 
-if(isset($_SESSION['idJuego']) && isset($_SESSION['idUsuario'])){
-	$u = $_SESSION['idUsuario'];
-	$j = $_SESSION['idJuego']; 
-}
-?>
 
-<?php 	
+isset($_SESSION['idJuego']) ? $j = $_SESSION['idJuego']: false; 
+
+isset($_SESSION['idUsuario']) ? $u = $_SESSION['idUsuario'] : false;
+
+	
 if (file_exists("../vistas/home/header/header.php")){
 	include "../vistas/home/header/header.php";
 }
 if (file_exists("../home/header/header.php")){
 	include "../home/header/header.php";
 }
+
+
+
 ?>
 <section>	
 	<?php foreach($propiedadesJuego as $propiedad){ 
@@ -40,7 +42,21 @@ if (file_exists("../home/header/header.php")){
 						<h5><?php echo $propiedad->nombre; ?></h5>
 					</span>
 					<span><p><?php echo $propiedad->subtitulo; ?></p></span>
-					<span><p ><?php echo $propiedad->valoracion; ?></p></span>
+					<span>
+						<?php 
+						echo round($propiedad->valoracion,1);
+						?>
+						
+					</span>
+					<span class="text-muted font-italic">
+						<?php 						
+						$objecte2 = new ValoracionesController();
+						$qt = $objecte2->CantidadValoraciones($j);
+						echo "(".count($qt).")"; 
+						?>
+						
+					</span>		
+
 					<h3>Detalles</h3>
 					<span><p ><?php echo $propiedad->descripcion; ?></p></span>
 					<span><p ><?php echo $propiedad->autor; ?></p></span>
@@ -48,6 +64,7 @@ if (file_exists("../home/header/header.php")){
 					<span><p ><?php echo $propiedad->distribuidora; ?></p></span>
 					<span><p ><?php echo $propiedad->edad; ?></p></span>
 					<span><p ><?php echo $propiedad->tiempo; ?></p></span>
+					<span><p ><?php echo $propiedad->num_jugadores; ?></p></span>
 					<span><p ><?php echo $propiedad->medidas; ?></p></span>
 
 					<?php   
@@ -58,8 +75,8 @@ if (file_exists("../home/header/header.php")){
 						// $objecte2->LlistaValoraciones($propiedad->idJuego);
 
 					if(isset($u, $j)){
-					$objecte4 = new ComentariosController();
-					$com = $objecte4->ComprobarComentario($u, $j);
+						$objecte4 = new ComentariosController();
+						$com = $objecte4->ComprobarComentario($u, $j);
 					}
 
 					$objecte3 = new ComentariosController();
@@ -84,45 +101,53 @@ if (file_exists("../home/header/header.php")){
 					};
 					?>
 
-					<?php if (file_exists("../vistas/juego/valoracion/valoracion-add.php")){
+					<?php 
+					if (file_exists("../vistas/juego/valoracion/valoracion-add.php")){
 						include "../vistas/juego/valoracion/valoracion-add.php";
 					} ?>
 
+
 					<?php 
-					if(!isset($com) || empty($com)){
-						echo '<div class="col-12 mg-0 auto mb-5">
-						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Añadir comentario</button>
-						</div>';
+					//añadir comentario modal
+					if(isset($_SESSION['idUsuario']) && !empty($_SESSION['idUsuario'])){
+						if(!isset($com) || empty($com)){
+							echo '<div class="col-12 mg-0 auto mb-5">
+							<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Añadir comentario</button>
+							</div>';
+						}
+						unset($com);
+					}else{
+						echo "<div class='float-right'><p>Inicia sesión para añadir un comentario</p></div>";
 					}
-					unset($com);?>						
+					?>						
 
 
 
 
+					</div>
+
+					<div class="col-2"></div>
 				</div>
-
-				<div class="col-2"></div>
 			</div>
-		</div>
-	<?php } ?>
-</section>
+		<?php } ?>
+	</section>
 
 
-<?php 
-if (file_exists("../vistas/juego/comentario/comentario-add.php")){
-	include "../vistas/juego/comentario/comentario-add.php";
-}
-?>
-<!--  -->
+	<?php 
+	if (file_exists("../vistas/juego/comentario/comentario-add.php")){
+		include "../vistas/juego/comentario/comentario-add.php";
+	}
+	?>
+	<!--  -->
 
-<!-- Footer -->
-<?php 
-if (file_exists("../vistas/home/footer/footer.php")){
-	include "../vistas/home/footer/footer.php"; 
-}
-if (file_exists("../../vistas/home/footer/footer.php")){
-	include "../../vistas/home/footer/footer.php"; 
-}
-?>
-<!--  -->
+	<!-- Footer -->
+	<?php 
+	if (file_exists("../vistas/home/footer/footer.php")){
+		include "../vistas/home/footer/footer.php"; 
+	}
+	if (file_exists("../../vistas/home/footer/footer.php")){
+		include "../../vistas/home/footer/footer.php"; 
+	}
+	?>
+	<!--  -->
 

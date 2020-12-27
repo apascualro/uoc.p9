@@ -57,6 +57,11 @@ class ValoracionesController extends Valoracion
 
 	}
 
+	/*muestra mensaje si cambia nivel*/
+	public function MensajeNivel($nivel){
+		return $_SESSION["updateNivel"]="Enhorabuena acabas de alcanzar el nivel". $nivel;
+	}
+
 
 	/*=====  Cambiar valoraciones juego  ======*/
 
@@ -80,15 +85,21 @@ class ValoracionesController extends Valoracion
 		return $this->retornaValoracion($juego);
 	}
 
+
+	/*=====  Retornar valoraciones juego ======*/
+
 	public function CantidadValoracionesNivel($juego){
 		return $this->retornaValoracionNivel($juego);
 	}
 
 
+	/*=====  Contar valoraciones usuario ======*/
+
+	public function CantidadValoracionesUsuario($usuario){
+		return $this->retornaCantidadValoraciones($usuario);
+	}
 
 	
-
-
 }
 
 /*=============================================
@@ -116,6 +127,21 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="addValoracion"){
 		/*añadir valoracion*/
 		$nuevoObjeto = new ValoracionesController();
 		$nuevoObjeto->AddValoracionDB($puntuacion, $_SESSION["idJuego"], $_SESSION["idUsuario"]);
+
+		/*cambiar nivel*/
+		$nuevoObjeto2 = new ValoracionesController();
+		$n = $nuevoObjeto2->CantidadValoracionesUsuario($_SESSION["idUsuario"]);
+		if($n){
+			$num = count($n);
+
+			$level = new UsuariosController();
+			$qtt = $level->DevuelveNivelComentarios($num, $_SESSION["idUsuario"]);
+
+			$nuevoObjeto2->MensajeNivel($qtt); 
+		}
+
+
+
 	}else{
 		echo "Faltan Los datos!<br>";
 	}
@@ -154,6 +180,10 @@ function CalculaPuntuacion($puntuacion, $usuario){
 	$nuevoObjeto3 = new UsuariosController();
 	$nivel = $nuevoObjeto3->NivelUsuario($usuario);
 
+	if($nivel == "Moderador"){
+		$nivel = "Experto";
+	}
+
 	$experto = array();
 	$principiante = array();
 	$amateur = array();
@@ -180,7 +210,7 @@ function CalculaPuntuacion($puntuacion, $usuario){
 
 	/*Asignar valor porcentual*/
 	$nuevoObjeto4 = new ValoracionesController();
-	$b = $nuevoObjeto4->CantidadValoracionesNivel($_SESSION["idUsuario"]);
+	$b = $nuevoObjeto4->CantidadValoracionesNivel($_SESSION["idJuego"]);
 	foreach ($b as $key => $value) {
 		$c = $value->nivel;
 		switch ($c) {

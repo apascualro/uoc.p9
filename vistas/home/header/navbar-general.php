@@ -79,9 +79,9 @@ if (file_exists('/controladores/sesionesController.php')){$logout = '/controlado
           <div class="col-12 mb-3">
             <input type="submit" class="btn btn-success btn-lg" value="Iniciar sesión">
           </div> 
-          <!-- <div class="col-12">
-            <a class="link" href="../../Vistas/Home/cliente-registro.php">No tengo cuenta, quiero registrarme</a>
-          </div> -->
+          <div class="col-12">
+            <a class="link" href="../../vistas/home/registro.php">No tengo cuenta, quiero registrarme</a>
+          </div>
         </div>
       </form>
     </div>

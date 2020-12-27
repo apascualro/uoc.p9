@@ -89,3 +89,12 @@ $objFiltro = $obj->LlistaJuegosFiltro($filtro, $palabra);
 		</div>
 		<!-- Card -->
 	</section>
+	
+	<?php 
+	if (file_exists("../vistas/home/footer/footer.php")){
+		include "../vistas/home/footer/footer.php"; 
+	}
+	if (file_exists("../../vistas/home/footer/footer.php")){
+		include "../../vistas/home/footer/footer.php"; 
+	}
+	?>

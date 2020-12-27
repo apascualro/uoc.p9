@@ -61,9 +61,15 @@ class ComentariosController extends Comentario{
 		return $this->retornaComentarioUsuario($usuario, $juego);
 	}
 
-	/*===== CONTAR COMENTARIO - usuario ======*/
+	/*===== CONTAR COMENTARIOS - usuario ======*/
 	public function RetornarComentariosUsuario($usuario){
 		return $this->retornaComentarioUsuarioTodos($usuario);
+	}
+
+	/*===== CONTAR COMENTARIOS - juego ======*/
+	public function RetornarCantidadComentarios($juego){
+		$Llistat = $this->retornaComentariosJuego($juego);
+		return count($Llistat);
 	}
 
 
@@ -92,6 +98,12 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="addComentario"){
 			if(empty($a)){
 				$comm = new ComentariosController();
 				$comm->AddComentario($_POST["id"], $_SESSION["idUsuario"], $_POST["titulo"], $_POST["descripcion"], $_POST["op_comment_1"], $_POST["op_comment_2"], $_POST["op_comment_3"], $_POST["op_comment_4"], $_POST["op_comment_5"], $_POST["op_comment_6"]);
+
+				$qtt = $comm->RetornarComentariosUsuario($_SESSION["idUsuario"]);
+
+				$user = new UsuariosController();	
+				$user->DevuelveNivelComentarios($qtt, $_SESSION["idUsuario"]);
+
 			}else{
 				$obj = new JuegosController();
 				$obj->DetalleJuego($_POST["id"]);

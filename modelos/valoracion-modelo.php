@@ -53,7 +53,23 @@ class Valoracion
             return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return null;  
+            return  $excepcio->getMessage();   
+        }
+    }
+
+
+    /*=====  RETORNAR VALORACION - usuario ======*/
+    protected function retornaCantidadValoraciones($usuario){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT * FROM valoraciones WHERE usuario = $usuario";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return  $excepcio->getMessage();   
         }
     }
 
@@ -125,7 +141,7 @@ class Valoracion
             return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return null;  
+            return  $excepcio->getMessage();  
         }
     }
 

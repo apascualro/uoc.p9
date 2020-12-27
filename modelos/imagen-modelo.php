@@ -46,6 +46,31 @@ class Imagen {
 		}
 	}
 
+    /*** AÑADIR IMAGEN SUBIR ***/
+    protected function linkarImagen($array, $juego){
+
+        $this->setJuego($juego);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "INSERT INTO imagenes (juego, nombre, fecha, es_portada) VALUES ";
+
+            foreach ($array as $key) {
+                $SQL .="('$juego', '".$key."', NOW(), 0),";
+            }
+            $SQL = rtrim($SQL, ',');
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute();
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            echo $excepcio->getMessage();
+            return false; 
+        }
+    }
+
 	/*** RETORNAR IMAGEN - TODO***/
 	protected function retornaImagenes($id){
 		try{

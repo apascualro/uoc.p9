@@ -9,11 +9,12 @@
 
 	<!-- CSS -->	
 	<link rel="icon" class="favicon" type="image/x-icon" />
-		  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="/vistas/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/vistas/assets/css/mdb.css">
 	<link rel="stylesheet" type="text/css" href="/vistas/assets/css/style.css">
+
 
 	<!-- JS -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -29,4 +30,5 @@
 		include 'navbar-filtros.php';
 	} ?>
 </head>
+<body>
 

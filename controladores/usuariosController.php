@@ -49,7 +49,15 @@ class UsuariosController extends Usuario{
 
     /*mostrar el formulario*/
     public function MostrarAddUser(){
-        require "admin-usuariosadd.php";
+        if(isset($vista) && $vista =="admin"){
+            if (file_exists("admin-usuariosadd.php")){
+                require "admin-usuariosadd.php";
+            }
+        }
+
+        if (file_exists("../admin/admin-usuariosadd.php")){
+            require "../admin/admin-usuariosadd.php";
+        }
     }
 
     //ajax comprueba email
@@ -63,19 +71,27 @@ class UsuariosController extends Usuario{
     }
 
     /*envia la peticion*/
-    public function LeeInfoUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario){
-        $this->ResultadoRegistraUsuario($this->registraUsuario($email, $pass, $nombre, $apellidos, $nombreUsuario));
+    public function LeeInfoUsuario($nombre, $apellidos, $email, $pass, $nombreUsuario, $rol, $registro){
+        $this->ResultadoRegistraUsuario($this->registraUsuario($email, $pass, $nombre, $apellidos, $nombreUsuario, $rol), $registro);
     }
 
     /*muestra el resultado*/
-    public function ResultadoRegistraUsuario($resultat){
-        if ($resultat){
-            $_SESSION["msgAddUser"]= "El usuario se ha añadido correctamente";
-        }else{
-            $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";          
-        } 
-        header("location:../vistas/admin/admin-panelUsuario.php");
+    public function ResultadoRegistraUsuario($resultat, $registro){
+
+        if($registro){
+            if ($resultat){
+                $_SESSION["msgAddUser"]= "El usuario se ha añadido correctamente";
+            }else{
+                $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";          
+            } 
+            header("location:../vistas/admin/admin-panelUsuario.php");
         // $_SESSION["msgErrAddUser"]="";
+        }else{
+            $_SESSION["msgAddUser"]= "El usuario se ha añadido correctamente, ya puedes iniciar sesión.";
+            header("location:../vistas/index.php");
+        }
+
+        
     }
 
     /*===== MOSTRAR PERFIL - ADMIN   ======*/
@@ -135,6 +151,30 @@ class UsuariosController extends Usuario{
     }
 
 
+    /*===== MODIFICAR NIVEL ======*/
+
+    public function DevuelveNivelComentarios($cantidad, $usuario){
+        $nivel = $this->retornaNivelUsuario($usuario);
+
+        //principiante
+        if($cantidad >= 20 && $nivel == "Principiante"){
+            $this->CambiarNivel($usuario, "Amateur");
+        }
+
+        //Amateur
+        if($cantidad >= 40 && $nivel == "Amateur"){
+            $this->CambiarNivel($usuario, "Experto");       
+        }
+
+        //Moderador
+        if($cantidad >= 40 && $nivel == "Experto"){
+            $this->CambiarNivel($usuario, "Moderador");       
+        }
+
+
+    }
+
+    
 
 }
 
@@ -193,7 +233,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserEmail"){
             echo'{"exists":true}';
         }
         else{
-//email libre
+            //email libre
             echo'{"exists":false}';
         }
 
@@ -212,7 +252,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserName"){
             echo'{"existss":true}';
         }
         else{
-//telf libre
+            //username libre
             echo'{"existss":false}';
         }
 
@@ -223,7 +263,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="checkUserName"){
 
 /*añade los datos*/
 if(isset($_POST["operacio"]) && $_POST["operacio"]=="AddUser"){
-    if (isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombreUsuario"]) && isset($_POST["rol"])){
+    if (isset($_POST["nombre"]) && isset($_POST["apellidos"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["nombreUsuario"])){
 
         if (!empty($_POST["nombreUsuario"]) && !empty($_POST["email"])){
 
@@ -236,10 +276,26 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="AddUser"){
             /*comprobar que no esten repetidos sin JS*/
             if(!$row && !$row2){
 
-                if (!empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["email"]) && !empty($_POST["pass"]) && !empty($_POST["nombreUsuario"]) && !empty($_POST["rol"])){
+                if (!empty($_POST["nombre"]) && !empty($_POST["apellidos"]) && !empty($_POST["email"]) && !empty($_POST["pass"]) && !empty($_POST["nombreUsuario"])){
+
+
+                    if(!isset($_POST["rol"]) && empty($_POST["rol"]) || $_POST["rol"]== "user"){
+                        $rol = 0;
+                    }else{
+                        $rol = 1;
+                    }
+
+                    /*rol si es admin quien inserta*/
+                    if(!isset($_POST["registro"]) && empty($_POST["registro"])){
+                        $registro = false;
+                    }else{
+                        $registro = true;
+                    }
+
+                    // echo $_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"],$_POST["nombreUsuario"], $rol, $registro;
 
                     $usuari = new UsuariosController();
-                    $usuari->LeeInfoUsuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"],$_POST["nombreUsuario"] );
+                    $usuari->LeeInfoUsuario($_POST["nombre"],$_POST["apellidos"],$_POST["email"],$_POST["pass"],$_POST["nombreUsuario"], $rol, $registro);
 
                 }else{
                     echo "Faltan datos";
@@ -247,7 +303,7 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="AddUser"){
                 }
             }else{
                 $_SESSION["msgErrAddUser"]= "El usuario o el email que has introducido ya estan en uso";
-                header ("location: ../../vistas/admin/admin-panelUsuarioAdd.php");
+                header ("location: ../../index.php");
             }
 
         }else{

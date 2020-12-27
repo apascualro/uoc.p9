@@ -20,7 +20,7 @@ $objecteSessio = new SesionesController();
 
 class ImagenesController extends Imagen{
 
-	/*=====  MOSTRAR IMAGENES  ======*/
+	/*=====  MOSTRAR IMAGENES noticia  ======*/
 
 	public function LlistaImagenes($id){
 		$Llistat = $this->retornaImagenes($id);
@@ -34,6 +34,22 @@ class ImagenesController extends Imagen{
 	}
 
 
+	/*=====  MOSTRAR IMAGEN UPLOAD ======*/
+
+	public function MostrarImagenUpload(){
+		if (file_exists("../juego/imagenes/imagen-upload.php")){
+			require_once "../juego/imagenes/imagen-upload.php";
+		}
+	}
+
+
+	public function ImagenesNoticia($id){
+		$imgNoticia = $this->retornaImagenes($id);
+	}
+
 
 
 }
+
+
+

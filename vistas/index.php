@@ -21,12 +21,20 @@ $pageName = "galeria";
 
 <?php include 'home/header/header.php'; ?>
 
-<section>
-  <?php   
 
+
+<section>
+
+  <?php if (isset($_SESSION["msgAddUser"])){
+    echo "<div class='row text-center my-3'><div class='col-7 alert alert-success m-auto'><span class='msg '>".$_SESSION["msgAddUser"]."</span></div></div>";
+    unset($_SESSION["msgAddUser"]);
+  };?>
+
+  <?php   
   $objecte = new JuegosController();
-  $objecte->LlistaJuegos(); 
+  $objecte->LlistaJuegos();  
   ?> 
+  
 </section>  
 
 <?php 

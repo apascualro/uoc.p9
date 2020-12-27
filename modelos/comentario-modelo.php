@@ -71,7 +71,7 @@ class Comentario{
     }
 
     /*===== RETORNAR COMENTARIO - usuario ======*/
-    protected function retornaComentariosUsuarioTodos($idUsuario){
+    protected function retornaComentarioUsuarioTodos($idUsuario){
         try{
             $conecta = new ConexionBD();
             $conecta->getConexionBD()->beginTransaction();

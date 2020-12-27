@@ -9,6 +9,7 @@ if (file_exists("../../controladores/sesionesController.php")){
 	require_once "../../controladores/sesionesController.php";
 }
 $objecteSessio = new SesionesController(); 
+
 ?>
 
 <html>
@@ -38,10 +39,16 @@ $objecteSessio = new SesionesController();
 							<?php
 							$_SESSION["navActivo"] = "usuarios";
 							include '../home/header/navbar-admin.php';
-							include '../../controladores/usuariosController.php'; 
-							$objecte = new UsuariosController();
-							$objecte->MostrarAddUser();
-							?>					
+							include '../../controladores/usuariosController.php'; ?>
+
+
+							<h3 class="col-12 mb-2 ">Añadir usuario</h3>
+							<div class="col-10 mt-2">
+								<?php 	
+								$objecte = new UsuariosController();
+								$objecte->MostrarAddUser();
+								?>
+							</div>					
 
 						</div>
 						

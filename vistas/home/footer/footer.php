@@ -7,3 +7,5 @@
     <p>Use <a href="../sticky-footer-navbar">the sticky footer with a fixed navbar</a> if need be, too.</p>
   </div>
 </footer>
+</body>
+</html>

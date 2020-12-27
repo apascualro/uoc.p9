@@ -17,6 +17,7 @@ class Juego{
 	protected $medidas;
 	protected $complejidad;	
 	protected $valoracion;
+	protected $num_jugadores;
 	protected $op_originalidad;
 	protected $op_tematica;
 	protected $op_edicion;
@@ -39,22 +40,25 @@ class Juego{
 		$this->setDistribuidora(null);
 		$this->setEdad(null);		
 		$this->setTiempo(null);
+		$this->setNumJugadores(null);
 		$this->setMedidas(null);
 		$this->setComplejidad(null);
 		$this->setValoracion(null);
+		$this->setTipo(null);		
+		$this->setCategoria(null);
+		$this->setTematica(null);
 		$this->setOpOriginalidad(null);
 		$this->setOpTematica(null);
 		$this->setOpEdicion(null);
 		$this->setOpReincidencia(null);
 		$this->setOpAzar(null);
-		$this->setTipo(null);		
-		$this->setCategoria(null);
-		$this->setTematica(null);
+		$this->setEsActivo(null);
 	}
 
 
 	/*===== AÑADIR JUEGO ======*/
-	protected function añadirJuego($nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
+	protected function addJuego($nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $num_jugadores, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo, $nombre_foto, $array){
+
 		$this->setNombre($nombre);
 		$this->setSubtitulo($subtitulo);
 		$this->setDescripcion($descripcion);
@@ -63,6 +67,7 @@ class Juego{
 		$this->setDistribuidora($distribuidora);
 		$this->setEdad($edad);		
 		$this->setTiempo($tiempo);
+		$this->setNumJugadores($num_jugadores);
 		$this->setMedidas($medidas);
 		$this->setComplejidad($complejidad);
 		$this->setTipo($tipo);		
@@ -72,8 +77,10 @@ class Juego{
 		try{    
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
-			$SQL = "INSERT INTO juegos (idJuego, nombre, subtitulo, descripcion, autor, year, distribuidora, edad, tiempo, medidas, complejidad, valoracion, op_originalidad, op_tematica, op_edicion, op_reincidencia, op_azar, tipo, categoria, tematica, es_activo)
-			VALUES (null, :nombre, :subtitulo, :descripcion, :autor, :year, :distribuidora, :edad, :tiempo, :medidas, :complejidad, 0, 0, 0, 0, 0, 0, :tipo, :categoria, :tematica, :es_activo)";
+
+			/*add juego*/
+			$SQL = "INSERT INTO juegos (idJuego, nombre, subtitulo, descripcion, autor, year, distribuidora, edad, tiempo, num_jugadores, medidas, complejidad, valoracion, tipo, categoria, tematica, op_originalidad, op_tematica, op_edicion, op_reincidencia, op_azar, es_activo)
+			VALUES (null, :nombre, :subtitulo, :descripcion, :autor, :year, :distribuidora, :edad, :tiempo, :num_jugadores, :medidas, :complejidad, 0, :tipo, :categoria, :tematica, 0, 0, 0, 0, 0,  :es_activo)";
 			$resultado = $conecta->getConexionBD()->prepare($SQL);
 			$resultado->execute(array(
 				":nombre" => $this->getNombre(),
@@ -84,6 +91,7 @@ class Juego{
 				":distribuidora" => $this->getDistribuidora(),
 				":edad" => $this->getEdad(),
 				":tiempo" => $this->getTiempo(),
+				":num_jugadores" => $this->getNumJugadores(),
 				":medidas" => $this->getMedidas(),
 				":complejidad" => $this->getComplejidad(),
 				":tipo" => $this->getTipo(),
@@ -91,10 +99,30 @@ class Juego{
 				":tematica" => $this->getTematica(),
 				":es_activo" => $this->getEsActivo(),
 			));
+			$lastInsertId = $conecta->getConexionBD()->lastInsertId();
+
+			/*add imgs*/
+
+			if(!empty($array)){
+				$SQL2 = "INSERT INTO imagenes (juego, nombre, fecha, es_portada) VALUES (".$lastInsertId.", '".$nombre_foto."', NOW(), 1),";
+
+				foreach ($array as $key) {
+					$SQL2 .="(".$lastInsertId.", '".$key."', NOW(), 0),";
+				}
+				$SQL2 = rtrim($SQL2, ',');
+				
+			}else{
+				$SQL2 = "INSERT INTO imagenes (juego, nombre, fecha, es_portada) VALUES (".$lastInsertId.", '".$nombre_foto."', NOW(), 1)";
+			}	
+
+			$resultado = $conecta->getConexionBD()->prepare($SQL2);
+			$resultado->execute();
+
 			$conecta->getConexionBD()->commit();  
 			return true;
 		}catch(Exception $excepcio){
 			$conecta->getConexionBD()->rollback(); 
+			echo $excepcio->getMessage();
 			return false; 
 		}
 	}
@@ -104,7 +132,7 @@ class Juego{
 		try{
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
-			$sentenciaSQL = "SELECT * FROM juegos";
+			$sentenciaSQL = "SELECT * FROM juegos ORDER BY idJuego DESC";
 			$intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
 			$intencio->execute();
 			return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
@@ -149,7 +177,7 @@ class Juego{
 	}
 
 	/*===== EDITAR JUEGO ======*/
-	protected function editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
+	protected function editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $num_jugadores, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
 		$this->setIdJuego($idJuego);
 		$this->setNombre($nombre);
 		$this->setSubtitulo($subtitulo);
@@ -158,7 +186,8 @@ class Juego{
 		$this->setYear($year);		
 		$this->setDistribuidora($distribuidora);
 		$this->setEdad($edad);		
-		$this->setTiempo($tiempo);
+		$this->setTiempo($tiempo);		
+		$this->setNumJugadores($num_jugadores);
 		$this->setMedidas($medidas);
 		$this->setComplejidad($complejidad);
 		$this->setTipo($tipo);		
@@ -177,6 +206,7 @@ class Juego{
 			distribuidora = :distribuidora,
 			edad = :edad,
 			tiempo = :tiempo,
+			num_jugaores = :num_jugadores,
 			medidas = :medidas,
 			complejidad = :complejidad,
 			tipo = :tipo,
@@ -194,7 +224,8 @@ class Juego{
 				":year" => $this->getYear(),
 				":distribuidora" => $this->getDistribuidora(),
 				":edad" => $this->getEdad(),
-				":tiempo" => $this->getTiempo(),
+				":tiempo" => $this->getTiempo(),				
+				":num_jugadores" => $this->getNumJugadores(),
 				":medidas" => $this->getMedidas(),
 				":complejidad" => $this->getComplejidad(),
 				":tipo" => $this->getTipo(),
@@ -525,6 +556,19 @@ class Juego{
 	public function setEsActivo($es_activo)
 	{
 		$this->es_activo = $es_activo;
+
+		return $this;
+	}
+
+	public function getNumJugadores()
+	{
+		return $this->num_jugadores;
+	}
+
+
+	public function setNumJugadores($num_jugadores)
+	{
+		$this->num_jugadores = $num_jugadores;
 
 		return $this;
 	}
