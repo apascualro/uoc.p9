@@ -2,7 +2,7 @@
 ob_start();
 
 /*modelos y controladores*/
-$modelos  = array( array('tipo'=>"modelos",'nombre'=>"juego"), array('tipo'=>"controladores",'nombre'=>"sesiones"), array('tipo'=>"controladores",'nombre'=>"tipo"), array('tipo'=>"controladores",'nombre'=>"categoria"), array('tipo'=>"controladores",'nombre'=>"tematica"));
+$modelos  = array( array('tipo'=>"modelos",'nombre'=>"juego"), array('tipo'=>"controladores",'nombre'=>"sesiones"), array('tipo'=>"controladores",'nombre'=>"tipo"), array('tipo'=>"controladores",'nombre'=>"categoria"), array('tipo'=>"controladores",'nombre'=>"tematica"), array('tipo'=>"controladores",'nombre'=>"imagenes"));
 
 foreach ($modelos as $i => $key) {
 	$key['tipo']== "modelos" ? $ruta = $key['nombre']."-modelo.php" : $ruta = $key['nombre']."Controller.php";
@@ -20,12 +20,13 @@ $objecteSessio = new SesionesController();
 
 class JuegosController extends Juego{
 
-	/*=====  MOSTRAR JUEGOS  ======*/
+	/*=====  MOSTRAR JUEGOS habilitados ======*/
 
 	public function LlistaJuegos(){
-		$LlistatJue = $this->retornaJuegosTodos();
+		$LlistatJue = $this->retornaJuegosVisibles();
 		require "../vistas/juego/juego-ver.php";
 	}
+
 
 	/*=====  MOSTRAR DETALLE JUEGOS  ======*/
 
@@ -36,7 +37,7 @@ class JuegosController extends Juego{
 	}
 
 
-	/*=====  MOSTRAR DETALLE JUEGOS - ADMIN  ======*/
+	/*=====  MOSTRAR JUEGOS TODOS - ADMIN  ======*/
 	public function LlistaJuegosPerfil(){
 		$Llistat = $this->retornaJuegosTodos();
 		require "../../vistas/admin/admin-juegos.php";
@@ -60,7 +61,7 @@ class JuegosController extends Juego{
 
 		$c = new TematicaController();
 		$tematicasNom = $c->LlistaTematicas();
-		
+
 		$Llistat = $this->retornaJuego($_SESSION["idJuego"]);
 
 		if (file_exists("../vistas/admin/admin-juegomodificar.php")){
@@ -73,21 +74,29 @@ class JuegosController extends Juego{
 	}
 
 	/*envia la peticion*/
-	public function ModificarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
+	public function ModificarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $jugadores, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo, $nombre_foto){
 
-		$this->ResultadoModificarJuego($this->editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo));
+		$c = new ImagenesController();
+		$c->UpdateImagenPortada($idJuego, $nombre_foto);
+
+		$cambios = $this->editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $jugadores, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo);
+
+		if($c || $cambios){
+			return $this->ResultadoModificarJuego(true);
+		}elseif($c && $cambios){
+			return $this->ResultadoModificarJuego(true);
+		}else{
+			return $this->ResultadoModificarJuego(false);
+		}
+
 	}
 
 	/*muestra el resultado*/
 	public function ResultadoModificarJuego($resultat){
 		if ($resultat){
-			$_SESSION["mensajeResultado"]="
-			<div class='row'><div class='col-12'><span class='msg'>Juego modificado</span></div></div>";
+			$_SESSION["msgUpdateJuego"]="Juego modificado correctamente.";
 		}else{
-			$_SESSION["mensajeResultado"]="
-			<div style='background-color: red; height: 80px; text-align: center; padding-top: 5px;'>
-			<h1>El Juego NO se ha podido Modificar</h1>
-			<div>";
+			$_SESSION["errUpdateJuego"]="El Juego no se ha podido modificar.";
 		}
 		header("location: ../../vistas/admin/admin-panelModificarJuego.php");
 		exit;
@@ -188,16 +197,46 @@ if(isset($_GET["operacio"]) && $_GET["operacio"]=="modificar"){
 /**cambia los datos en la BD*/
 if(isset($_POST["operacio"]) && $_POST["operacio"]=="modifica"){
 
-	if (isset($_POST["id"]) && isset($_POST["nombre"]) && isset($_POST["subtitulo"]) && isset($_POST["autor"]) && isset($_POST["descripcion"]) && isset($_POST["year"]) && isset($_POST["distribuidora"]) && isset($_POST["edad"]) && isset($_POST["tiempo"]) && isset($_POST["jugadores"]) && isset($_POST["medidas"]) && isset($_POST["complejidad"]) && isset($_POST["tipo"]) && isset($_POST["categoria"]) && isset($_POST["tematica"])){
+	if (isset($_POST["id"]) && isset($_POST["nombre"]) && isset($_POST["subtitulo"]) && isset($_POST["complejidad"]) && isset($_POST["tipo"]) && isset($_POST["categoria"]) && isset($_POST["tematica"])){
 
-		if (!empty($_POST["id"]) && !empty($_POST["nombre"]) && !empty($_POST["subtitulo"]) && !empty($_POST["autor"]) && !empty($_POST["descripcion"]) && !empty($_POST["year"]) && !empty($_POST["distribuidora"]) && !empty($_POST["edad"]) && !empty($_POST["tiempo"]) && !empty($_POST["jugadores"]) && !empty($_POST["medidas"]) && !empty($_POST["complejidad"]) && !empty($_POST["tipo"]) && !empty($_POST["categoria"]) && !empty($_POST["tematica"])){
+		if (!empty($_POST["id"]) && !empty($_POST["nombre"]) && !empty($_POST["subtitulo"]) && !empty($_POST["complejidad"]) && !empty($_POST["tipo"]) && !empty($_POST["categoria"]) && !empty($_POST["tematica"])){
+
+
+			if (!file_exists($_SERVER["DOCUMENT_ROOT"]."/vistas/assets/img/")){
+				mkdir($_SERVER["DOCUMENT_ROOT"]."/vistas/assets/img/");
+			}
+
+			$ruta_imagenes = $_SERVER["DOCUMENT_ROOT"]."/vistas/assets/img/";
+
+			if (isset($_FILES["fotoportada"]) && ($_FILES["fotoportada"]["name"])!=null){
+
+				$nombre_foto = generateRandomString().$_FILES["fotoportada"]["name"];
+				$tmp_foto = $_FILES["fotoportada"]["tmp_name"];
+				$rutaFoto = $ruta_imagenes.$nombre_foto;
+				copy($tmp_foto, $rutaFoto);
+
+			}else{
+				$nombre_foto=$_POST["img_p"];
+
+			}
+
+			
 			if(!empty($_POST["es_activo"])){
 				$es_activo= "1";
 			}else{
 				$es_activo="0";
 			}
+
+			empty($_POST["autor"]) ? $autor = null : $autor = $_POST["autor"];
+			empty($_POST["year"]) ? $year = null : $year = $_POST["year"];
+			empty($_POST["distribuidora"]) ? $distribuidora = null : $distribuidora = $_POST["distribuidora"];
+			empty($_POST["edad"]) ? $edad = null : $edad = $_POST["edad"];
+			empty($_POST["tiempo"]) ? $tiempo = null : $tiempo = $_POST["tiempo"];
+			empty($_POST["jugadores"]) ? $jugadores = null : $jugadores = $_POST["jugadores"];
+			empty($_POST["medidas"]) ? $medidas = null : $medidas = $_POST["medidas"];
+
 			$nuevoObjeto = new JuegosController();
-			$nuevoObjeto->ModificarJuego($_POST["id"], $_POST["nombre"], $_POST["subtitulo"], $_POST["descripcion"], $_POST["autor"], $_POST["year"], $_POST["distribuidora"], $_POST["edad"], $_POST["tiempo"], $_POST["jugadores"], $_POST["medidas"], $_POST["complejidad"], $_POST["tipo"], $_POST["categoria"], $_POST["tematica"], $es_activo);
+			$nuevoObjeto->ModificarJuego($_POST["id"], $_POST["nombre"], $_POST["subtitulo"], $_POST["descripcion"], $_POST["autor"], $_POST["year"], $_POST["distribuidora"], $_POST["edad"], $_POST["tiempo"], $_POST["jugadores"], $_POST["medidas"], $_POST["complejidad"], $_POST["tipo"], $_POST["categoria"], $_POST["tematica"], $es_activo, $nombre_foto);
 
 		}
 		else{
@@ -329,7 +368,6 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="addJuego"){
 				$array = [];
 			}
 			
-
 			// echo $_POST["nombre"], $_POST["subtitulo"], $_POST["descripcion"], $_POST["autor"], $_POST["year"], $_POST["distribuidora"], $_POST["edad"], $_POST["tiempo"], $_POST["jugadores"], $_POST["medidas"], $_POST["complejidad"], $_POST["tipo"], $_POST["categoria"], $_POST["tematica"], $es_activo;
 			// echo $_SESSION['portada'];
 

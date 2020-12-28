@@ -11,15 +11,15 @@ class Tipo{
 	{
 		$this->setIdTipo(null);
         $this->setNombre(null);
-	}
+    }
 
 
-	/*===== RETORNAR TODAS TipoS ======*/
+    /*===== RETORNAR TODAS TipoS ======*/
     protected function retornaTiposTodas(){
         try{
             $conecta = new ConexionBD();
             $conecta->getConexionBD()->beginTransaction();
-            $sentenciaSQL = "SELECT * FROM tipo";
+            $sentenciaSQL = "SELECT * FROM tipo ORDER BY idTipo DESC";
             $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
             $intencio->execute();
             return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
@@ -29,7 +29,51 @@ class Tipo{
         }
     }
 
+    /*===== ADD Tipos ======*/
+    protected function addTipo($nombre){
 
+        $this->setNombre($nombre);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "INSERT INTO tipo (idTipo, nombre) VALUES (null, :nombre)";
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute(array(
+                ":nombre" => $this->getNombre()
+            ));
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            // return $excepcio->getMessage();
+            return null; 
+        }
+    }
+
+    /*===== MODIFICAR Tipos ======*/
+    protected function editTipo($id, $nombre){
+       
+        $this->setNombre($nombre);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "UPDATE tipo 
+            SET          
+            nombre = :nombre
+            WHERE idTipo = $id";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute(array(
+                ":nombre" => $this->getNombre()));
+            $conecta->getConexionBD()->commit();
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            // return  $excepcio->getMessage();
+            return null;  
+        }   
+    }
 
     /**
      * @return mixed
@@ -73,4 +117,4 @@ class Tipo{
 }
 
 
- ?>
+?>

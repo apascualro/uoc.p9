@@ -76,7 +76,7 @@ class Imagen {
 		try{
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
-			$sentenciaSQL = "SELECT * FROM imagenes WHERE juego = $id";
+			$sentenciaSQL = "SELECT * FROM imagenes WHERE juego = $id AND es_portada = 0";
 			$intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
 			$intencio->execute();
 			return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
@@ -104,7 +104,31 @@ class Imagen {
         }
     }
 
+    /*** UPDATE IMAGEN - portada***/
+    protected function editarPortada($idJuego, $nombre){
 
+        $this->setJuego($idJuego);
+        $this->setNombre($nombre);
+
+        try{    
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "UPDATE imagenes SET  
+            nombre = :nombre
+            WHERE juego = :juego AND es_portada = 1";
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute(array(
+                ":juego" => $this->getJuego(),
+                ":nombre" => $this->getNombre(),
+            ));
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            echo $excepcio->getMessage();
+            return false; 
+        }
+    }
 
 	/***getters and setters***/
     /**

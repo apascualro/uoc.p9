@@ -249,7 +249,6 @@ hr {
 .img-gallery img{
   height: 200px;
   width: auto;
-  background-color: red;
 
 }
 
@@ -260,4 +259,17 @@ hr {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+
+/*******************************************
+*******************************************/
+/************ imagenes upload *****************/
+
+.filedit{
+  height: 150px;
+  width: 150px;
+}
+.filedit img{
+  height: 100%;
 }

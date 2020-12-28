@@ -142,6 +142,21 @@ class Juego{
 		}
 	}
 
+	/*===== RETORNAR JUEGO - VISIBLES ======*/
+	protected function retornaJuegosVisibles(){
+		try{
+			$conecta = new ConexionBD();
+			$conecta->getConexionBD()->beginTransaction();
+			$sentenciaSQL = "SELECT * FROM juegos WHERE es_activo = 1 ORDER BY idJuego DESC";
+			$intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+			$intencio->execute();
+			return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
+		}catch(Exception $excepcio){
+			$conecta->getConexionBD()->rollback();  
+			return null;  
+		}
+	}
+
 	/*===== RETORNAR JUEGO - ID======*/
 	protected function retornaJuego($id){
 		try{
@@ -178,6 +193,7 @@ class Juego{
 
 	/*===== EDITAR JUEGO ======*/
 	protected function editarJuego($idJuego, $nombre, $subtitulo, $descripcion, $autor, $year, $distribuidora, $edad, $tiempo, $num_jugadores, $medidas, $complejidad, $tipo, $categoria, $tematica, $es_activo){
+
 		$this->setIdJuego($idJuego);
 		$this->setNombre($nombre);
 		$this->setSubtitulo($subtitulo);
@@ -194,6 +210,7 @@ class Juego{
 		$this->setCategoria($categoria);
 		$this->setTematica($tematica);
 		$this->setEsActivo($es_activo);
+
 		try{    
 			$conecta = new ConexionBD();
 			$conecta->getConexionBD()->beginTransaction();
@@ -206,7 +223,7 @@ class Juego{
 			distribuidora = :distribuidora,
 			edad = :edad,
 			tiempo = :tiempo,
-			num_jugaores = :num_jugadores,
+			num_jugadores = :num_jugadores,
 			medidas = :medidas,
 			complejidad = :complejidad,
 			tipo = :tipo,
@@ -237,6 +254,7 @@ class Juego{
 			return true;
 		}catch(Exception $excepcio){
 			$conecta->getConexionBD()->rollback(); 
+			// return  $excepcio->getMessage();
 			return false; 
 		}
 	}

@@ -25,10 +25,11 @@ foreach ($controladores as $key) {
 				$img = $objecte->ImagenPortada($juego->idJuego); ?>
 
 				<div class="view overlay m-0 img-gallery ">
-					<img class="card-img-top m-auto" src="assets/img/<?php echo $img;?>" alt="Card image cap">
-					<?php   
-
-					?>
+					<?php if($img){ ?>
+						<img class="card-img-top m-auto" src="assets/img/<?php echo $img;?>" alt="Card image cap">
+					<?php }else{ ?>
+						<img class="card-img-top m-auto" src="assets/img/empty_file.jpg" alt="Card image cap">
+					<?php } ?>
 				</div>
 
 				<!-- Card content -->

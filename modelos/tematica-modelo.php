@@ -11,15 +11,15 @@ class Tematica{
 	{
 		$this->setIdTematica(null);
         $this->setNombre(null);
-	}
+    }
 
 
-	/*===== RETORNAR TODAS TematicaS ======*/
+    /*===== RETORNAR TODAS TematicaS ======*/
     protected function retornaTematicasTodas(){
         try{
             $conecta = new ConexionBD();
             $conecta->getConexionBD()->beginTransaction();
-            $sentenciaSQL = "SELECT * FROM tematica";
+            $sentenciaSQL = "SELECT * FROM tematica ORDER BY idTematica DESC";
             $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
             $intencio->execute();
             return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
@@ -29,6 +29,52 @@ class Tematica{
         }
     }
 
+
+    /*===== ADD Tematicas ======*/
+    protected function addTematica($nombre){
+
+        $this->setNombre($nombre);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "INSERT INTO tematica (idTematica, nombre) VALUES (null, :nombre)";
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute(array(
+                ":nombre" => $this->getNombre()
+            ));
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            // return $excepcio->getMessage();
+            return null; 
+        }
+    }
+
+    /*===== MODIFICAR Tematicas ======*/
+    protected function editTematica($id, $nombre){
+
+        $this->setNombre($nombre);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "UPDATE tematica 
+            SET          
+            nombre = :nombre
+            WHERE idTematica = $id";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute(array(
+                ":nombre" => $this->getNombre()));
+            $conecta->getConexionBD()->commit();
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            return  $excepcio->getMessage();
+            // return null;  
+        }   
+    }
 
 
     /**
@@ -73,4 +119,4 @@ class Tematica{
 }
 
 
- ?>
+?>

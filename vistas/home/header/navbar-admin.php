@@ -9,11 +9,17 @@
     <li class="nav-item">
       <a class="nav-link <?php if ($_SESSION["navActivo"] == "juegos"){ echo "active";} ?>" href="admin-panelJuego.php">JUEGOS</a>
     </li>
+    
+
+    <li class="nav-item">
+      <a class="nav-link <?php if ($_SESSION["navActivo"] == "filtros"){ echo "active";} ?>" href="admin-panelFiltros.php">FILTROS</a>
+    </li>
 
 
     <li class="nav-item">
       <a class="nav-link <?php if ($_SESSION["navActivo"] == "usuarios"){ echo "active";} ?>" href="admin-panelUsuario.php">USUARIOS</a>
     </li>
+
     <!--  -->
 
     <?php 

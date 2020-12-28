@@ -9,7 +9,6 @@ if (isset($_SESSION["errAddJuego"])){
   unset($_SESSION["errAddJuego"]);
 };
 
-
 ?>
 <!-- formulario -->
 <h3 class="col-12 mb-2">Añadir juego</h3>

@@ -26,7 +26,82 @@ class CategoriaController extends Categoria{
 	}
 
 
+	/*=====  MOSTRAR categorias admin  ======*/
+	public function LlistaCategoriasEdit(){
+		$categoriasList = $this->retornaCategoriasTodas();
+		require "../../vistas/juego/categorias/categoria-ver.php";
+
+	}
+
+	/*=====  ADD categorias admin  ======*/
+	public function AddCategoriaBD($categoria){
+
+		return $this->ResultadoAdd($this->addCategoria($categoria));		
+	}
+
+	public function ResultadoAdd($resultat){
+
+		if ($resultat){
+			$_SESSION["msgAddFiltro"]= "El nuevo filtro se ha añadido correctamente.";
+		}else{
+			$_SESSION["msgErrAddFiltro"]= "No se ha podido añadir el filtro.";          
+		} 
+		header("location:../vistas/admin/admin-panelFiltros.php");
+	}
+
+	/*=====  EDIT categorias admin  ======*/
+	public function EditCategoriaBD($id, $categoria){
+
+		return $this->ResultadoEdit($this->editCategoria($id, $categoria));		
+	}
+
+	public function ResultadoEdit($resultat){
+
+		if ($resultat){
+			$_SESSION["msgAddFiltro"]= "El filtro se ha modificado correctamente.";
+		}else{
+			$_SESSION["msgErrAddFiltro"]= "No se ha podido modificar el filtro.";          
+		} 
+		header("location:../vistas/admin/admin-panelFiltros.php");
+	}
 
 
+}
 
+
+/*=============================================
+=                  Operaciones 		          =
+=============================================*/
+
+
+/*=====  Añadir Categoria  ======*/
+
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="addCategoria"){
+
+	if(isset($_POST["filter"]) && !empty($_POST["filter"]) ){
+		
+		
+		$a = new CategoriaController();
+		$a->AddCategoriaBD(ucfirst($_POST["filter"]));
+
+
+	}else{
+		echo "Ha ocuurido un error";
+	}
+}
+
+
+/*=====  Editar Categoria  ======*/
+
+if(isset($_POST["operacio"]) && $_POST["operacio"]=="updateCategoria"){
+
+	if(isset($_POST["filterupdate2"]) && !empty($_POST["filterupdate2"]) && isset($_POST["id2"]) && !empty($_POST["id2"])){
+
+		$a = new CategoriaController();
+		$a->EditCategoriaBD($_POST["id2"], ucfirst($_POST["filterupdate2"]));
+
+
+	}else{
+		echo "Ha ocuurido un error";
+	}
 }

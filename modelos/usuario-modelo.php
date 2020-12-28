@@ -142,7 +142,8 @@ class Usuario{
             return true;
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return  $excepcio->getMessage();  
+            // return  $excepcio->getMessage();  
+            return null;
         }   
     }
 
@@ -188,7 +189,8 @@ class Usuario{
             return true;
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return  $excepcio->getMessage();  
+            // return  $excepcio->getMessage(); 
+            return null; 
         }   
     }
 
@@ -215,7 +217,8 @@ class Usuario{
             return true;
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return  $excepcio->getMessage();  
+            // return  $excepcio->getMessage();  
+            return null;
         }
     }
 

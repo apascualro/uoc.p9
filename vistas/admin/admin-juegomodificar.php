@@ -1,12 +1,22 @@
+<?php 
+if (isset($_SESSION["msgUpdateJuego"])){
+  echo "><div class='col-12 alert alert-success'><span class='msg'>".$_SESSION["msgUpdateJuego"]."</span></div>";
+  unset($_SESSION["msgUpdateJuego"]);
+};
 
+if (isset($_SESSION["errUpdateJuego"])){
+  echo "<div class='col-12 alert alert-danger'><span class='msg'>".$_SESSION["errUpdateJuego"]."</span></div>";
+  unset($_SESSION["errUpdateJuego"]);
+};
+?>
 <!-- formulario -->
 <h3 class="col-12 mb-2">Modificar juego</h3>
 <?php foreach($Llistat as $objecte){ ?>
 
   <!-- nombre -->
-  <div class="col-md-6 mb-3">
+  <div class="col-md-5 mb-3">
     <div class="input-container">
-      <input type="text" id="nombre" name="nombre" required="required" value="<?php echo $objecte->nombre ?>">
+      <input type="text" id="nombre" name="nombre" required value="<?php echo $objecte->nombre ?>">
       <label for="nombre" class="label">Nombre</label>
     </div>
   </div>
@@ -14,25 +24,33 @@
   <!--autor-->
   <div class="col-md-4 mb-3">
     <div class="input-container">
-      <input type="text" id="autor" name="autor" required="required" value="<?php echo $objecte->autor ?>">
+      <input type="text" id="autor" name="autor" value="<?php echo $objecte->autor ?>">
       <label for="autor" class="label">Autor</label>
     </div>
   </div>
 
-  <!-- id -->
+  <!--num jugador-->
   <div class="col-md-2 mb-3">
+    <div class="input-container">
+      <input type="text" id="jugadores" name="jugadores" value="<?php echo $objecte->num_jugadores?>">
+      <label for="jugadores" class="label">Jugadores</label>
+    </div>
+  </div>
+
+  <!-- id -->
+  <div class="col-md-1 mb-3">
     <div class="input-container disabled">
       <div class="input">
         <?php echo $objecte->idJuego ?>
       </div>
-      <span class="label sm">Identificador</span>
+      <span class="label sm">ID</span>
     </div>
   </div> 
 
   <!-- subtitulo-->
   <div class="col-md-10 mb-3">
     <div class="input-container">
-      <textarea id="subtitulo" name="subtitulo" required="required" rows="2"><?php echo $objecte->subtitulo ?></textarea>
+      <textarea id="subtitulo" name="subtitulo" required rows="2"><?php echo $objecte->subtitulo ?></textarea>
       <label for="subtitulo" class="label">Subtítulo</label>
     </div>
   </div>
@@ -46,7 +64,7 @@
   <!-- descripcion-->
   <div class="col-md-12 mb-3">
     <div class="input-container">
-      <textarea type="text" id="descripcion" name="descripcion" required="required" rows="5"><?php echo $objecte->descripcion ?></textarea>
+      <textarea type="text" id="descripcion" name="descripcion" required rows="5"><?php echo $objecte->descripcion ?></textarea>
       <label for="descripcion" class="label">Descripción</label>
     </div>
   </div>    
@@ -54,7 +72,7 @@
   <!--año-->
   <div class="col-md-2 mb-3">
     <div class="input-container">
-      <input type="text" id="year" name="year" required="required" value="<?php echo $objecte->year ?>"></input>
+      <input type="text" id="year" name="year" value="<?php echo $objecte->year ?>"></input>
       <label for="year" class="label">Año</label>
     </div>
   </div>
@@ -62,7 +80,7 @@
   <!--distribuidora-->
   <div class="col-md-3 mb-3">
     <div class="input-container">
-      <input type="text" id="distribuidora" name="distribuidora" required="required" value="<?php echo $objecte->distribuidora ?>"></input>
+      <input type="text" id="distribuidora" name="distribuidora" value="<?php echo $objecte->distribuidora ?>"></input>
       <label for="distribuidora" class="label">Distribuidora</label>
     </div>
   </div>
@@ -70,7 +88,7 @@
   <!--edad-->
   <div class="col-md-2 mb-3">
     <div class="input-container">
-      <input type="text" id="edad" name="edad" required="required" value="<?php echo $objecte->edad ?>"></input>
+      <input type="text" id="edad" name="edad" value="<?php echo $objecte->edad ?>"></input>
       <label for="edad" class="label">Edad</label>
     </div>
   </div>
@@ -78,7 +96,7 @@
   <!--tiempo -->
   <div class="col-md-2 mb-3">
     <div class="input-container">
-      <input type="text" id="tiempo" name="tiempo" required="required" value="<?php echo $objecte->tiempo ?>"></input>
+      <input type="text" id="tiempo" name="tiempo" value="<?php echo $objecte->tiempo ?>"></input>
       <label for="tiempo" class="label">Tiempo</label>
     </div>
   </div>
@@ -86,7 +104,7 @@
   <!--medidas -->
   <div class="col-md-3 mb-3">
     <div class="input-container">
-      <input type="text" id="medidas" name="medidas" required="required" value="<?php echo $objecte->medidas ?>"></input>
+      <input type="text" id="medidas" name="medidas" value="<?php echo $objecte->medidas ?>"></input>
       <label for="medidas" class="label">Medidas</label>
     </div>
   </div>
@@ -158,19 +176,20 @@
   <?php 
   $i = new ImagenesController();
   $imgPortada = $i->ImagenPortada($objecte->idJuego);
-   ?>
+  ?>
 
   <!--imagen portada -->
   <div class="col-md-12 mb-3">
     <div class="input-container file">
-      <label class="label" for="foto" >Imagen portada</label>
+      <label class="label" for="fotoportada" >Imagen portada</label>
       <img class="mt-5 mb-2 ml-2" style="width: 200px;" src="../assets/img/<?php echo $imgPortada ?>"/>
-      <input type="file" class="prv1 img-test" id="file2" name="foto" required>
+      <input type="file" class="prv1 img-test" id="file2" name="fotoportada" >
 
     </div>
     <div class="gallery1"></div>
   </div>
 
+  <input type="hidden" name="img_p" value="<?php echo $imgPortada ?>">
   <!---->
 
 

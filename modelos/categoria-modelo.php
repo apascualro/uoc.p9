@@ -30,6 +30,53 @@ class Categoria{
     }
 
 
+    /*===== ADD Categoria ======*/
+    protected function addCategoria($nombre){
+
+        $this->setNombre($nombre);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $SQL = "INSERT INTO categoria (idCategoria, nombre) VALUES (null, :nombre)";
+            $resultado = $conecta->getConexionBD()->prepare($SQL);
+            $resultado->execute(array(
+                ":nombre" => $this->getNombre()
+            ));
+            $conecta->getConexionBD()->commit();  
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback(); 
+            // return $excepcio->getMessage();
+            return null; 
+        }
+    }
+
+    /*===== MODIFICAR Categoria ======*/
+    protected function editCategoria($id, $nombre){
+       
+        $this->setNombre($nombre);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "UPDATE categoria 
+            SET          
+            nombre = :nombre
+            WHERE idCategoria = $id";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute(array(
+                ":nombre" => $this->getNombre()));
+            $conecta->getConexionBD()->commit();
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            // return  $excepcio->getMessage();
+            return null;  
+        }   
+    }
+
+
 
     /**
      * @return mixed

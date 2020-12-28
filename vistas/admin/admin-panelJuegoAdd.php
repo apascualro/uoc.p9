@@ -29,12 +29,6 @@ if (file_exists("../home/header/header.php")){
 			<div class="col-1"></div>				
 
 			<div class="col-10">
-				<?php if (isset($_SESSION["mensajeResultado"])){
-					echo "<div class='row'><div class='col-12'><span class='msg'>".$_SESSION["mensajeResultado"]."</span></div></div>";
-					unset($_SESSION["mensajeResultado"]);
-					};//../../controladores/juegosController.php
-					?>
-
 					<form id="fupForm" action="../../controladores/juegosController.php" method="POST">
 						<div class="row">
 							<div class="col-12">

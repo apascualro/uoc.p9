@@ -8,3 +8,11 @@
 <script>
 	
 </script>
+
+<!-- 
+<div class="input-container file">
+	<label class="label" for="file">Imàgenes</label>
+	<input type="file" class=" img-test" id="file" name="files[]" multiple />
+
+	<div class="gallery"></div>
+</div> -->

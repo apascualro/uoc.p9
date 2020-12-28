@@ -33,7 +33,7 @@ $objecteSessio = new SesionesController();
 
 				<div class="col-10">
 					
-					<form id="formJuegoEdit" action="../../controladores/juegosController.php" method="POST">
+					<form id="formJuegoEdit" action="../../controladores/juegosController.php" enctype="multipart/form-data" method="POST">
 
 						<div class="row">
 							<div class="col-12">
@@ -48,12 +48,11 @@ $objecteSessio = new SesionesController();
 							$objecte = new JuegosController();
 							$objecte->MostrarModificarJuego();
 							?>	
-
-							<?php if (isset($_SESSION["mensajeResultado"])){
-								echo "<div class='row'><div class='col-12'><span class='msg'>".$_SESSION["mensajeResultado"]."</span></div></div>";
-								unset($_SESSION["mensajeResultado"]);
-							};?>				
-
+							<?php 
+							$objecte2 = new ImagenesController();
+							$objecte2->MostrarImagenEdit();
+							?>
+							
 						</div>
 
 						<input type="hidden" name="id" value="<?php echo $_SESSION["idJuego"]?>">
