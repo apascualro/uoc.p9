@@ -150,7 +150,15 @@ class JuegosController extends Juego{
 		
 	}
 
-	
+	/*=====  RETORNA PUNTUACIÓN JUEGO  ======*/
+
+	public function PuntuacionJuego($id){
+		$juego = $this->retornaJuego($id);
+		foreach ($juego as $key => $value) {
+			return $value->valoracion;
+		}
+
+	}
 
 
 }

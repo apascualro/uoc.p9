@@ -16587,13 +16587,13 @@ label.btn input[type="radio"]:checked+label:after .disabled-material {
     border-color: rgba(66, 133, 244, 0.25) !important
 }
 
-[type="checkbox"]:not(:checked),
+/*[type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
     position: absolute;
     pointer-events: none;
     opacity: 0
 }
-
+*/
 .form-check-input[type="checkbox"]+label,
 label.btn input[type="checkbox"]+label {
     position: relative;

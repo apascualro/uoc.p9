@@ -19,7 +19,8 @@ foreach ($controladores as $key) {
 
 		<?php foreach ($LlistatJue as $juego) {?>
 
-			<div class="card m-3 " >
+			<!-- Card Juego -->
+			<div class="card m-3 cardJuego" data-category="<?php echo $juego->tipo. ' '. $juego->categoria. ' '. $juego->tematica;?>" >
 				<!-- Card image -->
 				<?php $objecte = new ImagenesController();
 				$img = $objecte->ImagenPortada($juego->idJuego); ?>
@@ -55,15 +56,23 @@ foreach ($controladores as $key) {
 					</div>							
 
 					<div class="row mb-0 text-dark float-right">
-						<span class="">
-							<ul class="rating text">
-								<li><i class="fas fa-star blue-text"></i></li>
-								<li><i class="fas fa-star blue-text"></i></li>
-								<li><i class="fas fa-star blue-text"></i></li>
-								<li><i class="fas fa-star blue-text"></i></li>
-								<li><i class="fas fa-star blue-text"></i></li>
-
-							</ul>
+						<span class="score">
+							<div class="score-wrap">
+								<span class="stars-active" style="width:<?php echo $juego->valoracion * 10; ?>%">
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+								</span>
+								<span class="stars-inactive">
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
+								</span>
+							</div>
 						</span>
 						<span class="font-italic text-muted ml-2">
 							(<?php $objecte2 = new ValoracionesController();

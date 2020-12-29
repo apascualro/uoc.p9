@@ -241,7 +241,11 @@ $('input[name=options]').change(function(){
 
 	$.post("valoracionesController.php", 
 		{ operacio: op, options: options },
-		);
+		).done(function(data){
+			// alert(data);
+			// console.log(data);
+		});
+
 	if(op != "addValoracion"){
 		$(valUpdated).show(700);
 		$(valUpdated).delay(3000).hide(700);
@@ -322,7 +326,8 @@ $(document).ready(function(){
     		processData:false,
     	})
     	.done(function(response){
-    		alert(response);
+    		// alert(response);
+    		console.log(response);
     		$('.statusMsg').html('');
     		if(response.status == 1){
     			$('#fupForm')[0].reset();
@@ -394,5 +399,21 @@ $(function() {
     	imagesPreview(this, 'div.gallery1');
     });
 });
+
+/*=============================================
+=            deshabilitar usuarios       =
+=============================================*/
+
+$('#toggels .boto').on('click', function() {
+    var id = $(this).attr('id');
+
+    var checkStatus = this.checked ? '' : 'deshabilitado';
+
+    $.post("../../controladores/usuariosController.php", {"quickVar": checkStatus, "id": id}, 
+      function(data) {
+        // alert(data);
+        // $('#resultQuickVar' + id).html(data);
+      });
+  });
 
 }

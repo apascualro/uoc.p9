@@ -53,7 +53,8 @@ class Valoracion
             return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return  $excepcio->getMessage();   
+            // echo  $excepcio->getMessage();   
+            return null;
         }
     }
 
@@ -69,7 +70,8 @@ class Valoracion
             return $intencio->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return  $excepcio->getMessage();   
+            echo  $excepcio->getMessage();   
+            return null;
         }
     }
 
@@ -141,7 +143,8 @@ class Valoracion
             return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
         }catch(Exception $excepcio){
             $conecta->getConexionBD()->rollback();  
-            return  $excepcio->getMessage();  
+            // echo  $excepcio->getMessage();  
+            return null;
         }
     }
 

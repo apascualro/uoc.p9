@@ -99,6 +99,17 @@ class ValoracionesController extends Valoracion
 		return $this->retornaCantidadValoraciones($usuario);
 	}
 
+	/*=====  Comprobar valoraciones juego - usuario ======*/
+
+	public function existeValoracion($juego, $usuario){
+		$a = $this->retornaValoracionUsuario($juego, $usuario);
+		if($a){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	
 }
 
@@ -118,17 +129,28 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="addValoracion"){
 
 		/*calcula la nueva ppuntuacion del juego*/
 		$res = CalculaPuntuacion($puntuacion, $_SESSION["idUsuario"]);
+		// print_r($res);
 
+		$check = new ValoracionesController();
+
+		$x = $check->existeValoracion($_SESSION["idJuego"], $_SESSION["idUsuario"]);
+
+		sleep(0.10);
 		$nuevapuntuacion = new JuegosController();
 		$a = $nuevapuntuacion->UpdateValoracion($res, $_SESSION["idJuego"]);
 
-		sleep(0.10);
-		
-		/*añadir valoracion*/
-		$nuevoObjeto = new ValoracionesController();
-		$nuevoObjeto->AddValoracionDB($puntuacion, $_SESSION["idJuego"], $_SESSION["idUsuario"]);
+		/*comprueba puntuacion no duplicada*/
+		if(!$x){		
 
-		/*cambiar nivel*/
+			sleep(0.10);
+
+			// /*añadir valoracion*/
+			$nuevoObjeto = new ValoracionesController();
+			$nuevoObjeto->AddValoracionDB($puntuacion, $_SESSION["idJuego"], $_SESSION["idUsuario"]);
+
+		}
+
+		// cambiar nivel
 		$nuevoObjeto2 = new ValoracionesController();
 		$n = $nuevoObjeto2->CantidadValoracionesUsuario($_SESSION["idUsuario"]);
 		if($n){
@@ -137,9 +159,9 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="addValoracion"){
 			$level = new UsuariosController();
 			$qtt = $level->DevuelveNivelComentarios($num, $_SESSION["idUsuario"]);
 
-			$nuevoObjeto2->MensajeNivel($qtt); 
+			$nuevoObjeto2->MensajeNivel($qtt);
 		}
-
+		unset($res, $x, $a, $puntuacion);
 
 
 	}else{
@@ -156,17 +178,24 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="updateValoracion"){
 
 		/*calcula la nueva ppuntuacion del juego*/
 		$res = CalculaPuntuacion($puntuacion, $_SESSION["idUsuario"]);
+		// print_r($res);
+		
+		sleep(0.10);
+
+		// /*comprueba puntuacion no duplicada*/
 
 		$nuevapuntuacion = new JuegosController();
 		$a = $nuevapuntuacion->UpdateValoracion($res, $_SESSION["idJuego"]);
+		sleep(0.10);	
 
-		sleep(0.10);
-
-		/*actualizar valoraciones*/
+		// actualizar valoraciones
 		$nuevoObjeto = new ValoracionesController();
 		$nuevoObjeto->changeValoracionDB($puntuacion, $_SESSION["idJuego"], $_SESSION["idUsuario"]);
+		
 
-		unset($puntuacion, $countExp, $countAmt, $countPri, $resultado, $expertoSum, $amateurSum, $principianteSum); 		
+		unset($puntuacion, $countExp, $countAmt, $countPri, $resultado, $expertoSum, $amateurSum, $principianteSum); 
+
+		unset($res, $a, $puntuacion, $_POST["options"]);		
 
 	}else{
 		echo "Faltan Los datos!<br>";
@@ -204,30 +233,35 @@ function CalculaPuntuacion($puntuacion, $usuario){
 		break;
 	}
 
-	$valExp = 40;
-	$valAmt = 35;
-	$valPri = 25;
+	$valExp = 100;
+	$valAmt = 90;
+	$valPri = 80;
 
 	/*Asignar valor porcentual*/
 	$nuevoObjeto4 = new ValoracionesController();
 	$b = $nuevoObjeto4->CantidadValoracionesNivel($_SESSION["idJuego"]);
-	foreach ($b as $key => $value) {
-		$c = $value->nivel;
-		switch ($c) {
-			case 'Experto':
-			$experto [] = $value->puntuacion;
-			break;
-			case 'Amateur':
-			$amateur [] = $value->puntuacion;
-			break;
-			case 'Principiante':
-			$principiante [] = $value->puntuacion;
-			break;
-			default:
-			echo "error";
-			break;
+
+	
+	if(!empty($b)){
+		foreach ($b as $key => $value) {
+			$c = $value->nivel;
+			switch ($c) {
+				case 'Experto':
+				$experto [] = $value->puntuacion;
+				break;
+				case 'Amateur':
+				$amateur [] = $value->puntuacion;
+				break;
+				case 'Principiante':
+				$principiante [] = $value->puntuacion;
+				break;
+				default:
+				echo "error";
+				break;
+			}
 		}
 	}
+	
 
 	$expertoSum = array();
 	$amateurSum = array();
@@ -235,47 +269,45 @@ function CalculaPuntuacion($puntuacion, $usuario){
 
 
 	/*añadir puntuaciones por niveles*/
-	$countExp = count($experto);
-
-	if($countExp >1){
-		$valExp = $valExp/$countExp;
-
-		foreach ($experto as $key) {
-			$expertoSum [] = $key*$valExp;
-		}
-	}else{
-		$expertoSum [] = $amateur[0]*$valExp;
+	if(!empty($experto)){
+		$countExp = count($experto);
+		if($countExp >1){					
+			foreach ($experto as $key) {
+				$expertoSum [] = $key*$valExp;
+			}
+		}else{
+			$expertoSum [] = $experto[0]*$valExp;
+		}		
 	}
 
-	$countAmt = count($amateur);
+	if(!empty($amateur)){
+		$countAmt = count($amateur);
+		if($countAmt >1){					
+			foreach ($amateur as $key) {
+				$amateurSum [] = $key;
+			}
+		}else{
+			$amateurSum [] = $amateur[0]*$valAmt;
+		}		
+	}
 
-	if($countAmt >1){
-		$valAmt = $valAmt/$countAmt;
-
-		foreach ($amateur as $key) {
-			$amateurSum [] = $key*$valAmt;
-		}
-	}else{
-		$amateurSum [] = $amateur[0]*$valAmt;
+	if(!empty($principiante)){
+		$countPri = count($principiante);
+		if($countPri >1){					
+			foreach ($principiante as $key) {
+				$principianteSum [] = $key*$valExp;
+			}
+		}else{
+			$principianteSum [] = $principiante[0]*$valPri;
+		}		
 	}
 
 
-	$countPri = count($principiante);
-
-	if($countPri >1){
-		$valPri = $valPri/$countPri;
-
-		foreach ($principiante as $key) {
-			$principianteSum [] = $key*$valPri;
-		}
-	}else{
-		$principianteSum [] = $principiante[0]*$valPri;
-	}
-
-	/*media de los resultados*/
-	$resultado = (array_sum($expertoSum) + array_sum($amateurSum) + array_sum($principianteSum))/100;
+	$todas = array_merge($expertoSum, $amateurSum, $principianteSum);
+	$generalCount = count($todas);
 
 
+	$resultado = (array_sum($todas)/$generalCount)/100;
 	return $resultado;
 }
 

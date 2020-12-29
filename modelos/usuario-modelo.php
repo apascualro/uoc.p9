@@ -270,49 +270,33 @@ class Usuario{
         }
     }
 
-    
 
-    // protected function BuscaUsuariPerEmail($email, $paraula){
-    //     try{
-    //         $conecta = new ConexionBD();
-    //         $conecta->getConexionBD()->beginTransaction();
-    //         $sentenciaSQL = "SELECT * FROM usuarios
-    //         WHERE email = :email";
-    //         $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
-    //         $intencio->execute(array(":email" => $email));
-    //         return $resultat = $intencio->fetchAll(PDO::FETCH_OBJ);
-    //     }catch(Exception $excepcio){
-    //         $conecta->getConexionBD()->rollback();  
-    //         return null;  
-    //     }
-    // }
-    
-    
-    
+    /*===== MODIFICAR ESTADO USUARIO ======*/
+    protected function modificaActivo($id, $activo){
 
-    // protected function modificarPass($id, $pass){
-    //     $this->setPass($pass);
-    //     try{
-    //         $conecta = new ConexionBD();
-    //         $conecta->getConexionBD()->beginTransaction();
-    //         $sentenciaSQL = "UPDATE usuarios 
-    //         SET pass = :pass
-    //         WHERE idUsuario = $id";
-    //         $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
-    //         $intencio->execute(array(
-    //             ":pass" => $this->getPass(),
-    //         ));
-    //         $conecta->getConexionBD()->commit();
-    //         return true;
-    //     }catch(Exception $excepcio){
-    //         $conecta->getConexionBD()->rollback();  
-    //         return  $excepcio->getMessage();  
-    //     }
-    // }
+        $this->setActivo($activo);
+
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "UPDATE usuarios 
+            SET  
+            es_activo = :activo
+            WHERE idUsuario = $id";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute(array(
+                ":activo"=> $this->getActivo()
+            ));
+            $conecta->getConexionBD()->commit();
+            return true;
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            // return  $excepcio->getMessage(); 
+            return null; 
+        }   
+    }
 
     
-    
-
 
     /***getters and setters***/
     public function getIdUsuario()

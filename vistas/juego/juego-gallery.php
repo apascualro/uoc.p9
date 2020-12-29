@@ -30,6 +30,18 @@ $objFiltro = $obj->LlistaJuegosFiltro($filtro, $palabra);
 <section>
 	<div class="container">
 		<h3 class="text-dark mt-5">Mostrando juegos de <?php echo $filtro." ". $palabra ?></h3>
+
+		<div>
+			<?php 
+			if (file_exists("../vistas/juego/categorias/filtros.php")){
+				include "../vistas/juego/categorias/filtros.php";
+			}
+			if (file_exists("../juego/categorias/filtros.php")){
+				include "../juego/categorias/filtros.php";
+			}
+			?>
+		</div>
+
 		<div class="d-flex  p-2 flex-sm-row flex-column text-white cont-gallery" >
 			<a href="../../controladores/juegosController.php?operacio=detalles&juego=<?php echo $juego->idJuego; ?>">
 

@@ -11,12 +11,11 @@ if (file_exists("../../controladores/imagenesController.php")){
 	require_once "../../controladores/imagenesController.php";
 }
 ?>
-<h3>Imagenes</h3>
 
 <div class="container-fluid">
 	<div class="d-flex">
 		<?php foreach($Llistat as $imagen){ ?>
-			<img style="width: 100px; " src="../../vistas/assets/img/<?php echo $imagen->nombre; ?>">			
+			<img style="width: 300px; " src="../../vistas/assets/img/<?php echo $imagen->nombre; ?>">			
 
 
 		<?php } ?>

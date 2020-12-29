@@ -170,8 +170,24 @@ class UsuariosController extends Usuario{
         if($cantidad >= 40 && $nivel == "Experto"){
             $this->CambiarNivel($usuario, "Moderador");       
         }
+    }
 
 
+    /*===== DESHABILITAR USUARIO ======*/
+
+    /*envia la peticion*/
+    public function SwitchUser($id, $estado){
+        $this->ResultadoSwitch($this->modificaActivo($id, $estado));
+    }
+
+    /*muestra el resultado*/
+    public function ResultadoSwitch($resultat){
+        if ($resultat){
+            return true;
+        }else{
+            return false;
+        }
+        exit;
     }
 
     
@@ -335,6 +351,23 @@ if(isset($_POST["operacio"]) && $_POST["operacio"]=="ModificarAdmin"){
     }else{
         echo "Operacion No permitida";
     }
+}
+
+
+if(isset($_POST['quickVar']) && isset($_POST['id'])){
+    $user = $_POST['id'];
+    $quickVar = $_POST['quickVar'];
+
+    if($quickVar == 'deshabilitado'){
+        $estado = 0;
+    }else{
+        $estado = 1;
+    }
+
+    $usuari = new UsuariosController();
+    $res = $usuari->SwitchUser($_POST["id"], $estado);
+
+    echo $quickVar;
 }
 
 ?>
