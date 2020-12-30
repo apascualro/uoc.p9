@@ -27,6 +27,18 @@ class JuegosController extends Juego{
 		require "../vistas/juego/juego-ver.php";
 	}
 
+	/*=====  MOSTRAR filtros usados ======*/
+
+	public function LlistaFiltros($filtro){
+		$obj = $this->retornaJuegosTodos();
+
+		$filtros = array();
+		foreach ($obj as $key => $value) {
+			$filtros [] = $value->$filtro;
+		}
+		return array_unique($filtros);
+	}
+
 
 	/*=====  MOSTRAR DETALLE JUEGOS  ======*/
 
@@ -34,6 +46,13 @@ class JuegosController extends Juego{
 		$propiedadesJuego = $this->retornaJuego($id);
 		$_SESSION["propiedadesJuego"]= $propiedadesJuego;
 		require "../vistas/juego/juego-detalles.php";
+	}
+
+
+	/*=====  MOSTRAR DETALLE JUEGO   ======*/
+
+	public function DetalleJuegoReturn($id){
+		return $this->retornaJuego($id);
 	}
 
 
@@ -158,6 +177,12 @@ class JuegosController extends Juego{
 			return $value->valoracion;
 		}
 
+	}
+
+	/*=====  MOSTRAR JUEGO NUEVO ======*/
+
+	public function JuegoNuevo(){
+		return $this->retornaJuegoNuevo();
 	}
 
 

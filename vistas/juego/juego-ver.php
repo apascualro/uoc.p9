@@ -14,77 +14,94 @@ foreach ($controladores as $key) {
 
 ?>
 
-<div class="container">
-	<div class="d-flex  p-2 flex-sm-row flex-column text-white flex-wrap">		
+<div class="container mb-2">
+	<div class="d-flex p-2 flex-sm-row flex-column text-white flex-wrap justify-content-between">
 
-		<?php foreach ($LlistatJue as $juego) {?>
+		<?php
+		$LlistatJue =  array_slice($LlistatJue, 0, 8); // get first three only
+
+		 foreach ($LlistatJue as $juego) {
+		 	?>
+
 
 			<!-- Card Juego -->
-			<div class="card m-3 cardJuego" data-category="<?php echo $juego->tipo. ' '. $juego->categoria. ' '. $juego->tematica;?>" >
-				<!-- Card image -->
-				<?php $objecte = new ImagenesController();
-				$img = $objecte->ImagenPortada($juego->idJuego); ?>
+			<div class="card mx-2 my-4 cardJuego" data-category="<?php echo $juego->tipo. ' '. $juego->categoria. ' '. $juego->tematica;?>" >
 
-				<div class="view overlay m-0 img-gallery ">
-					<?php if($img){ ?>
-						<img class="card-img-top m-auto" src="assets/img/<?php echo $img;?>" alt="Card image cap">
-					<?php }else{ ?>
-						<img class="card-img-top m-auto" src="assets/img/empty_file.jpg" alt="Card image cap">
-					<?php } ?>
-				</div>
+				<a href="../../controladores/juegosController.php?operacio=detalles&juego=<?php echo $juego->idJuego; ?>" >
 
-				<!-- Card content -->
-				<div class="card-body overflow-hidden">
+					<!-- Card image -->
+					<?php $objecte = new ImagenesController();
+					$img = $objecte->ImagenPortada($juego->idJuego); ?>
 
-					<!-- Category & Title -->
-					<h5 class="card-title mb-1">
-						<strong>
-							<a href="../../controladores/juegosController.php?operacio=detalles&juego=<?php echo $juego->idJuego; ?>" class="dark-grey-text"><?php echo $juego->nombre ?>
-							
-						</a>
-					</strong>
-				</h5>
+					<div  class="view m-0 img-gallery " >
 
-				<p class="text-muted mt-3"><?php echo $juego->subtitulo; ?></p>
-
-				<!-- Card footer -->
-				<div class="card-footer pb-0">	
-					<div class="row mb-0 text-dark float-left mr-2">
-						<span>
-							<strong><?php echo round($juego->valoracion, 1); ?></strong>
-						</span>
-					</div>							
-
-					<div class="row mb-0 text-dark float-right">
-						<span class="score">
-							<div class="score-wrap">
-								<span class="stars-active" style="width:<?php echo $juego->valoracion * 10; ?>%">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-								</span>
-								<span class="stars-inactive">
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-									<i class="fa fa-star" aria-hidden="true"></i>
-								</span>
+						<?php if($img){ ?>
+							<div class="w-75 py-3 m-auto overflow-hidden">
+								<img class="m-auto" src="assets/img/<?php echo $img;?>" alt="Card image cap">
 							</div>
-						</span>
-						<span class="font-italic text-muted ml-2">
-							(<?php $objecte2 = new ValoracionesController();
-								$qt = $objecte2->CantidadValoraciones($juego->idJuego);
-								echo count($qt); ?>)
-							</span>			
-						</div>		
+
+						<?php }else{ ?>
+							<img class="m-auto noPicture" src="assets/img/empty_file.jpg" alt="Card image cap" >
+						<?php } ?>
 
 					</div>
 
-				</div>
-				<!-- Card content -->			
+					<!-- Card content -->
+					<div class="card-body overflow-hidden">
+
+						<!-- Category & Title -->
+						<h5 class="card-title mb-1 text-center">
+							<strong class="dark-grey-text ">
+								<?php echo $juego->nombre ?>
+							</strong>
+						</h5>
+
+						<p class="text-muted mt-3">
+							<?php echo $juego->subtitulo; ?>
+
+						</p>
+
+						<!-- Card footer -->
+						<div class="card-footer pb-0">	
+							<!-- <div class="row mb-0 text-dark float-left mr-2">
+								<span>
+									<strong><?php echo round($juego->valoracion, 1); ?></strong>
+								</span>
+							</div>	 -->						
+
+							<div class="row mb-0 text-dark m-auto">
+								<span class="score">
+									<div class="score-wrap">
+										<span class="stars-active" style="width:<?php echo $juego->valoracion * 10; ?>%">
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+										</span>
+										<span class="stars-inactive">
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+											<i class="fa fa-star" aria-hidden="true"></i>
+										</span>
+									</div>
+								</span>
+								<span class="font-italic text-muted ml-2 ">(
+									<?php $objecte2 = new ValoracionesController();
+									$qt = $objecte2->CantidadValoraciones($juego->idJuego);
+									echo count($qt); 
+									?>
+									)
+								</span>			
+							</div>		
+
+						</div>
+
+					</div>
+					<!-- Card content -->				
+				</a>		
 			</div>	
 		<?php } ?>
 

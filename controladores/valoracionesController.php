@@ -75,7 +75,6 @@ class ValoracionesController extends Valoracion
 	public function resultadoUpdateValoracion($resultat){
 		header("location: ../../vistas/juego/juego-detalles.php");
 		exit;
-
 	}
 
 
@@ -108,6 +107,13 @@ class ValoracionesController extends Valoracion
 		}else{
 			return false;
 		}
+	}
+
+
+	/*=====  Retornar valoraciones todas ======*/
+
+	public function RetornarTodasValoraciones(){
+		return $this->retornaValoracionesTodas();
 	}
 
 	

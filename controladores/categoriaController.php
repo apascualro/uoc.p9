@@ -2,7 +2,7 @@
 ob_start();
 
 /*modelos y controladores*/
-$modelos  = array( array('tipo'=>"modelos",'nombre'=>"categoria"), array('tipo'=>"controladores",'nombre'=>"sesiones"));
+$modelos  = array( array('tipo'=>"modelos",'nombre'=>"categoria"), array('tipo'=>"controladores",'nombre'=>"sesiones"), array('tipo'=>"controladores",'nombre'=>"juegos"));
 
 foreach ($modelos as $i => $key) {
 	$key['tipo']== "modelos" ? $ruta = $key['nombre']."-modelo.php" : $ruta = $key['nombre']."Controller.php";
@@ -21,8 +21,16 @@ class CategoriaController extends Categoria{
 
 	/*=====  MOSTRAR IMAGENES  ======*/
 	public function LlistaCategorias(){
-		return $this->retornaCategoriasTodas();
-			
+		return $this->retornaCategoriasTodas();		
+	}
+
+	/*=====  MOSTRAR IMAGENES  ======*/
+	public function LlistaCategoriasLlenas(){
+		return $this->retornaCategoriasTodas();	
+
+		$c = new JuegosController();
+		$categoriasUso = $this->LlistaFiltros($palabra);
+
 	}
 
 

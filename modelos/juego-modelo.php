@@ -157,7 +157,7 @@ class Juego{
 		}
 	}
 
-	/*===== RETORNAR JUEGO - ID======*/
+	/*===== RETORNAR JUEGO - ID ======*/
 	protected function retornaJuego($id){
 		try{
 			$conecta = new ConexionBD();
@@ -173,7 +173,7 @@ class Juego{
 		}
 	}
 
-	/*===== RETORNAR JUEGO - ID======*/
+	/*===== RETORNAR JUEGOS - filtros ======*/
 	protected function retornaJuegoFiltro($filtro, $palabra){
 		try{
 			$conecta = new ConexionBD();
@@ -186,8 +186,28 @@ class Juego{
 			echo $sentenciaSQL;
 		}catch(Exception $excepcio){
 			$conecta->getConexionBD()->rollback(); 
-			return  $excepcio->getMessage(); 
-			// return null;  
+			// return  $excepcio->getMessage(); 
+			return null;  
+		}
+	}
+
+
+	/*===== RETORNAR JUEGO MAS NUEVO ======*/
+	protected function retornaJuegoNuevo(){
+		try{
+			$conecta = new ConexionBD();
+			$conecta->getConexionBD()->beginTransaction();
+			$sentenciaSQL = "SELECT * FROM juegos ORDER BY idJuego DESC
+			LIMIT 1 ;";
+			$intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+			$intencio->execute();
+			$conecta->getConexionBD()->commit();
+			return $resultat = $intencio->fetch(PDO::FETCH_ASSOC);
+			echo $sentenciaSQL;
+		}catch(Exception $excepcio){
+			$conecta->getConexionBD()->rollback(); 
+			// return  $excepcio->getMessage(); 
+			return null;  
 		}
 	}
 

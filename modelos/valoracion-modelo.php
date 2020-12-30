@@ -148,6 +148,25 @@ class Valoracion
         }
     }
 
+    /*=====  RETORNAR VALORACIONES TODAS  ======*/
+    protected function retornaValoracionesTodas(){
+        try{
+            $conecta = new ConexionBD();
+            $conecta->getConexionBD()->beginTransaction();
+            $sentenciaSQL = "SELECT valoraciones.juego, COUNT(*), juegos.nombre, juegos.subtitulo       
+            FROM valoraciones  
+            INNER JOIN juegos ON valoraciones.juego = juegos.idJuego
+            GROUP BY valoraciones.juego ORDER BY COUNT(*) DESC LIMIT 4";
+            $intencio = $conecta->getConexionBD()->prepare($sentenciaSQL);
+            $intencio->execute();
+            return $intencio->fetchAll(PDO::FETCH_OBJ);
+        }catch(Exception $excepcio){
+            $conecta->getConexionBD()->rollback();  
+            echo  $excepcio->getMessage();   
+            return null;
+        }
+    }
+
 
 
 

@@ -27,6 +27,7 @@ html {
   --color-pred2: rgb(48,51,60); /*gris oscuro*/
   --color-pred3: rgba(48,51,60,0.5); /*gris oscuro opacidad*/
   --color-pred4: rgb(204, 204, 204); /*gris claro*/
+ --color-pred5: rgb(242, 242, 242); /*gris muy claro*/
 
 }
 section{
@@ -34,6 +35,18 @@ section{
 }
 .border-2 {
   border-width:2px !important;
+}
+
+.h-90 {
+  height: 90% !important;
+}
+
+.h-150 {
+  height: 150% !important;
+}
+
+.bg-light2{
+  background-color: var(--color-pred5) !important;
 }
 /*******************************************
 *******************************************/
@@ -133,6 +146,19 @@ hr {
       transition-delay: 0.1s;
       visibility: visible;
     }
+
+/*******************************************
+*******************************************/
+/************ landing *****************/
+
+.nuevoImg img{
+  width: 100%;
+  height: 100%; 
+  object-fit: contain;
+}
+
+
+
 
 /*******************************************
 *******************************************/
@@ -239,8 +265,8 @@ hr {
 /************ cards *****************/
 
 .card{  
-  max-width: 300px;
-  min-width: 250px;
+  width: 250px;
+  height: 450px;
   align-self: center;
 
   /*    background-color: #f2f2f2;*/
@@ -251,10 +277,15 @@ hr {
 }
 
 
+.img-gallery{
+  height: 230px;
+  cursor: pointer;
+}
 
 .img-gallery img{
-  height: 200px;
-  width: auto;
+  width: 100%;
+  height: 100%; 
+  object-fit: contain;
 
 }
 
@@ -267,21 +298,33 @@ hr {
   -webkit-box-orient: vertical;
 }
 
+.card-footer{
+  cursor: default;
+}
+
+
+.noPicture{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+}
+
 
 /*******************************************
 *******************************************/
 /********** juegos detalles ***************/
 
 .juegoClass h1{
-font-weight: 900;
+  font-weight: 900;
 }
 
 
 .juegoClass h4 , #myTab h3{
-font-size: 1.1rem;
-color: var(--color-pred3);
-font-weight: 600;
-text-transform: uppercase;
+  font-size: 1.1rem;
+  color: var(--color-pred3);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 
@@ -392,4 +435,35 @@ text-transform: uppercase;
   left: 0;
   -webkit-text-stroke: initial;
   /* overflow: hidden; */
+}
+
+
+/*******************************************
+*******************************************/
+/************ carousel *****************/
+
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-image: none;
+}
+
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 35px;
+  color: black;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 35px;
+  color: black;
 }
